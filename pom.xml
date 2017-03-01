@@ -26,6 +26,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		
 		<!-- Thymeleaf -->
 		<thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
+		
+		<!-- Bean Validation / Hibernate Validator -->
+		<hibernate-validator.version>5.4.0.Final</hibernate-validator.version>
 	</properties>
 	
 	<build>
@@ -80,6 +83,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<artifactId>thymeleaf-spring4</artifactId>
 			<version>${thymeleaf.version}</version>
 		</dependency>
+		
+		<!-- Bean Validation / Hibernate Validator -->
+  		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+            <scope>compile</scope>
+        </dependency>
 		
 	</dependencies>
   
