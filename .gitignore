@@ -21,6 +21,7 @@ target/
 Servers/*
 .metadata
 bin/
+src/main/resource/rebel.xml
 rebel.xml
 .mvn*
 mvnw*
