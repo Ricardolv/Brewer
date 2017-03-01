@@ -1,8 +1,13 @@
 package com.richard.brewer.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Beer {
 	
+	@NotBlank
 	private String sku;
+	
+	@NotBlank
 	private String name;
 	
 	public String getSku() {
