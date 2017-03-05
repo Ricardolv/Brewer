@@ -17,7 +17,7 @@ import com.richard.brewer.model.Beer;
 public class BeersController {
 	
 	@GetMapping("/new")
-	public String newBeer() {
+	public String newBeer(Beer beer) {
 		return "beer/RegisterBeers";
 	}
 	
@@ -25,8 +25,7 @@ public class BeersController {
 	public String register(@Valid Beer beer, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
-			model.addAttribute("menssage", "Erro no formulário");
-			return "beer/RegisterBeers";
+			return newBeer(beer);
 		}
 		
 		attributes.addFlashAttribute("message", "Cerveja salva com sucesso!");
