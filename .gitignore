@@ -25,3 +25,5 @@ src/main/resource/rebel.xml
 rebel.xml
 .mvn*
 mvnw*
+src/main/webapp/
+src/test/
