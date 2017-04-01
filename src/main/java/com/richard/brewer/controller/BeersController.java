@@ -18,7 +18,7 @@ public class BeersController {
 	
 	@GetMapping("/new")
 	public String newBeer(Beer beer) {
-		return "beer/RegisterBeers";
+		return "beer/register-beers";
 	}
 	
 	@PostMapping("/new")
