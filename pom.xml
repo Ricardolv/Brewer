@@ -25,10 +25,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<servlet.version>3.1.0</servlet.version>
 		
 		<!-- Thymeleaf -->
-		<thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
+		<thymeleaf.version>3.0.5.RELEASE</thymeleaf.version>
 		
 		<!-- Bean Validation / Hibernate Validator -->
 		<hibernate-validator.version>5.4.0.Final</hibernate-validator.version>
+		
+		<!-- Thymeleaf - Layout Dialect -->
+		<thymeleaf-layout-dialect.version>2.2.1</thymeleaf-layout-dialect.version>
 	</properties>
 	
 	<build>
@@ -57,6 +60,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	</dependencyManagement>
 
 	<dependencies>
+		
 		<!-- Spring MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -79,7 +83,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<version>${thymeleaf.version}</version>
 			<scope>compile</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring4</artifactId>
@@ -94,6 +97,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <version>${hibernate-validator.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Thymeleaf - Layout Dialect -->
+		<dependency>
+    		<groupId>nz.net.ultraq.thymeleaf</groupId>
+    		<artifactId>thymeleaf-layout-dialect</artifactId>
+    		<version>${thymeleaf-layout-dialect.version}</version>
+		</dependency>
 		
 	</dependencies>
   
