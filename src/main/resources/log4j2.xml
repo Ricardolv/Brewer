@@ -8,7 +8,9 @@
 	</Appenders>
 	
 	<Loggers>
-		<Logger name="com.richard.brewer.controller" level="info"/>
+		<Logger name="com.richard.brewer.controller" level="error"/>
+		
+		<Logger name="org.hibernate.SQL" level="debug"/>
 	
 		<Root level="error">
 			<AppenderRef ref="Console" />

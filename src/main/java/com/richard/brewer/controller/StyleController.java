@@ -14,7 +14,7 @@ import com.richard.brewer.model.Style;
 
 @Controller
 @RequestMapping("/styles")
-public class StylesController {
+public class StyleController {
 	
 	@GetMapping("/new")
 	public String newStyle(Style stely) {

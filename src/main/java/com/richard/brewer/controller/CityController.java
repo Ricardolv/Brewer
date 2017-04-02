@@ -14,7 +14,7 @@ import com.richard.brewer.model.City;
 
 @Controller
 @RequestMapping("/citys")
-public class CitysController {
+public class CityController {
 	
 	@GetMapping("/new")
 	public String newCity(City city) {
