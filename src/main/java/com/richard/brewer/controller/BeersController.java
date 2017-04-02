@@ -2,6 +2,8 @@ package com.richard.brewer.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import com.richard.brewer.model.Beer;
 @Controller
 @RequestMapping("/beers")
 public class BeersController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BeersController.class);
 	
 	@GetMapping("/new")
 	public String newBeer(Beer beer) {
