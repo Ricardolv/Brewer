@@ -1,5 +1,7 @@
 package com.richard.brewer.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -28,7 +30,7 @@ public class BeerController {
 	@GetMapping("/new")
 	public String newBeer(Beer beer) {
 		
-		beerRepository.findAll();
+		Optional<Beer> beerOptional = beerRepository.findBySkuIgnoreCase("test");
 		
 		return "beer/register-beers";
 	}

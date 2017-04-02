@@ -43,7 +43,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<hibernate.version>5.2.9.Final</hibernate.version>
 		
 		<!-- Spring Data JPA -->
-		<spring-data-jpa.version>1.10.8.RELEASE</spring-data-jpa.version>
+		<spring-data-jpa.version>1.11.1.RELEASE</spring-data-jpa.version>
 	</properties>
 	
 	<build>
