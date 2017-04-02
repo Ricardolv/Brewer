@@ -51,7 +51,7 @@
 							<div class="bw-field-action">
 								<select id="input-style" class="form-control">
 									<option value="">Selecione o estilo</option>
-									<option value="1">Pale lager</option>
+									<option th:each="style : ${styles}" th:value="${style.code}" th:text="${style.name}"></option>
 								</select>
 								<div class="bw-field-action__icon">
 									<a href="#" data-toggle="modal" data-target="#modalRegisterSpeedStyle">
@@ -63,16 +63,16 @@
 						
 						<div class="col-sm-3  form-group">
 							<label for="flavor">Sabor</label>
-							<select id="flavor" class="form-control">
+							<select id="flavor" class="form-control" th:field="*{flavor}">
 								<option value="">Selecione o sabor</option>
-								<option value="1">Adocicada</option>
+								<option th:each="flavor : ${flavors}" th:value="${flavor}" th:text="${flavor.description}"></option>
 							</select>
 						</div>
 						
 						<div class="col-sm-3  form-group">
 							<label for=AlcoholContent>Teor alcoólico</label>
 							<div class="input-group">
-								<input id="AlcoholContent" type="text" class="form-control js-decimal"/>
+								<input id="AlcoholContent" type="text" class="form-control js-decimal" th:field="*{contentAlcohol}"/>
 								<div class="input-group-addon">%</div>
 							</div>
 						</div>
@@ -80,14 +80,13 @@
 						<div class="col-lg-3  col-sm-6  form-group">
 							<label for="origin">Origem</label>
 							<div>
-								<div class="radio  radio-inline">
-									<input type="radio" name="origin"> 
-									<label>Nacional</label>
-								</div>
-								<div class="radio  radio-inline">
-									<input type="radio" name="origin"> 
-									<label>Internacional</label>
-								</div>
+								
+								<th:block th:each="origin : ${origins}">
+									<div class="radio  radio-inline">
+										<input th:id="|id_${origin}|" type="radio" th:value="${origin}" th:field="*{origin}"> 
+										<label for ="|id_${origin}|" th:text="${origin.description}" ></label>
+									</div>
+								</th:block>
 							</div>
 						</div>
 						
@@ -95,24 +94,24 @@
 					
 					<div class="row">
 						<div class="col-sm-3  form-group">
-							<label for="price">Preço</label>
+							<label for="value">Preço</label>
 							<div class="input-group">
 								<div class="input-group-addon">R$</div>
-								<input id="price" type="text" class="form-control js-decimal"/>
+								<input id="value" type="text" class="form-control js-decimal" th:field="*{value}"/>
 							</div>
 						</div>
 						
 						<div class="col-sm-3  form-group">
 							<label for="commission">Comissão</label>
 							<div class="input-group">
-								<input id="commission" type="text" class="form-control js-decimal"/>
+								<input id="commission" type="text" class="form-control js-decimal" th:field="*{commission}"/>
 								<div class="input-group-addon">%</div>
 							</div>
 						</div>
 						
 						<div class="col-sm-3  form-group">
 							<label for="stock">Estoque</label>
-							<input id="stock" type="text" class="form-control js-plain"/>
+							<input id="stock" type="text" class="form-control js-plain" th:field="*{quantityStock}"/>
 						</div>
 					</div>
 					

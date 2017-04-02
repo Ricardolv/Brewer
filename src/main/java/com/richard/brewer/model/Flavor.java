@@ -2,11 +2,11 @@ package com.richard.brewer.model;
 
 public enum Flavor {
 	
-	SWEETENED("Sweetened"), //Adocicada
-	BITTER("Bitter"), //Amarga
-	STRONG("Strong"), //Forte
-	FRUITY("Fruity"), //Frutada
-	SOFT("Soft"); //Suave
+	SWEETENED("Adocicada"), //Adocicada
+	BITTER("Amarga"), //Amarga
+	STRONG("Forte"), //Forte
+	FRUITY("Frutada"), //Frutada
+	SOFT("Suave"); //Suave
 	
 	private String description;
 

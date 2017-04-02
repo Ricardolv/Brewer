@@ -2,20 +2,20 @@ package com.richard.brewer.model;
 
 public enum Origin {
 	
-	NATIONAL("National"),
-	INTERNATIONAL("International");
+	NATIONAL("Nacional"),
+	INTERNATIONAL("Internacional");
 	
-	private String decription;
+	private String description;
 
-	private Origin(String decription) {
-		this.decription = decription;
+	private Origin(String description) {
+		this.description = description;
 	}
 
-	public String getDecription() {
-		return decription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDecription(String decription) {
-		this.decription = decription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
