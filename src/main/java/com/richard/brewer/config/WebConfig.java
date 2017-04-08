@@ -64,7 +64,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
-	public FormattingConversionService mvConversionService() {
+	public FormattingConversionService mvcConversionService() {
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter(new StyleConverter());
 		

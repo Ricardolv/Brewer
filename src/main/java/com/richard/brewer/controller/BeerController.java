@@ -19,6 +19,7 @@ import com.richard.brewer.model.Flavor;
 import com.richard.brewer.model.Origin;
 import com.richard.brewer.repository.BeerRepository;
 import com.richard.brewer.repository.StyleRepository;
+import com.richard.brewer.service.RegisterBeerService;
 
 @Controller
 @RequestMapping("/beers")
@@ -27,7 +28,7 @@ public class BeerController {
 	private static final Logger logger = LoggerFactory.getLogger(BeerController.class);
 	
 	@Autowired
-	private BeerRepository beerRepository;
+	private RegisterBeerService registerBeerService;
 	
 	@Autowired
 	private StyleRepository styleRepository;
@@ -48,8 +49,8 @@ public class BeerController {
 			return newBeer(beer);
 		}
 		
+		registerBeerService.save(beer);
 		attributes.addFlashAttribute("message", "Cerveja salva com sucesso!");
-		
 		return new ModelAndView("redirect:/beers/new");
 	}
 
