@@ -49,7 +49,7 @@
 						<div class="col-sm-3  form-group">
 							<label for="input-style">Estilo</label>
 							<div class="bw-field-action">
-								<select id="input-style" class="form-control">
+								<select id="input-style" class="form-control" th:field="*{style}">
 									<option value="">Selecione o estilo</option>
 									<option th:each="style : ${styles}" th:value="${style.code}" th:text="${style.name}"></option>
 								</select>
