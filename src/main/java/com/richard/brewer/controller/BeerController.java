@@ -19,7 +19,8 @@ import com.richard.brewer.model.Flavor;
 import com.richard.brewer.model.Origin;
 import com.richard.brewer.repository.BeerRepository;
 import com.richard.brewer.repository.StyleRepository;
-import com.richard.brewer.service.RegisterBeerService;
+import com.richard.brewer.service.BeerService;
+import com.richard.brewer.service.StyleService;
 
 @Controller
 @RequestMapping("/beers")
@@ -28,16 +29,16 @@ public class BeerController {
 	private static final Logger logger = LoggerFactory.getLogger(BeerController.class);
 	
 	@Autowired
-	private RegisterBeerService registerBeerService;
+	private BeerService beerService;
 	
 	@Autowired
-	private StyleRepository styleRepository;
+	private StyleService styleService;
 	
 	@GetMapping("/new")
 	public ModelAndView newBeer(Beer beer) {
 		ModelAndView mv = new ModelAndView("beer/register-beers");
 		mv.addObject("flavors", Flavor.values());
-		mv.addObject("styles", styleRepository.findAll());
+		mv.addObject("styles", styleService.findAll());
 		mv.addObject("origins", Origin.values());
 		return mv;
 	}
@@ -49,7 +50,7 @@ public class BeerController {
 			return newBeer(beer);
 		}
 		
-		registerBeerService.save(beer);
+		beerService.save(beer);
 		attributes.addFlashAttribute("message", "Cerveja salva com sucesso!");
 		return new ModelAndView("redirect:/beers/new");
 	}

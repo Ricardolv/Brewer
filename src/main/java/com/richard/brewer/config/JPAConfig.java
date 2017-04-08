@@ -13,12 +13,14 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.repository.BeerRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackageClasses = BeerRepository.class)
+@EnableJpaRepositories(basePackageClasses = BeerRepository.class, enableDefaultTransactions = false)
+@EnableTransactionManagement
 public class JPAConfig {
 
 	@Bean
