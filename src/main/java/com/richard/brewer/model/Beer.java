@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.richard.brewer.annotation.SKU;
+
 @Entity
 @Table(name = "beer")
 public class Beer implements Serializable {
@@ -27,6 +29,7 @@ public class Beer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long code;
 	
+	@SKU
 	@NotBlank(message= "SKU e obrigatorio")
 	private String sku;
 	
