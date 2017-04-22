@@ -13,6 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -36,27 +40,37 @@ public class Beer implements Serializable {
 	@NotBlank(message= "Nome e obrigatorio")
 	private String name;
 	
+	@NotNull(message = "Valor é obrigatório")
+	@DecimalMin(value = "0.50", message = "O valor da cerveja deve ser maior que R$0,50")
+	@DecimalMax(value = "9999999.99", message = "O valor da cerveja deve ser menor que R$9.999.999,99")
 	private BigDecimal value;
 	
+	@NotNull(message = "O teor alcóolico é obrigatório")
+	@DecimalMax(value = "100.0", message = "O valor do teor alcóolico deve ser menor que 100")
 	@Column(name = "content_alcohol") //teor alcoolico
 	private BigDecimal contentAlcohol;
 	
+	@DecimalMax(value = "100.0", message = "A comissão deve ser igual ou menor que 100")
 	private BigDecimal commission; //comissao
 	
+	@Max(value = 9999, message = "A quantidade em estoque deve ser menor que 9.999")
 	@Column(name = "quantity_stock")
 	private Integer quantityStock; //quantidade estoque
 	
+	@NotNull(message = "A origem é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private Origin origin; //origem
 	
 	@Enumerated(EnumType.STRING)
 	private Flavor flavor; //sabor
 	
+	@NotNull(message = "O estilo é obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "code_style" )
 	private Style style;
 	
-	@Size(min = 1, max = 50)
+	@NotNull(message = "A descrição é obrigatória")
+	@Size(max = 50, message = "O tamanho da descrição deve ser estar entre 1 e 50")
 	private String description;
 
 	public Long getCode() {
