@@ -22,9 +22,9 @@ import com.richard.brewer.service.StyleService;
 
 @Controller
 @RequestMapping("/beers")
-public class BeerController {
+public class BeersController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(BeerController.class);
+	private static final Logger logger = LoggerFactory.getLogger(BeersController.class);
 	
 	@Autowired
 	private BeerService beerService;

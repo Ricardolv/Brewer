@@ -24,13 +24,13 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import com.richard.brewer.controller.BeerController;
+import com.richard.brewer.controller.BeersController;
 import com.richard.brewer.controller.converter.StyleConverter;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
-@ComponentScan(basePackageClasses = { BeerController.class})
+@ComponentScan(basePackageClasses = { BeersController.class})
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 	

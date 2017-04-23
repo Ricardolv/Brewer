@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.richard.brewer.model.User;
+import com.richard.brewer.model.Client;
 
 @Controller
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/clients")
+public class ClientsController {
 	
 	@GetMapping("/new")
-	public String newUser(User user) {
-		return "user/register-users";
+	public String newClient(Client client) {
+		return "client/register-clients";
 	}
 	
 	@PostMapping("/new")
-	public String register(@Valid User user, BindingResult result, Model model, RedirectAttributes attributes) {
+	public String register(@Valid Client client, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
-			return newUser(user);
+			return newClient(client);
 		}
 		
-		return "redirect:/users/new";
+		return "redirect:/clients/new";
 	}
 
 }
