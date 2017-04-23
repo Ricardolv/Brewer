@@ -17,8 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.Flavor;
 import com.richard.brewer.model.Origin;
-import com.richard.brewer.repository.BeerRepository;
-import com.richard.brewer.repository.StyleRepository;
 import com.richard.brewer.service.BeerService;
 import com.richard.brewer.service.StyleService;
 

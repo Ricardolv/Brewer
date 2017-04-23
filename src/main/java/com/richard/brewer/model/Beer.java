@@ -16,12 +16,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.richard.brewer.annotation.SKU;
+
+import net.bytebuddy.implementation.bind.annotation.Empty;
 
 @Entity
 @Table(name = "beer")
@@ -50,26 +53,29 @@ public class Beer implements Serializable {
 	@Column(name = "content_alcohol") //teor alcoolico
 	private BigDecimal contentAlcohol;
 	
+	@NotNull(message = "Comissão é obrigatório")
 	@DecimalMax(value = "100.0", message = "A comissão deve ser igual ou menor que 100")
 	private BigDecimal commission; //comissao
 	
+	@NotNull(message = "Estoque é obrigatório")
 	@Max(value = 9999, message = "A quantidade em estoque deve ser menor que 9.999")
 	@Column(name = "quantity_stock")
 	private Integer quantityStock; //quantidade estoque
 	
-	@NotNull(message = "A origem é obrigatória")
+	@NotNull(message = "Origem é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private Origin origin; //origem
 	
+	@NotNull(message = "Sabor é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private Flavor flavor; //sabor
 	
-	@NotNull(message = "O estilo é obrigatório")
+	@NotNull(message = "Estilo é obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "code_style" )
 	private Style style;
 	
-	@NotNull(message = "A descrição é obrigatória")
+	@NotBlank(message = "Descrição é obrigatória")
 	@Size(max = 50, message = "O tamanho da descrição deve ser estar entre 1 e 50")
 	private String description;
 
