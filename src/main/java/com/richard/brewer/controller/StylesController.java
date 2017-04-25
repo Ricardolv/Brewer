@@ -61,11 +61,7 @@ public class StylesController {
 		if (result.hasErrors())
 			return ResponseEntity.badRequest().body(result.getFieldError("name").getDefaultMessage());
 		
-		try {
-			style = styleService.save(style);
-		} catch (BusinessRuleException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+		style = styleService.save(style);
 		
 		return ResponseEntity.ok(style);
 	}
