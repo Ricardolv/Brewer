@@ -1,10 +1,10 @@
 package com.richard.brewer.service.exception;
 
-public class StyleException extends RuntimeException {
+public class BusinessRuleException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public StyleException(String message) {
+	public BusinessRuleException(String message) {
 		super(message);
 	}
 	

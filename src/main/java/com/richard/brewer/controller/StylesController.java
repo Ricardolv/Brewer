@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.model.Style;
 import com.richard.brewer.service.StyleService;
-import com.richard.brewer.service.exception.StyleException;
+import com.richard.brewer.service.exception.BusinessRuleException;
 
 @Controller
 @RequestMapping("/styles")
@@ -41,7 +41,7 @@ public class StylesController {
 		
 		try {
 			styleService.save(stely);
-		} catch (StyleException s) {
+		} catch (BusinessRuleException s) {
 			result.rejectValue("name", s.getMessage(), s.getMessage());
 			return newStyle(stely);
 		}

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.richard.brewer.model.Style;
 import com.richard.brewer.repository.StyleRepository;
-import com.richard.brewer.service.exception.StyleException;
+import com.richard.brewer.service.exception.BusinessRuleException;
 
 @Service
 public class StyleService {
@@ -26,7 +26,7 @@ public class StyleService {
 		
 		Optional<Style> styleOptional = styleRepository.findByNameIgnoreCase(style.getName());
 		if (styleOptional.isPresent())
-			throw new StyleException("Nome do estilo ja cadastrado");
+			throw new BusinessRuleException("Nome do estilo ja cadastrado");
 		
 		styleRepository.save(style);
 	}
