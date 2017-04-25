@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -75,6 +77,11 @@ public class Beer implements Serializable {
 	@NotBlank(message = "Descrição é obrigatória")
 	@Size(max = 50, message = "O tamanho da descrição deve ser estar entre 1 e 50")
 	private String description;
+	
+	@PrePersist @PreUpdate
+ 	private void prePersistUpdate() {
+		sku = sku.toUpperCase();
+	}
 
 	public Long getCode() {
 		return code;
