@@ -22,12 +22,12 @@ public class StyleService {
 	}
 
 	@Transactional
-	public void save(Style style) {
+	public Style save(Style style) {
 		
 		Optional<Style> styleOptional = styleRepository.findByNameIgnoreCase(style.getName());
 		if (styleOptional.isPresent())
-			throw new BusinessRuleException("Nome do estilo ja cadastrado");
+			throw new BusinessRuleException("Nome do estilo já cadastrado");
 		
-		styleRepository.save(style);
+		return styleRepository.saveAndFlush(style);
 	}
 }
