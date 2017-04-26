@@ -1,44 +1,52 @@
-$(function() {
+var Brewer = Brewer || {};
+
+Brewer.StyleRegisterSpeed = (function () {
 	
-	var modalStyle = $('#modalRegisterSpeedStyle');
-	var buttonSave = $('.js-modal-register-style-save-btn');
-	var form = modalStyle.find('form');
-	form.on('submit', function(event) { event.preventDefault() });
-	var url = form.attr('action');
-	var inputNameStyle = $('#nameStyle');
-	var containerMessageError = $('.js-message-register-speed-style');
+	function StyleRegisterSpeed() {
+		
+		this.modalStyle = $('#modalRegisterSpeedStyle');
+		this.buttonSave = $('.js-modal-register-style-save-btn');
+		this.form = this.modalStyle.find('form');
+		this.url = this.form.attr('action');
+		this.inputNameStyle = $('#nameStyle');
+		this.containerMessageError = $('.js-message-register-speed-style');
+		
+	}
 	
-	modalStyle.on('shown.bs.modal', onModalShow);
-	modalStyle.on('hide.bs.modal', onModalClose);
-	buttonSave.on('click', onButtonSaveClick)
+	StyleRegisterSpeed.prototype.start = function () {
+		this.form.on('submit', function(event) { event.preventDefault() });
+		this.modalStyle.on('shown.bs.modal', onModalShow.bind(this));
+		this.modalStyle.on('hide.bs.modal', onModalClose.bind(this));
+		this.buttonSave.on('click', onButtonSaveClick.bind(this))
+	}
 	
 	function onModalShow() {
-		inputNameStyle.focus();
+		this.inputNameStyle.focus();
 	}
 	
 	function onModalClose() {
-		inputNameStyle.val('');
-		containerMessageError.addClass('hidden');
-		form.find('.form-group').removeClass('has-error');
+		this.inputNameStyle.val('');
+		this.containerMessageError.addClass('hidden');
+		this.form.find('.form-group').removeClass('has-error');
 	}
 	
 	function onButtonSaveClick() {
-		var nameStyle = inputNameStyle.val().trim(); 
+		var nameStyle = this.inputNameStyle.val().trim(); 
 		$.ajax({
-			url : url,
+			url : this.url,
 			method: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify({ name: nameStyle }),
-			error: onErrorSaveStyle,
-			success: onSaveStyle
+			error: onErrorSaveStyle.bind(this),
+			success: onSaveStyle.bind(this)
 		});
 	}
 	
 	function onErrorSaveStyle(obj) {
 		var messageError = obj.responseText;
-		containerMessageError.removeClass('hidden');
-		containerMessageError.html('<span>' + messageError + '</span>');
-		form.find('.form-group').addClass('has-error');
+		this.containerMessageError.removeClass('hidden');
+		this.containerMessageError.html('<span>' + messageError + '</span>');
+		this.form.find('.form-group').addClass('has-error');
 		
 	}
 	
@@ -46,8 +54,14 @@ $(function() {
 		var inputStyle = $('#input-style');
 		inputStyle.append('<option value=' + style.code + '>' + style.name + '</option>');
 		inputStyle.val(style.code);
-		modalStyle.modal('hide');
+		this.modalStyle.modal('hide');
 	}
 	
+	return StyleRegisterSpeed;
 	
+}());
+
+$(function() {
+	var styleRegisterSpeed = new Brewer.StyleRegisterSpeed();
+	styleRegisterSpeed.start();
 });
