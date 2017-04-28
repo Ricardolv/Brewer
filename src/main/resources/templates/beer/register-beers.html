@@ -3,7 +3,8 @@
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="'layout/layout'">
+	  layout:decorator="'layout/layout'"
+	  xmlns:brewer="http://brewer.project.com">
 	<head> 
 		<title>Cadastro de cerveja</title>
 	</head>
@@ -27,25 +28,25 @@
 					<th:block th:include="fragments/message-error-validation"></th:block>
 						
 					<div class="row">
-						<div class="col-sm-2  form-group" th:classappend="${#fields.hasErrors('sku')} ? has-error">
+						<div class="col-sm-2  form-group" brewer:classforerror="sku">
 							<label for="sku"class="control-label" >SKU:</label>
 							<input id="sku" type="text" class="form-control" th:field="*{sku}"/>
 						</div>
 						
-						<div class="col-sm-10  form-group" th:classappend="${#fields.hasErrors('name')} ? has-error" >
+						<div class="col-sm-10  form-group" brewer:classforerror="name" >
 							<label for="name" class="control-label" >Nome</label>
 							<input id="name" type="text" class="form-control" th:field="*{name}"/>
 						</div>
 					</div>
 					
-					<div class="form-group" th:classappend="${#fields.hasErrors('description')} ? has-error" >
+					<div class="form-group" brewer:classforerror="description" >
 						<label for="description" class="control-label" > Descrição</label>
 						<textarea id="description" rows="3" cols="30" class="form-control" th:field="*{description}"></textarea>
 					</div>
 					
 					<div class="row">
 						
-						<div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('style')} ? has-error">
+						<div class="col-sm-3  form-group" brewer:classforerror="style" >
 							<label for="input-style" class="control-label">Estilo</label>
 							<div class="bw-field-action">
 								<select id="input-style" class="form-control" th:field="*{style}">
@@ -60,7 +61,7 @@
 							</div>
 						</div>
 						
-						<div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('flavor')} ? has-error">
+						<div class="col-sm-3  form-group" brewer:classforerror="flavor" >
 							<label for="flavor" class="control-label">Sabor</label>
 							<select id="flavor" class="form-control" th:field="*{flavor}">
 								<option value="">Selecione o sabor</option>
@@ -68,7 +69,7 @@
 							</select>
 						</div>
 						
-						<div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('contentAlcohol')} ? has-error">
+						<div class="col-sm-3  form-group" brewer:classforerror="contentAlcohol" >
 							<label for=AlcoholContent class="control-label">Teor alcoólico</label>
 							<div class="input-group">
 								<input id="AlcoholContent" type="text" class="form-control js-decimal" th:field="*{contentAlcohol}"/>
@@ -76,7 +77,7 @@
 							</div>
 						</div>
 						
-						<div class="col-lg-3  col-sm-6  form-group" th:classappend="${#fields.hasErrors('origin')} ? has-error">
+						<div class="col-lg-3  col-sm-6  form-group" brewer:classforerror="origin" >
 							<label for="origin" class="control-label">Origem</label>
 							<div>
 								
@@ -92,7 +93,7 @@
 					</div>
 					
 					<div class="row">
-						<div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('value')} ? has-error">
+						<div class="col-sm-3  form-group" brewer:classforerror="value" >
 							<label for="price" class="control-label">Preço</label>
 							<div class="input-group">
 								<div class="input-group-addon">R$</div>
@@ -100,7 +101,7 @@
 							</div>
 						</div>
 						
-						<div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('commission')} ? has-error">
+						<div class="col-sm-3  form-group" brewer:classforerror="commission" >
 							<label for="commission" class="control-label">Comissão</label>
 							<div class="input-group">
 								<input id="commission" type="text" class="form-control js-decimal" th:field="*{commission}"/>
@@ -108,7 +109,7 @@
 							</div>
 						</div>
 						
-						<div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('quantityStock')} ? has-error">
+						<div class="col-sm-3  form-group" brewer:classforerror="quantityStock" >
 							<label for="stock" class="control-label">Estoque</label>
 							<input id="stock" type="text" class="form-control js-plain" th:field="*{quantityStock}"/>
 						</div>

@@ -36,10 +36,10 @@ public class Beer implements Serializable {
 	private Long code;
 	
 	@SKU
-	@NotBlank(message= "SKU e obrigatorio")
+	@NotBlank(message= "SKU e obrigatório")
 	private String sku;
 	
-	@NotBlank(message= "Nome e obrigatorio")
+	@NotBlank(message= "Nome e obrigatório")
 	private String name;
 	
 	@NotNull(message = "Valor é obrigatório")
