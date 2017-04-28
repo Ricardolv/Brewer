@@ -78,7 +78,13 @@ public class Beer implements Serializable {
 	@Size(max = 50, message = "O tamanho da descrição deve ser estar entre 1 e 50")
 	private String description;
 	
-	@PrePersist @PreUpdate
+	private String photo;
+	
+	@Column(name = "content_type")
+	private String contentType;
+	
+	@PrePersist 
+	@PreUpdate
  	private void prePersistUpdate() {
 		sku = sku.toUpperCase();
 	}
@@ -169,6 +175,22 @@ public class Beer implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 	@Override
