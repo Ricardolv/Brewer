@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.richard.brewer.storage.PhotoStorage;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
+
 public class PhotoStorageLocal implements PhotoStorage {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PhotoStorageLocal.class);
@@ -49,13 +52,38 @@ public class PhotoStorageLocal implements PhotoStorage {
 	}
 	
 	@Override
-	public byte[] recoverPhotoTemporary(String name) {
-		
+	public byte[] recoverTemporary(String name) {
 		try {
 			return Files.readAllBytes(this.localTemporary.resolve(name));
 		} catch (IOException e) {
-			throw new RuntimeException("Lendo a foro temporaria");
+			throw new RuntimeException("Erro lendo a foto temporaria", e);
 		}
+	}
+	
+	@Override
+	public byte[] recover(String name) {
+		try {
+			return Files.readAllBytes(this.local.resolve(name));
+		} catch (IOException e) {
+			throw new RuntimeException("Erro lendo a foto", e);
+		}
+	}
+	
+	@Override
+	public void save(String photo) {
+		
+		try {
+			Files.move(this.localTemporary.resolve(photo), this.local.resolve(photo));
+		} catch (IOException e) {
+			throw new RuntimeException("Erro movendo a foto para destino final", e);
+		}
+		
+		try {
+			Thumbnails.of(this.local.resolve(photo).toString()).size(40, 68).toFiles(Rename.PREFIX_DOT_THUMBNAIL);
+		} catch (IOException e) {
+			throw new RuntimeException("Erro gerando Thumbnail", e);
+		}
+		
 	}
 
 	private void createPast() {
@@ -84,9 +112,5 @@ public class PhotoStorageLocal implements PhotoStorage {
 		}
 		return newName;
 	}
-
-	
-	
-	
 
 }

@@ -111,7 +111,7 @@
 						<tbody>
 							<tr th:each="beer : ${beers}">
 								<td class="text-center">
-									<img th:src="@{/photos/temp/{photo}(photo=${beer.photo})}" class="img-responsive"/>
+									<img th:src="@{/photos/thumbnail.{photo}(photo=${beer.photoOrMock})}" class="img-responsive"/>
 								</td>
 								<td class="text-center" th:text="${beer.sku}"></td>
 								<td th:text="${beer.name}"></td>
@@ -126,6 +126,9 @@
 										<i class="glyphicon glyphicon-remove"></i>
 									</a>
 								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(beers)}">
+								<td colspan="7"> Nenhuma cerveja encontrada </td>
 							</tr>
 						</tbody>
 					</table>

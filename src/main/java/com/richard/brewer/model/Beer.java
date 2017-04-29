@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.StringUtils;
 
 import com.richard.brewer.annotation.SKU;
 
@@ -88,6 +89,11 @@ public class Beer implements Serializable {
  	private void prePersistUpdate() {
 		sku = sku.toUpperCase();
 	}
+	
+	public String getPhotoOrMock() {
+		return !StringUtils.isEmpty(this.photo) ? this.photo : "beer-mock.png";
+	}
+	
 
 	public Long getCode() {
 		return code;
