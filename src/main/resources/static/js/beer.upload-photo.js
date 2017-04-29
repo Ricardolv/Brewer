@@ -3,7 +3,6 @@ var Brewer = Brewer || {};
 Brewer.UploadPhoto = (function() {
 	
 	function UploadPhoto() {
-		
 		this.inputPhotoName = $('input[name=photo]');
 		this.inputContentType = $('input[name=contentType]');
 		
@@ -16,7 +15,6 @@ Brewer.UploadPhoto = (function() {
 	}
 	
 	UploadPhoto.prototype.start = function() {
-		
 		var settings = {
 				type: 'json',
 				filelimit: 1,
@@ -28,10 +26,12 @@ Brewer.UploadPhoto = (function() {
 		UIkit.uploadSelect($('#upload-select'), settings);
 		UIkit.uploadDrop(this.uploadDrop, settings);
 		
+		if(this.inputPhotoName.val()) {
+			onUploadComplete.call(this, { name: this.inputPhotoName.val(), contentType: this.inputContentType.val() });
+		}
 	}
 	
 	function onUploadComplete(response) {
-		
 		this.inputPhotoName.val(response.name);
 		this.inputContentType.val(response.contentType);
 		
@@ -54,8 +54,6 @@ Brewer.UploadPhoto = (function() {
 })();
 
 $(function() {
-
 	var uploadPhoto = new Brewer.UploadPhoto();
 	uploadPhoto.start();
-	
 });
