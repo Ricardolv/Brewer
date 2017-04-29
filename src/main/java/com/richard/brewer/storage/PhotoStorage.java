@@ -5,4 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface PhotoStorage {
 
 	public String saveTemporarily(MultipartFile[] files);
+
+	public byte[] recoverPhotoTemporary(String name);
+	
 }

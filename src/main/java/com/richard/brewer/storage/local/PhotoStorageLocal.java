@@ -18,7 +18,7 @@ public class PhotoStorageLocal implements PhotoStorage {
 	private static final Logger logger = LoggerFactory.getLogger(PhotoStorageLocal.class);
 	
 	private Path local;
-	private Path localTemp;
+	private Path localTemporary;
 	
 
 	public PhotoStorageLocal() {
@@ -30,26 +30,7 @@ public class PhotoStorageLocal implements PhotoStorage {
 		this.local = path;
 		createPast();
 	}
-
-
-	private void createPast() {
-		try {
-			Files.createDirectories(this.local);
-			this.localTemp = FileSystems.getDefault().getPath(this.local.toString(), "temp");
-			Files.createDirectories(this.localTemp);
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Pasta criadas para salvar fotos.");
-				logger.debug("Pasta default: " + this.local.toAbsolutePath());
-				logger.debug("Pasta temporaria: " + this.localTemp.toAbsolutePath());
-			}
-			
-		} catch (IOException e) {
-			throw new RuntimeException("Error create past for save image", e);
-		}
-		
-	}
-
+	
 	@Override
 	public String saveTemporarily(MultipartFile[] files) {
 		String newName = null;
@@ -58,13 +39,40 @@ public class PhotoStorageLocal implements PhotoStorage {
 			MultipartFile multipartFile = files[0];
 			newName = fileRename(multipartFile.getOriginalFilename());
 			try {
-				multipartFile.transferTo(new File(this.localTemp.toAbsolutePath().toString() + FileSystems.getDefault().getSeparator() + newName));
+				multipartFile.transferTo(new File(this.localTemporary.toAbsolutePath().toString() + FileSystems.getDefault().getSeparator() + newName));
 			} catch (IOException e) {
 				throw new RuntimeException("Erro salvando a foto na pasta temporária", e);
 			}
 		}
 		
 		return newName;
+	}
+	
+	@Override
+	public byte[] recoverPhotoTemporary(String name) {
+		
+		try {
+			return Files.readAllBytes(this.localTemporary.resolve(name));
+		} catch (IOException e) {
+			throw new RuntimeException("Lendo a foro temporaria");
+		}
+	}
+
+	private void createPast() {
+		try {
+			Files.createDirectories(this.local);
+			this.localTemporary = FileSystems.getDefault().getPath(this.local.toString(), "temp");
+			Files.createDirectories(this.localTemporary);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Pasta criadas para salvar fotos.");
+				logger.debug("Pasta default: " + this.local.toAbsolutePath());
+				logger.debug("Pasta temporaria: " + this.localTemporary.toAbsolutePath());
+			}
+			
+		} catch (IOException e) {
+			throw new RuntimeException("Error create past for save image", e);
+		}
 	}
 
 	private String fileRename(String originalFilename) {
@@ -76,6 +84,8 @@ public class PhotoStorageLocal implements PhotoStorage {
 		}
 		return newName;
 	}
+
+	
 	
 	
 

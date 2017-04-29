@@ -122,11 +122,14 @@
 						
 						<label class="control-label">Foto</label>
 						
-						<div id="upload-drop" class="bw-upload">
-							<i class="glyphicon  glyphicon-cloud-upload"></i>
-							<span>Arraste a foto aqui ou </span>
-							<a class="bw-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+						<div class="js-container-photo-beer">
+							<div id="upload-drop" class="bw-upload">
+								<i class="glyphicon  glyphicon-cloud-upload"></i>
+								<span>Arraste a foto aqui ou </span>
+								<a class="bw-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+							</div>
 						</div>
+						
 					</div>
 					
 					<div class="form-group">
@@ -137,12 +140,14 @@
 			</div>
 			
 			<div th:replace="/modal/style/register-speed-style :: modal"></div>
+			<th:block th:replace="hbs/photo-beer"></th:block>
 		</section>	
 		
 		<th:block layout:fragment="javascript-extra">
 			<script th:src="@{/js/style.register-speed.js}"></script>
 			<script th:src="@{/js/vendors/uikit.min.js}"></script>
 			<script th:src="@{/js/vendors/upload.min.js}"></script>
+			<script th:src="@{/js/vendors/handlebars.min.js}"></script>
 			<script>
 				$(function() {
 					var settings = {
@@ -152,8 +157,29 @@
 							action: '/brewer/photos',
 							complete: function(response) {
 								
-								$('input[name=photo]').val(response.name);
-								$('input[name=contentType]').val(response.contentType);
+								var inputPhotoName = $('input[name=photo]');
+								var inputContentType = $('input[name=contentType]');
+								
+								var htmlPhotoBeerTemplate = $('#photo-beer').html();
+								var template = Handlebars.compile(htmlPhotoBeerTemplate);
+								var htmlPhotoBeer = template({ photoName: response.name });
+								
+								var containerPhotoBeer = $('.js-container-photo-beer');
+								var uploadDrop = $('#upload-drop');
+								
+								inputPhotoName.val(response.name);
+								inputContentType.val(response.contentType);
+								
+								uploadDrop.addClass('hidden');
+								containerPhotoBeer.append(htmlPhotoBeer);
+								
+								$('.js-remove-photo').on('click', function() {
+
+									$('.js-photo-beer').remove();
+									uploadDrop.removeClass('hidden');
+									inputPhotoName.val('');
+									inputContentType.val('');
+								});
 								
 							}
 					};
