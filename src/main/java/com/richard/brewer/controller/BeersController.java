@@ -52,5 +52,16 @@ public class BeersController {
 		attributes.addFlashAttribute("message", "Cerveja salva com sucesso!");
 		return new ModelAndView("redirect:/beers/new");
 	}
+	
+	@GetMapping
+	public ModelAndView search() {
+		ModelAndView mv = new ModelAndView("beer/search-beers");
+		mv.addObject("flavors", Flavor.values());
+		mv.addObject("styles", styleService.findAll());
+		mv.addObject("origins", Origin.values());
+		
+		mv.addObject("beers", beerService.findAll());
+		return mv;
+	}
 
 }
