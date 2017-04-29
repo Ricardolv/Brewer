@@ -122,7 +122,7 @@
 						
 						<label class="control-label">Foto</label>
 						
-						<div class="js-container-photo-beer">
+						<div class="js-container-photo-beer" th:attr="data-url-photos=@{/photos}">
 							<div id="upload-drop" class="bw-upload">
 								<i class="glyphicon  glyphicon-cloud-upload"></i>
 								<span>Arraste a foto aqui ou </span>
@@ -144,50 +144,12 @@
 		</section>	
 		
 		<th:block layout:fragment="javascript-extra">
+			
 			<script th:src="@{/js/style.register-speed.js}"></script>
 			<script th:src="@{/js/vendors/uikit.min.js}"></script>
 			<script th:src="@{/js/vendors/upload.min.js}"></script>
 			<script th:src="@{/js/vendors/handlebars.min.js}"></script>
-			<script>
-				$(function() {
-					var settings = {
-							type: 'json',
-							filelimit: 1,
-							allow: '*.(jpg|jpeg|png)',
-							action: '/brewer/photos',
-							complete: function(response) {
-								
-								var inputPhotoName = $('input[name=photo]');
-								var inputContentType = $('input[name=contentType]');
-								
-								var htmlPhotoBeerTemplate = $('#photo-beer').html();
-								var template = Handlebars.compile(htmlPhotoBeerTemplate);
-								var htmlPhotoBeer = template({ photoName: response.name });
-								
-								var containerPhotoBeer = $('.js-container-photo-beer');
-								var uploadDrop = $('#upload-drop');
-								
-								inputPhotoName.val(response.name);
-								inputContentType.val(response.contentType);
-								
-								uploadDrop.addClass('hidden');
-								containerPhotoBeer.append(htmlPhotoBeer);
-								
-								$('.js-remove-photo').on('click', function() {
-
-									$('.js-photo-beer').remove();
-									uploadDrop.removeClass('hidden');
-									inputPhotoName.val('');
-									inputContentType.val('');
-								});
-								
-							}
-					};
-					
-					UIkit.uploadSelect($('#upload-select'), settings);
-					UIkit.uploadDrop($('#upload-drop'), settings);
-				});
-			</script>
+			<script th:src="@{/js/beer.upload-photo.js}"></script>
 			
 		</th:block>
 		
