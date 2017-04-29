@@ -1,9 +1,11 @@
 package com.richard.brewer.storage.local;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,11 @@ public class PhotoStorageLocal implements PhotoStorage {
 
 	public PhotoStorageLocal() {
 		this.local = FileSystems.getDefault().getPath(System.getenv("HOME"), ".brewerphotos");
+		createPast();
+	}
+	
+	public PhotoStorageLocal(Path path) {
+		this.local = path;
 		createPast();
 	}
 
@@ -44,9 +51,30 @@ public class PhotoStorageLocal implements PhotoStorage {
 	}
 
 	@Override
-	public void saveTemporarily(MultipartFile[] files) {
-		// TODO Auto-generated method stub
+	public String saveTemporarily(MultipartFile[] files) {
+		String newName = null;
 		
+		if (files != null && files.length > 0) {
+			MultipartFile multipartFile = files[0];
+			newName = fileRename(multipartFile.getOriginalFilename());
+			try {
+				multipartFile.transferTo(new File(this.localTemp.toAbsolutePath().toString() + FileSystems.getDefault().getSeparator() + newName));
+			} catch (IOException e) {
+				throw new RuntimeException("Erro salvando a foto na pasta temporária", e);
+			}
+		}
+		
+		return newName;
+	}
+
+	private String fileRename(String originalFilename) {
+		
+		String newName = UUID.randomUUID().toString() + "_" + originalFilename;
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Nome original: %s, novo nome: %s", originalFilename, newName));
+		}
+		return newName;
 	}
 	
 	
