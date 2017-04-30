@@ -8,6 +8,6 @@ import com.richard.brewer.repository.filter.BeerFilter;
 
 public interface BeersQueries {
 	
-	public Page<Beer> beerFilter(BeerFilter beerFilter, Pageable pageable);
+	public Page<Beer> filter(BeerFilter beerFilter, Pageable pageable);
 
 }

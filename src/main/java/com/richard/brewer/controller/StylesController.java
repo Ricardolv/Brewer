@@ -75,7 +75,7 @@ public class StylesController {
 	public ModelAndView search(StyleFilter styleFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("style/search-styles");
 		
-		PageWrapper<Style> pageWrapper = new PageWrapper<>(styleService.styleFilter(styleFilter, pageable), httpServletRequest);
+		PageWrapper<Style> pageWrapper = new PageWrapper<>(styleService.filter(styleFilter, pageable), httpServletRequest);
 		mv.addObject("page", pageWrapper);
 		
 		return mv;

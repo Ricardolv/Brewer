@@ -65,7 +65,7 @@ public class BeersController {
 		mv.addObject("styles", styleService.findAll());
 		mv.addObject("origins", Origin.values());
 		
-		PageWrapper<Beer> pageWrapper = new PageWrapper<>(beerService.beerFilter(beerFilter, pageable), httpServletRequest);
+		PageWrapper<Beer> pageWrapper = new PageWrapper<>(beerService.filter(beerFilter, pageable), httpServletRequest);
 		mv.addObject("page", pageWrapper);
 		
 		return mv;

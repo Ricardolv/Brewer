@@ -36,7 +36,7 @@ public class StyleService {
 		return styles.saveAndFlush(style);
 	}
 	
-	public Page<Style> styleFilter(StyleFilter styleFilter, Pageable pageable) {
-		return styles.styleFilter(styleFilter, pageable);
+	public Page<Style> filter(StyleFilter styleFilter, Pageable pageable) {
+		return styles.filter(styleFilter, pageable);
 	}
 }

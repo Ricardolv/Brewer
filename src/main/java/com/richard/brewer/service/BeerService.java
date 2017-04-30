@@ -34,7 +34,7 @@ public class BeerService {
 		return beers.findAll();
 	}
 	
-	public Page<Beer> beerFilter(BeerFilter beerFilter, Pageable pageable) {
-		return beers.beerFilter(beerFilter, pageable);
+	public Page<Beer> filter(BeerFilter beerFilter, Pageable pageable) {
+		return beers.filter(beerFilter, pageable);
 	}
 }

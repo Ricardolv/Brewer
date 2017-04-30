@@ -8,6 +8,6 @@ import com.richard.brewer.repository.filter.StyleFilter;
 
 public interface StylesQueries {
 	
-	public Page<Style> styleFilter(StyleFilter styleFilter, Pageable pageable);
+	public Page<Style> filter(StyleFilter styleFilter, Pageable pageable);
 
 }
