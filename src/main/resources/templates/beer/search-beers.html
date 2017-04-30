@@ -101,11 +101,9 @@
 							<tr>
 								<th class="table-beers-col-photo"></th>
 								<th class="table-beers-col-sku">
-								<!-- <th:block th:replace="fragments/ordination :: order(${page}, 'sku', 'SKU')"></th:block> -->	
 									<brewer:order page="${page}" field="sku" text="SKU"/>
 								</th>
 								<th class="table-beers-col-name">
-									<!-- <th:block th:replace="fragments/ordination :: order(${page}, 'name', 'Nome')"></th:block> -->
 									<brewer:order page="${page}" field="name" text="Nome"/>
 								</th>
 								

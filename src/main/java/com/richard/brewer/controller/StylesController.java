@@ -1,10 +1,13 @@
 package com.richard.brewer.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.model.Style;
+import com.richard.brewer.repository.filter.StyleFilter;
 import com.richard.brewer.service.StyleService;
 import com.richard.brewer.service.exception.BusinessRuleException;
 
@@ -64,6 +69,16 @@ public class StylesController {
 		style = styleService.save(style);
 		
 		return ResponseEntity.ok(style);
+	}
+	
+	@GetMapping
+	public ModelAndView search(StyleFilter styleFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("style/search-styles");
+		
+		PageWrapper<Style> pageWrapper = new PageWrapper<>(styleService.styleFilter(styleFilter, pageable), httpServletRequest);
+		mv.addObject("page", pageWrapper);
+		
+		return mv;
 	}
 
 }

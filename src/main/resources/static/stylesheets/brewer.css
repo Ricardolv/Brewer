@@ -76,6 +76,11 @@
 ###################
 */
 
+/* Colunas comuns */
+.table-col-acoes {
+	width: 80px;
+}
+
 /* Colunms - Serach of Beers */
 .table-beers-col-photo {
 	min-width: 50px;
@@ -107,3 +112,9 @@
 .table-beers-col-actions {
 	width: 80px;
 }
+
+/* Colunms - Serach of Beers */
+.table-styles-col-code {
+	width: 80px;
+}
+
