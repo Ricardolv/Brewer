@@ -63,7 +63,7 @@ public class BeersController {
 		mv.addObject("styles", styleService.findAll());
 		mv.addObject("origins", Origin.values());
 		
-		mv.addObject("beers", beerService.beerFilter(beerFilter, pageable));
+		mv.addObject("page", beerService.beerFilter(beerFilter, pageable));
 		
 		return mv;
 	}

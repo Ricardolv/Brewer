@@ -1,14 +1,15 @@
 package com.richard.brewer.repository.help.beer;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -24,12 +25,30 @@ public class BeersImpl implements BeersQueries {
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Transactional(readOnly = true)
 	@Override
-	public List<Beer> beerFilter(BeerFilter beerFilter, Pageable pageable) {
+	public Page<Beer> beerFilter(BeerFilter beerFilter, Pageable pageable) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Beer.class);
 		
 		criteria.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
 		criteria.setMaxResults(pageable.getPageSize());
+		
+		addFilter(beerFilter, criteria);
 
+		return new PageImpl<>(criteria.list(), pageable, total(beerFilter));
+	}
+
+	@SuppressWarnings("deprecation")
+	private Long total(BeerFilter beerFilter) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Beer.class);
+		addFilter(beerFilter, criteria);
+		criteria.setProjection(Projections.rowCount());
+		return (Long) criteria.uniqueResult();
+	}
+
+	private boolean isStylePresent(BeerFilter filter) {
+		return filter.getStyle() != null && filter.getStyle().getCode() != null;
+	}
+	
+	private void addFilter(BeerFilter beerFilter, Criteria criteria) {
 		if (null != beerFilter) {
 			
 			if (!StringUtils.isEmpty(beerFilter.getSku())) {
@@ -61,12 +80,6 @@ public class BeersImpl implements BeersQueries {
 			}
 			
 		}
-		
-		return criteria.list();
-	}
-	
-	private boolean isStylePresent(BeerFilter filter) {
-		return filter.getStyle() != null && filter.getStyle().getCode() != null;
 	}
 
 }
