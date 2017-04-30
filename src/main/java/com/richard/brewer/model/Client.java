@@ -7,7 +7,7 @@ public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private TypePerson typePerson;
+	private PersonType personType;
 	
 	public String getName() {
 		return name;
@@ -15,10 +15,10 @@ public class Client implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public TypePerson getTypePerson() {
-		return typePerson;
+	public PersonType getPersonType() {
+		return personType;
 	}
-	public void setTypePerson(TypePerson typePerson) {
-		this.typePerson = typePerson;
+	public void setPersonType(PersonType personType) {
+		this.personType = personType;
 	}
 }

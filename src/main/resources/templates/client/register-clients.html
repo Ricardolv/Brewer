@@ -2,8 +2,10 @@
 <html lang="pt"
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="layout/layout">
+	  layout:decorate="layout/layout"
+	  >
 	<head> 
 		<title>Cadastro de cliente</title>
 	</head>
@@ -37,16 +39,14 @@
 						<div class="col-sm-6  form-group">
 							<label for="person">Tipo Pessoa</label>
 							<div>
-								<div class="radio  radio-inline">
-									<input type="radio" id="id_FISICA" class="js-radio-personType" 
-										 name="personType" data-document="CPF" data-inputmask="000.000.000-00"> 
-									<label class="control-label" for="id_FISICA">Física</label>
-								</div>
-								<div class="radio  radio-inline">
-									<input type="radio" id="id_JURIDICA" class="js-radio-personType" 
-										 name="personType" data-document="CNPJ" data-inputmask="00.000.000/0000-00"> 
-									<label class="control-label" for="id_JURIDICA">Jurídica</label>
-								</div>
+								<th:block th:each="personType : ${personTypes}">
+									<div class="radio  radio-inline">
+										<input type="radio" th:id="|id_${personType}|" class="js-radio-personType" name="personType" 
+											data:document="${personType.document}" data:inputmask="${personType.mask}"  > 
+										<label class="control-label" th:for="|id_${personType}|" 
+											th:text="${personType.description}"></label>
+									</div>
+								</th:block>
 							</div>
 						</div>
 						<div class="col-sm-6  form-group">
