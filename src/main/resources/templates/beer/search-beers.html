@@ -142,9 +142,9 @@
 								<a href="#">&laquo;</a>
 							</li>
 							
-							<th:block th:each="p : ${#numbers.sequence(1, page.totalPages)}">
-								<li>
-									<a th:href="|?page=${p - 1}|">[[${p}]]</a>
+							<th:block th:each="p : ${#numbers.sequence(1, page.totalPages)}" th:with="numberPage=${p - 1}, currentPage=${page.number}">
+								<li th:class="${currentPage == numberPage} ? active">
+									<a th:href="|?page=${numberPage}|">[[${p}]]</a>
 								</li>
 							</th:block>
 							
