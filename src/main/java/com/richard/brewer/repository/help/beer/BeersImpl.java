@@ -6,11 +6,13 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +33,8 @@ public class BeersImpl implements BeersQueries {
 		criteria.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
 		criteria.setMaxResults(pageable.getPageSize());
 		
+		addOrderBy(pageable, criteria);
+		
 		addFilter(beerFilter, criteria);
 
 		return new PageImpl<>(criteria.list(), pageable, total(beerFilter));
@@ -46,6 +50,15 @@ public class BeersImpl implements BeersQueries {
 
 	private boolean isStylePresent(BeerFilter filter) {
 		return filter.getStyle() != null && filter.getStyle().getCode() != null;
+	}
+	
+	private void addOrderBy(Pageable pageable, Criteria criteria) {
+		Sort sort = pageable.getSort();
+		if (null != sort) {
+			Sort.Order order = sort.iterator().next();
+			String property = order.getProperty();
+			criteria.addOrder(order.isAscending() ? Order.asc(property) : Order.desc(property));
+		}
 	}
 	
 	private void addFilter(BeerFilter beerFilter, Criteria criteria) {
