@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,11 +41,50 @@ public class PageWrapper<T> {
 	}
 	
 	public int getTotal() {
-		return page.getTotalPages();
+		return this.page.getTotalPages();
 	}
 	
 	public String urlForPage(int page) {
-		return uriBuilder.replaceQueryParam("page", page).build(true).encode().toUriString();
+		return this.uriBuilder.replaceQueryParam("page", page).build(true).encode().toUriString();
+	}
+	
+	public String urlOrdered(String property) {
+		UriComponentsBuilder uriBuilderOrder = UriComponentsBuilder
+				.fromUriString(this.uriBuilder.build(true).encode().toUriString());
+		
+		String valueSort = String.format("%s,%s", property, invertDirection(property)); 
+		
+		return uriBuilderOrder.replaceQueryParam("sort", valueSort).build(true).encode().toUriString();
+	}
+	
+	public String invertDirection(String property) {
+		String direction = "asc";
+		
+		Order order = getOrderOrNull(property);
+		
+		if (null != order) {
+			direction = Sort.Direction.ASC.equals(order.getDirection()) ? "desc" : "asc"; 
+		}
+		return direction;
+	}
+	
+	public boolean downward(String property) {
+		return invertDirection(property).equals("asc");
+	}
+	
+	public boolean ordered(String property) {
+		
+		Order order = getOrderOrNull(property);
+		
+		if (null == order) {
+			return false;
+		}
+		
+		return null != this.page.getSort().getOrderFor(property) ? true : false;
+	}
+	
+	public Order getOrderOrNull(String property) {
+		return null != this.page.getSort() ? this.page.getSort().getOrderFor(property) : null;
 	}
 
 }

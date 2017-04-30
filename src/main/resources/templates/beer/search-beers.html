@@ -94,16 +94,30 @@
 						
 						<button type="submit" class="btn  btn-primary">Pesquisar</button>
 				</form>
+				
 				<div class="table-responsive  bw-table-simples">
 					<table class="table  table-hover">
 						<thead>
 							<tr>
 								<th class="table-beers-col-photo"></th>
 								<th class="table-beers-col-sku">
-									SKU
-									<span class="dropup"><span class="caret"></span></span>
+									<a th:href="${page.urlOrdered('sku')}" th:remove="${page.empty} ? tag">
+										<span>SKU</span>
+										<span class="dropup" th:remove="${page.downward('sku')} ? tag"
+											th:if="${page.ordered('sku')}">
+											<span class="caret"></span>
+										</span>
+									</a>
 								</th>
-								<th class="table-beers-col-name">Nome</th>
+								<th class="table-beers-col-name">
+									<a th:href="${page.urlOrdered('name')}" th:remove="${page.empty} ? tag">
+										<span>Nome</span>
+										<span class="dropup" th:remove="${page.downward('name')} ? tag"
+											th:if="${page.ordered('name')}">
+											<span class="caret"></span>
+										</span>
+									</a>
+								</th>
 								<th class="table-beers-col-style">Estilo</th>
 								<th class="table-beers-col-origin">Origem</th>
 								<th class="table-beers-col-value">Valor</th>
