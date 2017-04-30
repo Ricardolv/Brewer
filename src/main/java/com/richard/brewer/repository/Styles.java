@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.richard.brewer.model.Style;
 
 @Repository
-public interface StyleRepository extends JpaRepository<Style, Long> {
+public interface Styles extends JpaRepository<Style, Long> {
 	
 	Optional<Style> findByNameIgnoreCase(String name);
 	

@@ -8,26 +8,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.richard.brewer.model.Style;
-import com.richard.brewer.repository.StyleRepository;
+import com.richard.brewer.repository.Styles;
 import com.richard.brewer.service.exception.BusinessRuleException;
 
 @Service
 public class StyleService {
 	
 	@Autowired
-	private StyleRepository styleRepository;
+	private Styles styles;
 	
 	public List<Style> findAll() {
-		return styleRepository.findAll();
+		return styles.findAll();
 	}
 
 	@Transactional
 	public Style save(Style style) {
 		
-		Optional<Style> styleOptional = styleRepository.findByNameIgnoreCase(style.getName());
+		Optional<Style> styleOptional = styles.findByNameIgnoreCase(style.getName());
 		if (styleOptional.isPresent())
 			throw new BusinessRuleException("Nome do estilo já cadastrado");
 		
-		return styleRepository.saveAndFlush(style);
+		return styles.saveAndFlush(style);
 	}
 }

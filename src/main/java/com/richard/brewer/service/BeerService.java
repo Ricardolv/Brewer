@@ -8,26 +8,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.richard.brewer.model.Beer;
-import com.richard.brewer.repository.BeerRepository;
+import com.richard.brewer.repository.Beers;
+import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.service.event.beer.BeerSaveEvent;
 
 @Service
 public class BeerService {
 	
 	@Autowired
-	private BeerRepository beerRepository;
+	private Beers beers;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@Transactional
 	public void save(Beer beer) {
-		beerRepository.save(beer);
+		beers.save(beer);
 		
 		publisher.publishEvent(new BeerSaveEvent(beer));
 	}
 
 	public List<Beer> findAll() {
-		return beerRepository.findAll();
+		return beers.findAll();
+	}
+	
+	public List<Beer> beerFilter(BeerFilter beerFilter) {
+		return beers.beerFilter(beerFilter);
 	}
 }

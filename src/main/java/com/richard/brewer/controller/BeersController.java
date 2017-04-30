@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.Flavor;
 import com.richard.brewer.model.Origin;
+import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.service.BeerService;
 import com.richard.brewer.service.StyleService;
 
@@ -54,13 +55,14 @@ public class BeersController {
 	}
 	
 	@GetMapping
-	public ModelAndView search() {
+	public ModelAndView search(BeerFilter beerFilter, BindingResult result) {
 		ModelAndView mv = new ModelAndView("beer/search-beers");
 		mv.addObject("flavors", Flavor.values());
 		mv.addObject("styles", styleService.findAll());
 		mv.addObject("origins", Origin.values());
 		
-		mv.addObject("beers", beerService.findAll());
+		mv.addObject("beers", beerService.beerFilter(beerFilter));
+		
 		return mv;
 	}
 

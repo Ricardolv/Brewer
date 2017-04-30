@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.richard.brewer.model.Beer;
+import com.richard.brewer.repository.help.beer.BeersQueries;
 
 @Repository
-public interface BeerRepository extends JpaRepository<Beer, Long> {
+public interface Beers extends JpaRepository<Beer, Long>, BeersQueries {
 	
 	public Optional<Beer> findBySkuIgnoreCase(String sku);
 	
