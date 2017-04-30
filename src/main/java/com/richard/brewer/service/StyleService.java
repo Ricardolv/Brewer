@@ -9,10 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.Style;
 import com.richard.brewer.repository.Styles;
-import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.repository.filter.StyleFilter;
 import com.richard.brewer.service.exception.BusinessRuleException;
 

@@ -8,6 +8,7 @@ public class Client implements Serializable {
 	
 	private String name;
 	private PersonType personType;
+	private State state;
 	
 	public String getName() {
 		return name;
@@ -20,5 +21,11 @@ public class Client implements Serializable {
 	}
 	public void setPersonType(PersonType personType) {
 		this.personType = personType;
+	}
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
 	}
 }

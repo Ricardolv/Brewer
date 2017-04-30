@@ -5,7 +5,7 @@
 	  xmlns:data="http://www.thymeleaf.org/extras/data"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="layout/layout"
-	  >
+	  xmlns:brewer="http://brewer.project.com" >
 	<head> 
 		<title>Cadastro de cliente</title>
 	</head>
@@ -81,13 +81,18 @@
 							<label for="cep">CEP</label>
 							<input id="cep" type="text" class="form-control  js-cep" />
 						</div>
-						<div class="col-sm-4  form-group">
-							<label for="state">Estado</label>
-							<select id="state" class="form-control">
-								<option value="">Selecione o estado</option>
-								<option value="1">Minas Gerais</option>
-							</select>
+						
+						
+						<div class="col-sm-3  form-group  bw-required" brewer:classforerror="state" >
+							<label for="input-state" class="control-label">Estado</label>
+							<div class="bw-field-action">
+								<select id="input-state" class="form-control" th:field="*{state}">
+									<option value="">Selecione o estado</option>
+									<option th:each="state : ${states}" th:value="${state.code}" th:text="${state.name}"></option>
+								</select>
+							</div>
 						</div>
+						
 						<div class="col-sm-4  form-group">
 							<label for="city">Cidade</label>
 							<select id="city" class="form-control">
