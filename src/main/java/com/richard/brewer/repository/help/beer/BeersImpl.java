@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -23,8 +24,11 @@ public class BeersImpl implements BeersQueries {
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Transactional(readOnly = true)
 	@Override
-	public List<Beer> beerFilter(BeerFilter beerFilter) {
+	public List<Beer> beerFilter(BeerFilter beerFilter, Pageable pageable) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Beer.class);
+		
+		criteria.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+		criteria.setMaxResults(pageable.getPageSize());
 
 		if (null != beerFilter) {
 			
