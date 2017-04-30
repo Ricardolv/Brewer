@@ -22,11 +22,6 @@
 			
 			<div class="container-fluid">
 			
-				<!-- <div class="alert  alert-danger  alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<i class="fa  fa-exclamation-circle"></i> Já existe um produto com o nome informado.
-				</div> -->
-			
 				<form method="POST" th:object="${client}" class="form-vertical  js-form-loading">
 					
 						
@@ -77,14 +72,14 @@
 						</div>
 						<div class="col-sm-4  form-group">
 							<label for="complement">Complemento</label>
-							<input id="complement" type="text" class="form-control" />
+							<input id="complement" type="text" class="form-control " />
 						</div>
 					</div>	
 					
 					<div class="row">
 						<div class="col-sm-4  form-group">
 							<label for="cep">CEP</label>
-							<input id="cep" type="text" class="form-control" />
+							<input id="cep" type="text" class="form-control  js-cep" />
 						</div>
 						<div class="col-sm-4  form-group">
 							<label for="state">Estado</label>
