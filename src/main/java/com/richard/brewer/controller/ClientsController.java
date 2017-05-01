@@ -41,5 +41,5 @@ public class ClientsController {
 		
 		return new ModelAndView("redirect:/clients/new");
 	}
-
+	
 }
