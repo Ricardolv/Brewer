@@ -22,6 +22,7 @@ public class City implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long code;
+	
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
