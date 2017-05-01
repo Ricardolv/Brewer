@@ -47,7 +47,7 @@ public class BeersController {
 	}
 	
 	@PostMapping("/new")
-	public ModelAndView register(@Valid Beer beer, BindingResult result, Model model, RedirectAttributes attributes) {
+	public ModelAndView save(@Valid Beer beer, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			return newBeer(beer);

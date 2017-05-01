@@ -22,7 +22,7 @@ public class UsersController {
 	}
 	
 	@PostMapping("/new")
-	public String register(@Valid User user, BindingResult result, Model model, RedirectAttributes attributes) {
+	public String save(@Valid User user, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			return newUser(user);

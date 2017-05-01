@@ -4,7 +4,7 @@
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/layout}"
-	  xmlns:brewer="http://brewer.project.com">
+	  xmlns:brewer="http://brewer.project.com" >
 	<head> 
 		<title>Cadastro de Cerveja</title>
 		
@@ -41,7 +41,7 @@
 						
 					<div class="row">
 						<div class="col-sm-2  form-group  bw-required" brewer:classforerror="sku">
-							<label for="sku"class="control-label" >SKU</label>
+							<label for="sku" class="control-label" >SKU</label>
 							<input id="sku" type="text" class="form-control" th:field="*{sku}"/>
 						</div>
 						

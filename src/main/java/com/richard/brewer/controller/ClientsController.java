@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.model.Client;
 import com.richard.brewer.model.PersonType;
+import com.richard.brewer.service.ClientsService;
 import com.richard.brewer.service.StateService;
 
 @Controller
@@ -22,6 +23,9 @@ public class ClientsController {
 	
 	@Autowired
 	private StateService stateService;
+	
+	@Autowired
+	private ClientsService clientsService;
 	
 	@GetMapping("/new")
 	public ModelAndView newClient(Client client) {
@@ -33,12 +37,15 @@ public class ClientsController {
 	}
 	
 	@PostMapping("/new")
-	public ModelAndView register(@Valid Client client, BindingResult result, Model model, RedirectAttributes attributes) {
+	public ModelAndView save(@Valid Client client, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			return newClient(client);
 		}
 		
+		
+		clientsService.save(client);
+		attributes.addFlashAttribute("message", "Cliente salvo com sucesso!");
 		return new ModelAndView("redirect:/clients/new");
 	}
 	

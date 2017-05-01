@@ -43,7 +43,7 @@ public class StylesController {
 	}
 	
 	@PostMapping("/new")
-	public ModelAndView register(@Valid Style style, BindingResult result, Model model, RedirectAttributes attributes) {
+	public ModelAndView save(@Valid Style style, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors())
 			return newStyle(style);

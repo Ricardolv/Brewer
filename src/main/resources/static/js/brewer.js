@@ -42,17 +42,17 @@ Brewer.MaskPhoneNumber = (function() {
 	
 }());
 
-Brewer.MaskCep = (function() {
+Brewer.MaskZipCode = (function() {
 	
-	function MaskCep() {
-		this.inputCep = $('.js-cep');
+	function MaskZipCode() {
+		this.inputZipCode = $('.js-zipCode');
 	}
 	
-	MaskCep.prototype.enable = function() {
-		this.inputCep.mask('00.000-000');
+	MaskZipCode.prototype.enable = function() {
+		this.inputZipCode.mask('00.000-000');
 	}
 	
-	return MaskCep;
+	return MaskZipCode;
 	
 }());
 
@@ -64,6 +64,6 @@ $(function() {
 	var maskPhoneNumber = new Brewer.MaskPhoneNumber();
 	maskPhoneNumber.enable();
 	
-	var maskCep = new Brewer.MaskCep();
-	maskCep.enable();
+	var maskZipCode = new Brewer.MaskZipCode();
+	maskZipCode.enable();
 });

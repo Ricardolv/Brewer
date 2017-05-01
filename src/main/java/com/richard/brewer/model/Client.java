@@ -10,48 +10,73 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
+
+import com.richard.brewer.model.validation.ClientGroupProvider;
+import com.richard.brewer.model.validation.group.CnpjGroup;
+import com.richard.brewer.model.validation.group.CpfGroup;
 
 @Entity
 @Table(name = "client")
+@GroupSequenceProvider(ClientGroupProvider.class)
 public class Client implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codigo;
+	private Long code;
 
-	private String nome;
+	@NotBlank(message = "Nome é obrigatório")
+	private String name;
 
+	@NotNull(message = "Tipo pessoa é obrigatório")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "person_type")
 	private PersonType personType;
 
+	@NotBlank(message = "CPF/CNPJ é obrigatório")
+	@CPF(groups = CpfGroup.class)
+	@CNPJ(groups = CnpjGroup.class)
 	@Column(name = "cpf_cnpj")
 	private String cpfOrCnpj;
 
 	private String phone;
 
+	@Email(message = "E-mail inválido")
 	private String email;
 
 	@Embedded
 	private Anddress anddress;
-
-	public Long getCodigo() {
-		return codigo;
+	
+	@PrePersist @PreUpdate
+ 	private void prePersistUpdate() {
+		this.cpfOrCnpj = this.cpfOrCnpj.replaceAll("\\.|-|/", "");
 	}
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+	public Long getCode() {
+		return code;
 	}
 
-	public String getNome() {
-		return nome;
+	public void setCode(Long code) {
+		this.code = code;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public PersonType getPersonType() {
@@ -98,7 +123,7 @@ public class Client implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((code == null) ? 0 : code.hashCode());
 		return result;
 	}
 
@@ -111,10 +136,10 @@ public class Client implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Client other = (Client) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
+		if (code == null) {
+			if (other.code != null)
 				return false;
-		} else if (!codigo.equals(other.codigo))
+		} else if (!code.equals(other.code))
 			return false;
 		return true;
 	}

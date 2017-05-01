@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Embeddable
 public class Anddress implements Serializable {
@@ -27,6 +28,9 @@ public class Anddress implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "code_city")
 	private City city;
+	
+	@Transient
+	private State state;
 	
 	public String getStreet() {
 		return street;
@@ -67,5 +71,14 @@ public class Anddress implements Serializable {
 	public void setCity(City city) {
 		this.city = city;
 	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+	
 	
 }
