@@ -59,6 +59,7 @@
 						</th>
 						<th class="table-clients-col-cpf-cnpj">CPF/CNPJ</th>
 						<th class="table-clients-col-phone">Telefone</th>
+						<th class="table-clients-col-city-state">Cidade/Estado</th>
 						
 						<th class="table-col-actions"></th>
 					</tr>
@@ -70,6 +71,7 @@
 						<td class="text-center" th:text="${client.personType.description}"></td>
 						<td class="text-right" th:text="${client.cpfCnpj}"></td>
 						<td class="text-right" th:text="${client.phone}"></td>
+						<td class="text-right" th:text="${client.anddress.nameCityInitialsState}"></td>
 						
 						<td class="text-center">
 							<a class="btn  btn-link  btn-xs" title="Editar"> 

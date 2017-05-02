@@ -5,8 +5,19 @@ import com.richard.brewer.model.validation.group.CpfGroup;
 
 public enum PersonType {
 	
-	PHYSICAL("Fisica", "CPF", "000.000.000-00", CpfGroup.class),
-	JURIDICAL("Juridica", "CPNJ", "00.000.000/0000-00", CnpjGroup.class);
+	PHYSICAL("Física", "CPF", "000.000.000-00", CpfGroup.class) {
+		@Override
+		public String formatting(String cpfCnpj) {
+			return cpfCnpj.replaceAll("(\\d{3})(\\d{3})(\\d{3})", "$1.$2.$3-");
+		}
+	},
+	
+	JURIDICAL("Jurídica", "CPNJ", "00.000.000/0000-00", CnpjGroup.class) {
+		@Override
+		public String formatting(String cpfCnpj) {
+			return cpfCnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})", "$1.$2.$3/$4-");
+		}
+	};
 	
 	private String description;
 	private String document;
@@ -19,6 +30,8 @@ public enum PersonType {
 		this.mask = mask;
 		this.group = group;
 	}
+	
+	public abstract String formatting(String cpfCnpj);
 
 	public String getDescription() {
 		return description;
