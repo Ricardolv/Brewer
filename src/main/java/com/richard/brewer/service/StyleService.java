@@ -27,9 +27,10 @@ public class StyleService {
 	@Transactional
 	public Style save(Style style) {
 		
-		Optional<Style> styleOptional = styles.findByNameIgnoreCase(style.getName());
-		if (styleOptional.isPresent())
+		Optional<Style> styleExist = styles.findByNameIgnoreCase(style.getName());
+		if (styleExist.isPresent()) {
 			throw new BusinessRuleException("Nome do estilo já cadastrado");
+		}	
 		
 		return styles.saveAndFlush(style);
 	}

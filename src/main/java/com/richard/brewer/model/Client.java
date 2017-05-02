@@ -48,7 +48,7 @@ public class Client implements Serializable {
 	@CPF(groups = CpfGroup.class)
 	@CNPJ(groups = CnpjGroup.class)
 	@Column(name = "cpf_cnpj")
-	private String cpfOrCnpj;
+	private String cpfCnpj;
 
 	private String phone;
 
@@ -60,9 +60,9 @@ public class Client implements Serializable {
 	
 	@PrePersist @PreUpdate
  	private void prePersistUpdate() {
-		this.cpfOrCnpj = this.cpfOrCnpj.replaceAll("\\.|-|/", "");
+		this.cpfCnpj = PersonType.removeFormatting(this.cpfCnpj);
 	}
-
+	
 	public Long getCode() {
 		return code;
 	}
@@ -87,12 +87,12 @@ public class Client implements Serializable {
 		this.personType = personType;
 	}
 
-	public String getCpfOrCnpj() {
-		return cpfOrCnpj;
+	public String getCpfCnpj() {
+		return cpfCnpj;
 	}
 
-	public void setCpfOrCnpj(String cpfOrCnpj) {
-		this.cpfOrCnpj = cpfOrCnpj;
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
 	}
 
 	public String getPhone() {
@@ -117,6 +117,10 @@ public class Client implements Serializable {
 
 	public void setAnddress(Anddress anddress) {
 		this.anddress = anddress;
+	}
+	
+	public String getCpfCnpjWithoutFormatting() {
+		return PersonType.removeFormatting(this.cpfCnpj);
 	}
 
 	@Override

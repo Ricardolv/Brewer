@@ -16,6 +16,7 @@ import com.richard.brewer.model.Client;
 import com.richard.brewer.model.PersonType;
 import com.richard.brewer.service.ClientsService;
 import com.richard.brewer.service.StateService;
+import com.richard.brewer.service.exception.BusinessRuleException;
 
 @Controller
 @RequestMapping("/clients")
@@ -43,8 +44,13 @@ public class ClientsController {
 			return newClient(client);
 		}
 		
+		try {
+			clientsService.save(client);
+		} catch (BusinessRuleException e) {
+			result.rejectValue("cpfCnpj", e.getMessage(), e.getMessage());
+			return newClient(client);
+		}
 		
-		clientsService.save(client);
 		attributes.addFlashAttribute("message", "Cliente salvo com sucesso!");
 		return new ModelAndView("redirect:/clients/new");
 	}

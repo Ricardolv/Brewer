@@ -4,8 +4,8 @@ Brewer.MaskCpfCnpf = (function () {
 	
 	function MaskCpfCnpf() {
 		this.radioPersonType = $('.js-radio-personType');
-		this.labelCpfCnpj = $('[for=cpfOrCnpj]');
-		this.inputCpfCnpj = $('#cpfOrCnpj');
+		this.labelCpfCnpj = $('[for=cpfCnpj]');
+		this.inputCpfCnpj = $('#cpfCnpj');
 	}
 	
 	MaskCpfCnpf.prototype.start = function () {
