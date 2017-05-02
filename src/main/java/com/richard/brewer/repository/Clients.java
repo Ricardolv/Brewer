@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.richard.brewer.model.Client;
+import com.richard.brewer.repository.help.client.ClientsQueries;
 
 @Repository
-public interface Clients extends JpaRepository<Client, Long> {
+public interface Clients extends JpaRepository<Client, Long>, ClientsQueries {
 
 	public Optional<Client> findByCpfCnpj(String cpfOrCnpj);
+
 }

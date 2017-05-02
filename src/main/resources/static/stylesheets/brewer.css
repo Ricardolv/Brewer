@@ -76,8 +76,8 @@
 ###################
 */
 
-/* Colunas comuns */
-.table-col-acoes {
+/* Colunms comuns */
+.table-col-actions{
 	width: 80px;
 }
 
@@ -113,8 +113,28 @@
 	width: 80px;
 }
 
-/* Colunms - Serach of Beers */
+/* Colunms - Serach of Estyles */
 .table-styles-col-code {
 	width: 80px;
+}
+
+/* Colunas -Serach of Clients */
+.table-clients-col-name {
+	
+}
+
+.table-clients-col-person-type {
+	width: 120px;
+	text-align: center;
+}
+
+.table-clients-col-cpf-cnpj {
+	width: 140px;
+	text-align: right;
+}
+
+.table-clients-col-phone {
+	width: 140px;
+	text-align: right;
 }
 
