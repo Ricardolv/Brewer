@@ -42,6 +42,7 @@ public class CitysImpl implements CitysQueries {
 		return new PageImpl<>(criteria.list(), pageable, total(filter));
 	}
 
+	@SuppressWarnings("deprecation")
 	private Long total(CityFilter filter) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(City.class);
 		addFilter(filter, criteria);
