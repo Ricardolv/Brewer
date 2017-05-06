@@ -67,14 +67,12 @@
 						<div class="form-group  col-sm-6  bw-required" brewer:classforerror="groups">
 							<label class="control-label">Grupos</label> 
 							<div>
-		  						<div class="checkbox  checkbox-inline"> 
-			    					<input type="checkbox" />
-			    					<label>Administrador</label>
-		    					</div>
-		    					<div class="checkbox  checkbox-inline"> 
-			    					<input type="checkbox" />
-			    					<label>Vendedor</label>
-		    					</div>
+								<th:block th:each="group : ${groups}">
+			  						<div class="checkbox  checkbox-inline"> 
+				    					<input type="checkbox" th:value="${group.code}" th:field="*{groups}" />
+				    					<label th:for="${#ids.prev('groups')}" th:text="${group.name}"></label>
+			    					</div>
+								</th:block>
 							</div>
 						</div>
 					</div>

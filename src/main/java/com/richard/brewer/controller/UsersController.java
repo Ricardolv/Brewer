@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.model.User;
+import com.richard.brewer.service.GroupsService;
 import com.richard.brewer.service.UsersService;
 
 @Controller
@@ -22,9 +23,13 @@ public class UsersController {
 	@Autowired
 	private UsersService usersService;
 	
+	@Autowired
+	private GroupsService groupsServie;
+	
 	@GetMapping("/new")
 	public ModelAndView newUser(User user) {
 		ModelAndView mv = new ModelAndView("user/register-users");
+		mv.addObject("groups", groupsServie.findAll());
 		return mv;
 	}
 	

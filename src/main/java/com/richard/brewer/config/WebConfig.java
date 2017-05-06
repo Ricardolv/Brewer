@@ -37,6 +37,7 @@ import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDiale
 import com.google.common.cache.CacheBuilder;
 import com.richard.brewer.controller.BeersController;
 import com.richard.brewer.controller.converter.CityConverter;
+import com.richard.brewer.controller.converter.GroupConverter;
 import com.richard.brewer.controller.converter.StateConverter;
 import com.richard.brewer.controller.converter.StyleConverter;
 import com.richard.brewer.thymeleaf.BrewerDialect;
@@ -90,10 +91,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean
 	public FormattingConversionService mvcConversionService() {
+		
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter(new StyleConverter());
 		conversionService.addConverter(new StateConverter());
 		conversionService.addConverter(new CityConverter());
+		conversionService.addConverter(new GroupConverter());
 		
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);

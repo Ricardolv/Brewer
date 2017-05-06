@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -50,7 +51,7 @@ public class User implements Serializable {
 	
 	private Boolean active = Boolean.TRUE;
 	
-	//@NotNull(message = "Seleciione pelo menos um grupo")
+	@Size(min = 1,  message = "Seleciione pelo menos um grupo")
 	@ManyToMany
 	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "code_user"),
 	inverseJoinColumns = @JoinColumn(name = "code_group"))
