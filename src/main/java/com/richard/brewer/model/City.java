@@ -54,6 +54,10 @@ public class City implements Serializable {
 	public void setState(State state) {
 		this.state = state;
 	}
+	
+	public boolean isHaveState() {
+		return null != this.state; 
+	}
 
 	@Override
 	public int hashCode() {

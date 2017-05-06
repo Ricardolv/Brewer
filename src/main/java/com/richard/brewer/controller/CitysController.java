@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -45,6 +46,19 @@ public class CitysController {
 		return mv;
 	}
 	
+	@Cacheable(value = "citys", key = "#codeState")
+	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody 
+		List<City> searchByStateCode(@RequestParam(name = "state", defaultValue = "-1")Long codeState) {
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) { }
+		
+		return citysService.findByStateCode(codeState);
+	}
+	
+	@CacheEvict(value = "citys", key = "#city.state.code", condition = "#city.haveState()")
 	@PostMapping("/new")
 	public ModelAndView save(@Valid City city, BindingResult result, Model model, RedirectAttributes attributes) {
 		
@@ -62,19 +76,6 @@ public class CitysController {
 		attributes.addFlashAttribute("message", "Cidade salva com sucesso!");
 		return new ModelAndView("redirect:/citys/new");
 	}
-	
-	@Cacheable("citys")
-	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody 
-		List<City> searchByStateCode(@RequestParam(name = "state", defaultValue = "-1")Long codeState) {
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) { }
-		
-		return citysService.findByStateCode(codeState);
-	}
-	
 
 	@GetMapping
 	public ModelAndView search(CityFilter cityFilter, BindingResult result
