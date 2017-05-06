@@ -55,7 +55,7 @@ public class City implements Serializable {
 		this.state = state;
 	}
 	
-	public boolean isHaveState() {
+	public boolean haveState() {
 		return null != this.state; 
 	}
 

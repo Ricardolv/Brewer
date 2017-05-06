@@ -34,7 +34,7 @@
 			
 				<th:block th:include="fragments/message-success"></th:block>
 			
-				<form method="POST" th:object="${style}" class="form-vertical  js-form-loading">
+				<form method="POST" th:action="@{/styles/new}" th:object="${style}" class="form-vertical  js-form-loading">
 					
 					<th:block th:include="fragments/message-error-validation"></th:block>
 					
