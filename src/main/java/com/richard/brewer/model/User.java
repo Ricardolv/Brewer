@@ -44,11 +44,13 @@ public class User implements Serializable {
 	@Transient
 	private String passwordConfirm;
 	
-	//@NotNull(message = "Data de nascimento é obrigatório")
+	@NotNull(message = "Data de nascimento é obrigatório")
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 	
-	@NotNull(message = "Seleciione pelo menos um grupo")
+	private Boolean active;
+	
+	//@NotNull(message = "Seleciione pelo menos um grupo")
 	@ManyToMany
 	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "code_user"),
 	inverseJoinColumns = @JoinColumn(name = "code_group"))
@@ -92,6 +94,14 @@ public class User implements Serializable {
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 	
 	public List<Group> getGroups() {
