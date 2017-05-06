@@ -42,12 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/new").hasRole("REGISTER_USER")
 			.antMatchers("/beers/new").hasRole("REGISTER_BEER")
 			.antMatchers("/clients/new").hasRole("REGISTER_CLIENT")
-			.antMatchers("/styles/new").hasRole("REGISTER_STYLE")
-			.anyRequest().authenticated()
+//			.antMatchers("/styles/new").hasRole("REGISTER_STYLE")
+		.anyRequest().authenticated()
 //			.anyRequest().denyAll()
 		.and()
 			.formLogin()
 			.loginPage("/login").permitAll()
+		.and()
+			.exceptionHandling()
+			.accessDeniedPage("/403")
 		.and()
 			.csrf().disable();
 	}

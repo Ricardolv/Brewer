@@ -49,7 +49,7 @@ public class User implements Serializable {
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 	
-	private Boolean active = Boolean.TRUE;
+	private Boolean active;
 	
 	@Size(min = 1,  message = "Seleciione pelo menos um grupo")
 	@ManyToMany
