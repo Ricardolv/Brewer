@@ -143,3 +143,13 @@
 	text-align: right;
 }
 
+/* Colunms - Serach of Beers */
+.table-citys-col-name {
+	
+}
+
+.table-citys-col-state {
+	width: 140px;
+	text-align: right;
+}
+

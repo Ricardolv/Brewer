@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.richard.brewer.model.City;
 import com.richard.brewer.model.State;
+import com.richard.brewer.repository.help.city.CitysQueries;
 
 @Repository
-public interface Citys extends JpaRepository<City, Long> {
+public interface Citys extends JpaRepository<City, Long>, CitysQueries {
 	
 	public List<City> findByStateCode(Long codeState);
 
