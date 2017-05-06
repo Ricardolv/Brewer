@@ -1,9 +1,14 @@
 package com.richard.brewer.security;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,16 +21,25 @@ import com.richard.brewer.repository.Users;
 public class AppUserDetailsService implements UserDetailsService {
 	
 	@Autowired
-	private Users ussers;
+	private Users users;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Optional<User> userOptional = ussers.findByEmailAndActive(email);
+		Optional<User> userOptional = users.findByEmailAndActive(email);
 		
 		com.richard.brewer.model.User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("Usuário e/ou senha incorretos "));
 		
-		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), new HashSet<>());
+		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), getPermissions(user));
+	}
+
+	private Collection<? extends GrantedAuthority> getPermissions(User user) {
+		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+		
+		List<String> permissions = users.permissions(user);
+		permissions.forEach(p -> authorities.add(new SimpleGrantedAuthority(p.toUpperCase())));
+		
+		return authorities;
 	}
 
 }
