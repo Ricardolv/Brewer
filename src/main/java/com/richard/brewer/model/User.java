@@ -13,11 +13,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.richard.brewer.annotation.ConfirmationAttributes;
+
+@ConfirmationAttributes(attribute = "password", attributeConfirm = "passwordConfirm", message = "Confirmação da senha não confere")
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable {
@@ -36,6 +40,9 @@ public class User implements Serializable {
 	private String email;
 	
 	private String password;
+	
+	@Transient
+	private String passwordConfirm;
 	
 	//@NotNull(message = "Data de nascimento é obrigatório")
 	@Column(name = "birth_date")
@@ -93,6 +100,14 @@ public class User implements Serializable {
 
 	public void setGroups(List<Group> groups) {
 		this.groups = groups;
+	}
+	
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	@Override
