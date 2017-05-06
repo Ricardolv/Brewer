@@ -56,6 +56,26 @@ Brewer.MaskZipCode = (function() {
 	
 }());
 
+Brewer.MaskDate = (function() {
+	
+	function MaskDate() {
+		this.inputDate = $('.js-date');
+		this.inputDate.date
+	}
+	
+	MaskDate.prototype.enable = function() {
+		this.inputDate.mask('00/00/0000');
+		this.inputDate.datepicker({
+			 orientation: 'bottom',
+			 language: 'pt-BR',
+			 autoclose: true
+		});
+	}
+	
+	return MaskDate;
+	
+}());
+
 $(function() {
 	
 	var maskMoney = new Brewer.MaskMoney();
@@ -66,4 +86,7 @@ $(function() {
 	
 	var maskZipCode = new Brewer.MaskZipCode();
 	maskZipCode.enable();
+	
+	var maskDate = new Brewer.MaskDate();
+	maskDate.enable();
 });
