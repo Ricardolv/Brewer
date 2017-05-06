@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.richard.brewer.model.City;
 import com.richard.brewer.repository.Citys;
 import com.richard.brewer.repository.filter.CityFilter;
-import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.NameExistsException;
 
 @Service
 public class CitysService {
@@ -30,7 +30,7 @@ public class CitysService {
 		Optional<City> cityExist = citys.findByStateAndName(city.getState(), city.getName());
 		
 		if (cityExist.isPresent()) {
-			throw new BusinessRuleException("Nome da cidade já cadastrado");
+			throw new NameExistsException("Nome da cidade já cadastrado");
 		}
 		
 		citys.save(city);

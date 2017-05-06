@@ -28,6 +28,7 @@ import com.richard.brewer.repository.filter.CityFilter;
 import com.richard.brewer.service.CitysService;
 import com.richard.brewer.service.StateService;
 import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.NameExistsException;
 
 @Controller
 @RequestMapping("/citys")
@@ -68,7 +69,7 @@ public class CitysController {
 		
 		try {
 			citysService.save(city);
-		} catch (BusinessRuleException e) {
+		} catch (NameExistsException e) {
 			result.rejectValue("name", e.getMessage(), e.getMessage());
 			return newCity(city);
 		}

@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.richard.brewer.model.User;
 import com.richard.brewer.service.GroupsService;
 import com.richard.brewer.service.UsersService;
+import com.richard.brewer.service.exception.UserEmailExistsException;
+import com.richard.brewer.service.exception.UserPasswordRequiredException;
 
 @Controller
 @RequestMapping("/users")
@@ -40,7 +42,18 @@ public class UsersController {
 			return newUser(user);
 		}
 		
-		usersService.save(user);
+		try {
+			
+			usersService.save(user);
+			
+		} catch (UserEmailExistsException e) {
+			result.rejectValue("email", e.getMessage(), e.getMessage());
+			return newUser(user);
+		} catch (UserPasswordRequiredException e) {
+			result.rejectValue("password", e.getMessage(), e.getMessage());
+			return newUser(user);
+		}
+		
 		attributes.addFlashAttribute("message", "Usuário salvo com sucesso");
 		return new ModelAndView("redirect:/users/new");
 	}

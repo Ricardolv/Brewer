@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.richard.brewer.model.Client;
 import com.richard.brewer.repository.Clients;
 import com.richard.brewer.repository.filter.ClientFilter;
-import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.ClientCpfCnpjExistsException;
 
 @Service
 public class ClientsService {
@@ -25,7 +25,7 @@ public class ClientsService {
 		Optional<Client> clientExist = clients.findByCpfCnpj(client.getCpfCnpjWithoutFormatting());
 		
 		if (clientExist.isPresent()) {
-			throw new BusinessRuleException("CPF/CNPJ já cadastrado");
+			throw new ClientCpfCnpjExistsException("CPF/CNPJ já cadastrado");
 		}
 		
 		clients.save(client);

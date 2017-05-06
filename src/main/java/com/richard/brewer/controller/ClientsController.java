@@ -21,7 +21,7 @@ import com.richard.brewer.model.PersonType;
 import com.richard.brewer.repository.filter.ClientFilter;
 import com.richard.brewer.service.ClientsService;
 import com.richard.brewer.service.StateService;
-import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.ClientCpfCnpjExistsException;
 
 @Controller
 @RequestMapping("/clients")
@@ -51,7 +51,7 @@ public class ClientsController {
 		
 		try {
 			clientsService.save(client);
-		} catch (BusinessRuleException e) {
+		} catch (ClientCpfCnpjExistsException e) {
 			result.rejectValue("cpfCnpj", e.getMessage(), e.getMessage());
 			return newClient(client);
 		}

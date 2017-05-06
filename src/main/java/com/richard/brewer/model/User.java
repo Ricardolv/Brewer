@@ -120,6 +120,10 @@ public class User implements Serializable {
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
 	}
+	
+	public boolean isNew() {
+		return null == this.code;
+	}
 
 	@Override
 	public int hashCode() {

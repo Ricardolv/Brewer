@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.richard.brewer.model.Style;
 import com.richard.brewer.repository.Styles;
 import com.richard.brewer.repository.filter.StyleFilter;
-import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.NameExistsException;
 
 @Service
 public class StyleService {
@@ -28,8 +28,9 @@ public class StyleService {
 	public Style save(Style style) {
 		
 		Optional<Style> styleExist = styles.findByNameIgnoreCase(style.getName());
+		
 		if (styleExist.isPresent()) {
-			throw new BusinessRuleException("Nome do estilo já cadastrado");
+			throw new NameExistsException("Nome do estilo já cadastrado");
 		}	
 		
 		return styles.saveAndFlush(style);

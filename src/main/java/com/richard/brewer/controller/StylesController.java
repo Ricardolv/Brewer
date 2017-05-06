@@ -26,6 +26,7 @@ import com.richard.brewer.model.Style;
 import com.richard.brewer.repository.filter.StyleFilter;
 import com.richard.brewer.service.StyleService;
 import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.NameExistsException;
 
 @Controller
 @RequestMapping("/styles")
@@ -50,7 +51,7 @@ public class StylesController {
 		
 		try {
 			styleService.save(style);
-		} catch (BusinessRuleException e) {
+		} catch (NameExistsException e) {
 			result.rejectValue("name", e.getMessage(), e.getMessage());
 			return newStyle(style);
 		}
