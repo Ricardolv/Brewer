@@ -37,7 +37,7 @@ public class User implements Serializable {
 	
 	private String password;
 	
-	@NotNull(message = "Data de nascimento é obrigatório")
+	//@NotNull(message = "Data de nascimento é obrigatório")
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 	
