@@ -30,7 +30,7 @@ public class AppUserDetailsService implements UserDetailsService {
 		
 		com.richard.brewer.model.User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("Usuário e/ou senha incorretos "));
 		
-		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), getPermissions(user));
+		return new UserSystem(user, getPermissions(user));
 	}
 
 	private Collection<? extends GrantedAuthority> getPermissions(User user) {

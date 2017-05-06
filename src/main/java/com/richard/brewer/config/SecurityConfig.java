@@ -19,6 +19,8 @@ import com.richard.brewer.security.AppUserDetailsService;
 @ComponentScan(basePackageClasses = AppUserDetailsService.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	private static final String LOGIN_RUL = "/login";
+	
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
@@ -47,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated()
 			.and()
 		.formLogin()
-			.loginPage("/login")
+			.loginPage(LOGIN_RUL)
 			.permitAll()
 			.and()
 		.logout()
@@ -57,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.accessDeniedPage("/403")
 			.and()
 		.sessionManagement() 
-			.invalidSessionUrl("login");
+			.invalidSessionUrl(LOGIN_RUL);
 //			.maximumSessions(1) // limitar sessao de usuario logado 
 //			.expiredUrl("/login");
 	}

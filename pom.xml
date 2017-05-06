@@ -64,6 +64,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<!-- Spring Security -->
 		<spring-security.version>4.1.4.RELEASE</spring-security.version>
 		
+		<!-- Thymeleaf - Extras Spring Security -->
+		<thymeleaf-extras-springsecurity.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity.version>
+		
 	</properties>
 	
 	<build>
@@ -266,6 +269,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring-security.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Thymeleaf - Extras Spring Security -->
+		<dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		    <version>${thymeleaf-extras-springsecurity.version}</version>
+		    <scope>compile</scope>
 		</dependency>
 		
 	</dependencies>
