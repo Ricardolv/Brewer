@@ -37,7 +37,7 @@ public class UsersService {
 		
 		if (user.isNew()) {
 			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-			user.setPasswordConfirm(this.passwordEncoder.encode(user.getPasswordConfirm()));
+			user.setPasswordConfirm(user.getPassword());
 		}
 		
 		users.save(user);
