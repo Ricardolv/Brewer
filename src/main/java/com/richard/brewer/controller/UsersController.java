@@ -36,7 +36,7 @@ public class UsersController {
 		}
 		
 		usersService.save(user);
-		attributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso");
+		attributes.addFlashAttribute("message", "Usuário salvo com sucesso");
 		return new ModelAndView("redirect:/users/new");
 	}
 
