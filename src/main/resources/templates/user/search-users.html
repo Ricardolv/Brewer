@@ -52,7 +52,7 @@
 								<th:block th:each="group : ${groups}">
 			  						<div class="checkbox  checkbox-inline"> 
 				    					<input type="checkbox" th:value="${group.code}" th:field="*{groups}"/>
-				    					<label th:for="${#ids.prev('groups')}" th:text="${group.name}">Administrador</label>
+				    					<label th:for="${#ids.prev('groups')}" th:text="${group.name}"></label>
 			    					</div>
 			    				</th:block>
 							</div>
@@ -68,6 +68,7 @@
 			            	<tr>
 			            		<th>Nome</th>
 			                	<th>E-mail</th>
+			                	<th>Grupo</th>
 			                	<th>Status</th>
 			                 	<th class="table-col-actions"></th>
 							</tr>
@@ -77,6 +78,9 @@
 							<tr th:each="user : ${users}">
 								<td th:text="${user.name}"></td>
 								<td th:text="${user.email}"></td>
+								<td>
+									<span th:each="group : ${user.groups}" th:text="|${group.name}${groupStat.last ? '' : ', '}|"></span>
+								</td>
 								<td th:text="${user.active} ? Ativo : Inativo"></td>
 			                 	<td class="text-center">
 									<a class="btn  btn-link  btn-xs" title="Editar"> 

@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.richard.brewer.model.User;
 import com.richard.brewer.repository.Users;
+import com.richard.brewer.repository.filter.UserFilter;
 import com.richard.brewer.service.exception.UserEmailExistsException;
 import com.richard.brewer.service.exception.UserPasswordRequiredException;
 
@@ -46,6 +47,10 @@ public class UsersService {
 
 	public List<User> findAll() {
 		return users.findAll();
+	}
+
+	public List<User> filter(UserFilter userFilter) {
+		return users.filter(userFilter);
 	}
 
 }

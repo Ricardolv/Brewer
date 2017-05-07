@@ -62,7 +62,7 @@ public class UsersController {
 	@GetMapping
 	public ModelAndView search(UserFilter userFilter) {
 		ModelAndView mv = new ModelAndView("user/search-users");
-		mv.addObject("users", usersService.findAll());
+		mv.addObject("users", usersService.filter(userFilter));
 		mv.addObject("groups", groupsServie.findAll());
 		return mv;
 	}
