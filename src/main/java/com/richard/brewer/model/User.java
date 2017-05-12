@@ -12,11 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -25,6 +26,7 @@ import com.richard.brewer.annotation.ConfirmationAttributes;
 @ConfirmationAttributes(attribute = "password", attributeConfirm = "passwordConfirm", message = "Confirmação da senha não confere")
 @Entity
 @Table(name = "tb_user")
+@DynamicUpdate
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -45,7 +47,7 @@ public class User implements Serializable {
 	@Transient
 	private String passwordConfirm;
 	
-	@NotNull(message = "Data de nascimento é obrigatório")
+	//@NotNull(message = "Data de nascimento é obrigatório")
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 	
@@ -56,6 +58,11 @@ public class User implements Serializable {
 	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "code_user"),
 	inverseJoinColumns = @JoinColumn(name = "code_group"))
 	private List<Group> groups;
+	
+	@PreUpdate
+	public void preUpdate() {
+		this.passwordConfirm = this.password;
+	}
 
 	public Long getCode() {
 		return code;

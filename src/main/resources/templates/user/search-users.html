@@ -61,11 +61,27 @@
 					
 					<button type="submit" class="btn  btn-primary">Pesquisar</button>
 				</form>
+				
+				<div class="aw-datatable-toolbar">
+					<button class="btn btn-default  btn-xs  js-status-btn" data:status="ACTIVATE">
+						<span>Ativar</span>
+					</button>
+					
+					<button class="btn btn-default  btn-xs  js-status-btn" data:status="DISABLE">
+						<span>Desativar</span>
+					</button>
+				</div>
 		
 				<div class="table-responsive  bw-table-simple">
 		        	<table class="table  table-hover">
 			            <thead>
 			            	<tr>
+			            		<th class="table-user-col-status">
+			            			<div class="checkbox  aw-checkbox-no-margin">
+			            				<input type="checkbox"/>
+			            				<label></label>
+			            			</div>
+			            		</th>
 			            		<th>Nome</th>
 			                	<th>E-mail</th>
 			                	<th>Grupo</th>
@@ -76,6 +92,12 @@
 					
 			            <tbody>
 							<tr th:each="user : ${users}">
+								<td>
+									<div class="checkbox  aw-checkbox-no-margin">
+			            				<input type="checkbox" class="js-selection" data:code="${user.code}">
+			            				<label></label>
+			            			</div>
+								</td>
 								<td th:text="${user.name}"></td>
 								<td th:text="${user.email}"></td>
 								<td>
@@ -100,5 +122,9 @@
 		    	 </div>
 			</div>
 		</section>
+		
+		<th:block layout:fragment="javascript-extra">
+			<script th:src="@{/javascripts/multi-selection.js}"></script>
+		</th:block>
 	</body>
 </html>

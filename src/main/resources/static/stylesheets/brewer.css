@@ -153,6 +153,11 @@
 	text-align: right;
 }
 
+/* Colunms - Serach of Users */
+.table-users-col-status {
+	width: 30px;
+}
+
 /*
 ###################
 # CUSTOMIZATIONS OF COMPONENTS
@@ -163,5 +168,7 @@
     font-family: 'FontAwesome';
     content: "\f00c"; 
 }
+
+
 
 

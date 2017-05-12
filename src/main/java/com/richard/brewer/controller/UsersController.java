@@ -3,18 +3,23 @@ package com.richard.brewer.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.model.User;
 import com.richard.brewer.repository.filter.UserFilter;
 import com.richard.brewer.service.GroupsService;
+import com.richard.brewer.service.StatusUser;
 import com.richard.brewer.service.UsersService;
 import com.richard.brewer.service.exception.UserEmailExistsException;
 import com.richard.brewer.service.exception.UserPasswordRequiredException;
@@ -66,5 +71,12 @@ public class UsersController {
 		mv.addObject("groups", groupsServie.findAll());
 		return mv;
 	}
+	
+	@PutMapping("/status")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void statusUpdate(@RequestParam("codes[]") Long[] codes, @RequestParam("status") StatusUser status) {
+		usersService.statusAlter(codes, status);
+	}
+	
 
 }

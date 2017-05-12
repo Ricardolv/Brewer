@@ -53,4 +53,9 @@ public class UsersService {
 		return users.filter(userFilter);
 	}
 
+	@Transactional
+	public void statusAlter(Long[] codes, StatusUser status) {
+		status.execute(codes, users);
+	}
+
 }
