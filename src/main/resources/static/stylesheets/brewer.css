@@ -155,6 +155,7 @@
 
 /* Colunms - Serach of Users */
 .table-users-col-status {
+	text-align: center;
 	width: 30px;
 }
 
