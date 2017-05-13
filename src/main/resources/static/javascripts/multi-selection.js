@@ -17,6 +17,7 @@ Brewer.SelectionMulti = (function() {
 	function onStatusBtnClicado(event) {
 		var buttonClick = $(event.currentTarget);
 		var status = buttonClick.data('status');
+		var url = buttonClick.data('url');
 		
 		var selectionCheckboxs = this.selectionCheckbox.filter(':checked');
 		var codes = $.map(selectionCheckboxs, function (c) {
@@ -26,7 +27,7 @@ Brewer.SelectionMulti = (function() {
 		if (codes.length > 0) {
 			
 			$.ajax({
-				url: '/brewer/users/status',
+				url: url,
 				method: 'PUT',
 				data: {
 					codes: codes,
