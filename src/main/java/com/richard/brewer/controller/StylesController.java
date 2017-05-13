@@ -25,7 +25,6 @@ import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.model.Style;
 import com.richard.brewer.repository.filter.StyleFilter;
 import com.richard.brewer.service.StyleService;
-import com.richard.brewer.service.exception.BusinessRuleException;
 import com.richard.brewer.service.exception.NameExistsException;
 
 @Controller

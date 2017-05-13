@@ -159,6 +159,22 @@
 	width: 30px;
 }
 
+/* Table Beers page of sale */
+.bw-table-beers {
+	margin-bottom: 15px;
+}
+
+.bw-table-beers__empty {
+	padding: 15px 15px;
+	
+	border: 1px dashed #ddd;
+	
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: 300;
+	color: #555;
+}
+
 /*
 ###################
 # CUSTOMIZATIONS OF COMPONENTS
