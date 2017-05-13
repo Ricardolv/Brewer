@@ -1,8 +1,11 @@
 package com.richard.brewer.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.model.User;
 import com.richard.brewer.repository.filter.UserFilter;
 import com.richard.brewer.service.GroupsService;
@@ -65,10 +69,16 @@ public class UsersController {
 	}
 	
 	@GetMapping
-	public ModelAndView search(UserFilter userFilter) {
+	public ModelAndView search(UserFilter userFilter, 
+			@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("user/search-users");
-		mv.addObject("users", usersService.filter(userFilter));
+//		mv.addObject("users", usersService.filter(userFilter));
 		mv.addObject("groups", groupsServie.findAll());
+		
+		
+		PageWrapper<User> pageWrapper = new PageWrapper<>(usersService.filter(userFilter, pageable), httpServletRequest);
+		mv.addObject("page", pageWrapper);
+		
 		return mv;
 	}
 	

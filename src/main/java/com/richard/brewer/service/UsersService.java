@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,13 +51,13 @@ public class UsersService {
 		return users.findAll();
 	}
 
-	public List<User> filter(UserFilter userFilter) {
-		return users.filter(userFilter);
-	}
-
 	@Transactional
 	public void statusAlter(Long[] codes, StatusUser status) {
 		status.execute(codes, users);
+	}
+
+	public Page<User> filter(UserFilter userFilter, Pageable pageable) {
+		return users.filter(userFilter, pageable);
 	}
 
 }
