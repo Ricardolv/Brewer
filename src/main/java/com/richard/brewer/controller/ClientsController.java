@@ -91,6 +91,11 @@ public class ClientsController {
 		
 	}
 	
+	/**
+	 * Tratando exception IllegalArgumentException
+	 * @param e
+	 * @return
+	 */
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<Void> treatsIllegalArgumentException(IllegalArgumentException e) {
 		return ResponseEntity.badRequest().build();

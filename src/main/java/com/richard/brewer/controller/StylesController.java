@@ -3,8 +3,6 @@ package com.richard.brewer.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -30,8 +28,6 @@ import com.richard.brewer.service.exception.NameExistsException;
 @Controller
 @RequestMapping("/styles")
 public class StylesController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(StylesController.class);
 	
 	@Autowired
 	private StyleService styleService;

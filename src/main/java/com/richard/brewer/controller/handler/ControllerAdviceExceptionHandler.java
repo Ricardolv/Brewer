@@ -4,14 +4,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.richard.brewer.service.exception.BusinessRuleException;
+import com.richard.brewer.service.exception.NameExistsException;
 
 @ControllerAdvice
 public class ControllerAdviceExceptionHandler {
 	
 	
-	@ExceptionHandler(BusinessRuleException.class)
-	public ResponseEntity<String> handleBusinessRuleException(BusinessRuleException e) {
+	@ExceptionHandler(NameExistsException.class)
+	public ResponseEntity<String> handleNameExistsException(NameExistsException e) {
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
