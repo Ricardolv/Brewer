@@ -78,7 +78,7 @@
 					</div>
 					
 					<div class="form-group  col-sm-4 bw-required">
-						<label class="control-label" for="freightValue">Valor do frete</label>
+						<label class="control-label" for="freightValue">value do frete</label>
 						<div class="input-group">
 		      				<div class="input-group-addon">R$</div> 
 							<input type="text" maxlength="14" class="form-control  js-decimal" id="freightValue"/>
@@ -86,7 +86,7 @@
 					</div>
 					
 					<div class="form-group  col-sm-4">
-						<label class="control-label" for="discountValue">Valor do desconto</label>
+						<label class="control-label" for="discountValue">value do desconto</label>
 						<div class="input-group">
 		      				<div class="input-group-addon">R$</div> 
 							<input type="text" maxlength="14" class="form-control  js-decimal" id="discountValue"/>
@@ -112,14 +112,39 @@
 									placeholder="Pesquise e adicione a cerveja pelo SKU ou nome" autofocus="autofocus" />
 							</div>
 						</div>
+					</div>
+					
+					<div class="bw-table-beers">
+						<div class="bw-table-item">
+							<div class="bw-table-item__column  bw-table-item__column--photo">
+								<img th:src="@{/photos/thumbnail.beer-mock.png}" class="img-responsive"/>
+							</div>
+							
+							<div class="bw-table-item__column  bw-table-item__column--details">
+								<span class="bw-table-beer-name">Negra Modelo Long Neck 355ml</span>
+								<span class="label  label-default">AA1112</span>
+								<span class="bw-table-beer-origin">Importada</span>
+							</div>
+							
+							<div class="bw-table-item__column  bw-table-item__column--values">
+								<div class="bw-table-beer-value-little">
+									<input type="text" maxlength="3" class="bw-table-beer-field-amount" value="1"/>
+									<span>x R$8,90</span>
+								</div>
+								<div class="bw-table-beer-value-big">R$8,90</div>
+							</div>
 						
-						<div class="bw-table-beers">
+						</div>
+						
+						<!-- <div class="bw-table-beers">
 							<div class="bw-table-beers__empty">
 								<i class="glyphicon  glyphicon-shopping-cart"></i> 
 								<span>Você ainda não adicionou nenhuma cerveja.</span>
 							</div>
-						</div>
+						</div> -->
+						
 					</div>
+					
 					
 					<div class="tab-pane" id="delivery">
 						<div class="row">
