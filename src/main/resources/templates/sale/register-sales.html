@@ -7,6 +7,9 @@
 
 	<head>
 		<title>Cadastro de Venda</title>
+		
+		<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}" />
+		<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}" />
 	</head>
 	
 	<section layout:fragment="content">
@@ -105,7 +108,7 @@
 	
 						<div class="row">
 							<div class="form-group  col-lg-12">
-								<input type="text" class="form-control" id="beer" 
+								<input type="text" class="form-control  js-sku-name-beers-input" id="beer" 
 									placeholder="Pesquise e adicione a cerveja pelo SKU ou nome" autofocus="autofocus" />
 							</div>
 						</div>
@@ -161,11 +164,14 @@
 		</div>
 		
 		<th:block th:replace="client/search-speed-clients :: searchSpeedClients"></th:block>
+		<th:block th:replace="hbs/template-autocomplete-beers"></th:block>
 	</section>
 	
 	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
 		<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
 		<script th:src="@{/javascripts/client.search-speed.js}"></script>
+		<script th:src="@{/javascripts/sales.autocomplete-itens.js}"></script>
 		<script>
 			$(function() {
 				$('.js-flaps-sale a').click(function (e) {

@@ -93,6 +93,11 @@ Brewer.Security = (function() {
 	
 }());
 
+Brewer.currencyFormat = function(value) {
+	numeral.language('pt-br');
+	return numeral(value).format('0,0.00');
+}
+
 $(function() {
 	
 	var maskMoney = new Brewer.MaskMoney();

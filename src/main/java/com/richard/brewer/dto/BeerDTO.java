@@ -2,6 +2,8 @@ package com.richard.brewer.dto;
 
 import java.math.BigDecimal;
 
+import org.springframework.util.StringUtils;
+
 import com.richard.brewer.model.Origin;
 
 public class BeerDTO {
@@ -19,7 +21,7 @@ public class BeerDTO {
 		this.name = name;
 		this.origin = origin.getDescription();
 		this.value = value;
-		this.photo = photo;
+		this.photo = StringUtils.isEmpty(photo) ? "beer-mock.png" : photo;
 	}
 
 	public Long getCode() {

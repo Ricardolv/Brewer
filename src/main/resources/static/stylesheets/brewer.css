@@ -186,6 +186,103 @@
     content: "\f00c"; 
 }
 
+/* Easy Autocomplete */
+.easy-autocomplete input {
+	border-radius: 2px !important;
+}
 
+.easy-autocomplete-container ul li {
+	font-size: 1em !important;
+	padding: 0px 5px !important;
+}
 
+/* table Item */
+.bw-table-item {
+	position: relative; /* Para que o painel de exclusão apareça dentro da linha */
+	
+	padding: 15px 0;
+	
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.bw-table-item:after {
+	clear: both;
+	display: block;
+    content: "";
+}
+
+.bw-table-item ~ .bw-table-item {
+	border-top: 1px solid #ddd;
+}
+
+.bw-table-item__column {
+	padding: 0 10px;
+}
+
+.bw-table-item__column--photo {
+	float: left;
+	width: 60px;
+	
+	text-align: center;
+}
+
+.bw-table-item__column--values {
+	padding-right: 0px;
+}
+
+.bw-table-item__column--details, .bw-table-item__column--values {
+	margin-left: 60px;
+}
+
+.bw-table-beer-name {
+	font-weight: 500;
+	font-size: 1.1em;
+	display: block;
+}
+
+.bw-table-beer-origin {
+	color: #aaa;
+	display: block;
+	font-weight: 200;
+}
+
+.bw-table-beer-filed-amount {
+	width: 30px;
+	text-align: right;
+}
+
+.bw-table-beer-value-short {
+	font-weight: 300;
+	font-size: 1em;
+}
+
+.bw-table-beer-value-medium {
+	font-weight: 300;
+	font-size: 1.3em;
+}
+
+.bw-table-beer-value-big {
+	font-weight: 300;
+	font-size: 1.6em;
+}
+
+@media (min-width: 768px) { /* screen-sm-min */
+	.bw-table-item__column {
+		float: left;
+		margin-left: 0px;
+	}
+	
+	.bw-table-item__column--details {
+		width: calc(70% - 30px);
+	}
+	
+	.bw-table-item__column--values {
+		width: calc(30% - 30px);
+
+		text-align: right;
+	}
+}
 
