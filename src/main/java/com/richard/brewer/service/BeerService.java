@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.richard.brewer.dto.BeerDTO;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.repository.Beers;
 import com.richard.brewer.repository.filter.BeerFilter;
@@ -36,5 +37,9 @@ public class BeerService {
 	
 	public Page<Beer> filter(BeerFilter beerFilter, Pageable pageable) {
 		return beers.filter(beerFilter, pageable);
+	}
+
+	public List<BeerDTO> bySkuOrName(String skuOrName) {
+		return beers.bySkuOrName(skuOrName);
 	}
 }

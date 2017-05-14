@@ -1,5 +1,7 @@
 package com.richard.brewer.repository.help.beer;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.richard.brewer.dto.BeerDTO;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.repository.pagination.PaginationUtil;
@@ -83,6 +86,17 @@ public class BeersImpl implements BeersQueries {
 			}
 			
 		}
+	}
+
+	@Override
+	public List<BeerDTO> bySkuOrName(String skuOrName) {
+
+		String jpql = "select new com.richard.brewer.dto.BeerDTO(code, sku, name, origin, value, photo) "
+				+ "from Beer where lower(sku) like lower(:skuOrName) or lower(name) like lower(:skuOrName)";
+		List<BeerDTO> beersFiltered= manager.createQuery(jpql, BeerDTO.class)
+					.setParameter("skuOrName", skuOrName + "%")
+					.getResultList();
+		return beersFiltered;
 	}
 
 }
