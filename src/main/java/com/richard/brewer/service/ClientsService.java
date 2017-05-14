@@ -1,5 +1,6 @@
 package com.richard.brewer.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public class ClientsService {
 
 	public Page<Client> filter(ClientFilter clientFilter, Pageable pageable) {
 		return clients.filter(clientFilter, pageable);
+	}
+
+	public List<Client> findByNameStartingWithIgnoreCase(String name) {
+		return clients.findByNameStartingWithIgnoreCase(name);
 	}
 
 }

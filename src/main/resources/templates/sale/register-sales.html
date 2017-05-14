@@ -64,7 +64,9 @@
 						<div class="input-group">
 					      <input id="nameClient" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o cliente"/>
 					      <span class="input-group-btn">
-					        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada">
+					        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
+					        		data-toggle="modal" data-target="#searchSpeedClients">
+					        	
 					        	<i class="glyphicon  glyphicon-search"></i>
 					        </button>
 					      </span>
@@ -156,17 +158,21 @@
 				</div>
 			</form>
 		</div>
+		
+		<th:block th:replace="client/search-speed-clients :: searchSpeedClients"></th:block>
 	</section>
 	
 	<th:block layout:fragment="javascript-extra">
-	<script>
-	$(function() {
-		$('.js-flaps-sale a').click(function (e) {
-			e.preventDefault();
-			$(this).tab('show');
-		});
-	});
-	</script>
+		<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
+		<script th:src="@{/javascripts/client.search-speed.js}"></script>
+		<script>
+			$(function() {
+				$('.js-flaps-sale a').click(function (e) {
+					e.preventDefault();
+					$(this).tab('show');
+				});
+			});
+		</script>
 	</th:block>
 
 </html>

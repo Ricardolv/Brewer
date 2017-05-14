@@ -47,7 +47,7 @@ public class CitysController {
 	}
 	
 	@Cacheable(value = "citys", key = "#codeState")
-	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE )
 	public @ResponseBody 
 		List<City> searchByStateCode(@RequestParam(name = "state", defaultValue = "-1")Long codeState) {
 		
