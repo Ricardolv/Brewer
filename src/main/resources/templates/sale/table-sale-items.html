@@ -15,7 +15,7 @@
 		
 		<div class="bw-table-item__column  bw-table-item__column--values">
 			<div class="bw-table-beer-value-little">
-				<input type="text" maxlength="3" class="bw-table-beer-field-amount" value="1"/>
+				<input type="text" maxlength="3" class="bw-table-beer-field-amount" th:value="${item.amount}"/>
 				<span>x R$[[${{item.valueUnitary}}]]</span>
 			</div>
 			<div class="bw-table-beer-value-big">R$[[${{item.valueTotal}}]]</div>

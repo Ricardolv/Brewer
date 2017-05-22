@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -31,19 +32,31 @@ public class TableSalesItems implements Serializable {
 	}
 	
 	public void addItem(Beer beer, Integer amount) {
-		SalesItem salesItem = new SalesItem();
-		salesItem.setBeer(beer);
-		salesItem.setValueUnitary(beer.getValue());
-		salesItem.setAmount(amount);
-		
-		items.add(salesItem);
+
+		Optional<SalesItem> salesItemOptional = items.stream()
+													 .filter(i -> i.getBeer().equals(beer))
+													 .findAny();
+		SalesItem salesItem = null;
+		if (salesItemOptional.isPresent()) {
+			salesItem = salesItemOptional.get();
+			salesItem.setAmount(salesItem.getAmount() + amount);
+			
+		} else {
+			
+			salesItem = new SalesItem();
+			salesItem.setBeer(beer);
+			salesItem.setValueUnitary(beer.getValue());
+			salesItem.setAmount(amount);
+			items.add(0, salesItem);
+		}
+
 	}
 	
 	public int total() {
 		return items.size();
 	}
 
-	public Object getItems() {
+	public List<SalesItem> getItems() {
 		return items;
 	}
 }

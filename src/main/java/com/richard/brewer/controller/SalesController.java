@@ -35,7 +35,6 @@ public class SalesController {
 		
 		Beer beer = beers.findOne(codeBeer);
 		tableSalesItems.addItem(beer, 1);
-		System.out.println("total de itens"+ tableSalesItems.total());
 		ModelAndView mv = new ModelAndView("sale/table-sale-items");
 		mv.addObject("items", tableSalesItems.getItems());
 		return mv;
