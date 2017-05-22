@@ -2,6 +2,7 @@ Brewer.TableItems = (function() {
 	
 	function TableItems(autoComplete) {
 		this.autoComplete = autoComplete;
+		this.tableBeersContainer = $('.js-table-beers-container');
 	}
 	
 	TableItems.prototype.init = function() {
@@ -18,9 +19,11 @@ Brewer.TableItems = (function() {
 			
 		});
 		
-		response.done(function(data) {
-			console.log('retorno', data);
-		});
+		response.done(onAddedOnTheServer.bind(this));
+	}
+	
+	function onAddedOnTheServer(html) {
+		this.tableBeersContainer.html(html);
 	}
 	
 	return TableItems;

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+	<div class="bw-table-item" th:each="item : ${items}">
+		<div class="bw-table-item__column  bw-table-item__column--photo">
+			<img th:src="@{/photos/thumbnail.{photo}(photo=${item.beer.photoOrMock})}" class="img-responsive"/>
+		</div>
+		
+		<div class="bw-table-item__column  bw-table-item__column--details">
+			<span class="bw-table-beer-name" th:text="${item.beer.name}">Negra Modelo Long Neck 355ml</span>
+			<span class="label  label-default" th:text="${item.beer.sku}">AA1112</span>
+			<span class="bw-table-beer-origin" th:text="${item.beer.origin.description}">Importada</span>
+		</div>
+		
+		<div class="bw-table-item__column  bw-table-item__column--values">
+			<div class="bw-table-beer-value-little">
+				<input type="text" maxlength="3" class="bw-table-beer-field-amount" value="1"/>
+				<span>x R$[[${{item.valueUnitary}}]]</span>
+			</div>
+			<div class="bw-table-beer-value-big">R$[[${{item.valueTotal}}]]</div>
+		</div>
+	</div>
+						
+</html>	

@@ -31,11 +31,14 @@ public class SalesController {
 	}
 	
 	@PostMapping("/item")
-	public @ResponseBody String addItem(Long codeBeer) {
+	public @ResponseBody ModelAndView addItem(Long codeBeer) {
+		
 		Beer beer = beers.findOne(codeBeer);
 		tableSalesItems.addItem(beer, 1);
 		System.out.println("total de itens"+ tableSalesItems.total());
-		return "ok!";
+		ModelAndView mv = new ModelAndView("sale/table-sale-items");
+		mv.addObject("items", tableSalesItems.getItems());
+		return mv;
 	}
 	
 	

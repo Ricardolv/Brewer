@@ -42,4 +42,8 @@ public class TableSalesItems implements Serializable {
 	public int total() {
 		return items.size();
 	}
+
+	public Object getItems() {
+		return items;
+	}
 }
