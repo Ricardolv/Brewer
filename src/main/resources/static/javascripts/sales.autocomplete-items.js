@@ -6,9 +6,12 @@ Brewer.Autocomplete = (function() {
 		this.skuOuNomeInput = $('.js-sku-name-beers-input');
 		var htmlTemplateAutocomplete = $('#template-autocomplete-beer').html();
 		this.template = Handlebars.compile(htmlTemplateAutocomplete);
+		
+		this.emitter = $({});
+		this.on = this.emitter.on.bind(this.emitter);
 	}
 	
-	Autocomplete.prototype.iniciar = function() {
+	Autocomplete.prototype.init = function() {
 		var options = {
 			url: function(skuOrName) {
 				return '/brewer/beers?skuOrName=' + skuOrName;
@@ -21,23 +24,27 @@ Brewer.Autocomplete = (function() {
 			},
 			template: {
 				type: 'custom',
-				method: function(nome, beer) {
-					beer.valueFormat = Brewer.currencyFormat(beer.value);
-					return this.template(beer);
-				}.bind(this)
+				method: template.bind(this)
+			},
+			list: {
+				onChooseEvent: onSelectedItem.bind(this)
 			}
 		};
 		
 		this.skuOuNomeInput.easyAutocomplete(options);
 	}
 	
+	function template(name, beer) {
+		beer.valueFormat = Brewer.currencyFormat(beer.value);
+		return this.template(beer);
+	}
+	
+	function onSelectedItem() {
+		this.emitter.trigger('selected-item', this.skuOuNomeInput.getSelectedItemData());
+	}
+	
+	
 	return Autocomplete
 	
 }());
 
-$(function() {
-	
-	var autocomplete = new Brewer.Autocomplete();
-	autocomplete.iniciar();
-	
-})

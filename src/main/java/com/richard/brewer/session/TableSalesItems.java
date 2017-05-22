@@ -1,13 +1,22 @@
-package com.richard.brewer.sale;
+package com.richard.brewer.session;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.SalesItem;
 
+/**
+ * Anotacao @SessionScope que insere este componente na sessao para cada usuario logado
+ * @author richard
+ */
+@SessionScope 
+@Component
 public class TableSalesItems implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,5 +37,9 @@ public class TableSalesItems implements Serializable {
 		salesItem.setAmount(amount);
 		
 		items.add(salesItem);
+	}
+	
+	public int total() {
+		return items.size();
 	}
 }
