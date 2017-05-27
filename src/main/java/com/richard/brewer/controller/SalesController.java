@@ -2,6 +2,7 @@ package com.richard.brewer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,15 +36,22 @@ public class SalesController {
 		
 		Beer beer = beers.findOne(codeBeer);
 		tableSalesItems.addItem(beer, 1);
-		ModelAndView mv = new ModelAndView("sale/table-sale-items");
-		mv.addObject("items", tableSalesItems.getItems());
-		return mv;
+		return mvTableSaleItems();
 	}
 	
 	@PutMapping("/item/{codeBeer}")
-	public ModelAndView alterAmountItem(@PathVariable Long codeBeer, Integer quantity) {
-		Beer beer = beers.findOne(codeBeer);
+	public ModelAndView alterAmountItem(@PathVariable("codeBeer") Beer beer, Integer quantity) {
 		tableSalesItems.alterAmountItems(beer, quantity);
+		return mvTableSaleItems();
+	}
+	
+	@DeleteMapping("/item/{codeBeer}")
+	public ModelAndView deleteItem(@PathVariable("codeBeer") Beer beer) {
+		tableSalesItems.deleteItem(beer);
+		return mvTableSaleItems();
+	}
+
+	private ModelAndView mvTableSaleItems() {
 		ModelAndView mv = new ModelAndView("sale/table-sale-items");
 		mv.addObject("items", tableSalesItems.getItems());
 		return mv;

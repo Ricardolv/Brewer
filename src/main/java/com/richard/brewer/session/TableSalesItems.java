@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -54,6 +55,13 @@ public class TableSalesItems implements Serializable {
 	public void alterAmountItems(Beer beer, Integer amount) {
 		SalesItem item = searchItemByBeer(beer).get();
 		item.setAmount(amount);
+	}
+	
+	public void deleteItem(Beer beer) {
+		int index = IntStream.range(0, items.size())
+				.filter(i -> items.get(i).getBeer().equals(beer))
+				.findAny().getAsInt();
+		items.remove(index);
 	}
 
 	public int total() {

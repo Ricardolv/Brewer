@@ -26,7 +26,7 @@ Brewer.TableItems = (function() {
 		this.tableBeersContainer.html(html);
 		$('.js-table-beer-quantity-item').on('change', onQuantityChangedItem.bind(this));
 		$('.js-table-item').on('dblclick', onDoubleClick);
-		
+		$('.js-exclusion-item-btn').on('click', onExclusionItemClick.bind(this));
 	}
 	
 	function onQuantityChangedItem(event) {
@@ -48,6 +48,17 @@ Brewer.TableItems = (function() {
 	
 	function onDoubleClick(event) {
 		$(this).toggleClass('requesting-exclusion');
+	}
+	
+	function onExclusionItemClick(event) {
+		var codeBeer = $(event.target).data("code-beer");
+		var response = $.ajax({
+			url: 'item/' + codeBeer, 
+			method: 'DELETE',
+			
+		});
+		
+		response.done(onUpdatededOnTheServer.bind(this));
 	}
 	
 	return TableItems;
