@@ -19,11 +19,30 @@ Brewer.TableItems = (function() {
 			
 		});
 		
-		response.done(onAddedOnTheServer.bind(this));
+		response.done(onUpdatededOnTheServer.bind(this));
 	}
 	
-	function onAddedOnTheServer(html) {
+	function onUpdatededOnTheServer(html) {
 		this.tableBeersContainer.html(html);
+		$('.js-table-beer-quantity-item').on('change', onQuantityChangedItem.bind(this));
+		
+	}
+	
+	function onQuantityChangedItem(event) {
+		var input = $(event.target);
+		var quantity = input.val();
+		var codeBeer = input.data('code-beer');
+		
+		var response = $.ajax({
+			url: 'item/' + codeBeer, 
+			method: 'PUT',
+			data: {
+				quantity: quantity
+			}
+			
+		});
+		
+		response.done(onUpdatededOnTheServer.bind(this));
 	}
 	
 	return TableItems;

@@ -33,9 +33,8 @@ public class TableSalesItems implements Serializable {
 	
 	public void addItem(Beer beer, Integer amount) {
 
-		Optional<SalesItem> salesItemOptional = items.stream()
-													 .filter(i -> i.getBeer().equals(beer))
-													 .findAny();
+		Optional<SalesItem> salesItemOptional = searchItemByBeer(beer);
+		
 		SalesItem salesItem = null;
 		if (salesItemOptional.isPresent()) {
 			salesItem = salesItemOptional.get();
@@ -52,11 +51,22 @@ public class TableSalesItems implements Serializable {
 
 	}
 	
+	public void alterAmountItems(Beer beer, Integer amount) {
+		SalesItem item = searchItemByBeer(beer).get();
+		item.setAmount(amount);
+	}
+
 	public int total() {
 		return items.size();
 	}
 
 	public List<SalesItem> getItems() {
 		return items;
+	}
+	
+	private Optional<SalesItem> searchItemByBeer(Beer beer) {
+		return items.stream()
+					.filter(i -> i.getBeer().equals(beer))
+					.findAny();
 	}
 }

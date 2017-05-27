@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
 
 	<div class="bw-table-item" th:each="item : ${items}">
 		<div class="bw-table-item__column  bw-table-item__column--photo">
@@ -15,7 +16,9 @@
 		
 		<div class="bw-table-item__column  bw-table-item__column--values">
 			<div class="bw-table-beer-value-little">
-				<input type="text" maxlength="3" class="bw-table-beer-field-amount" th:value="${item.amount}"/>
+				<input type="text" maxlength="3" 
+				class="bw-table-beer-field-amount js-table-beer-quantity-item" 
+				th:value="${item.amount}" data:code-beer="${item.beer.code}"/>
 				<span>x R$[[${{item.valueUnitary}}]]</span>
 			</div>
 			<div class="bw-table-beer-value-big">R$[[${{item.valueTotal}}]]</div>
