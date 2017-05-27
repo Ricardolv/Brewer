@@ -6,6 +6,7 @@ Brewer.Sale = (function() {
 		this.totalValueBox = $('.js-total-value-box');
 		this.freightValueInput = $('#freightValue');
 		this.discountValueInput = $('#discountValue');
+		this.totalValueBoxContainer = $('.js-total-value-box-container');
 		
 		this.freightValue = 0;
 		this.totalItemsValue = 0;
@@ -37,6 +38,8 @@ Brewer.Sale = (function() {
 	function onValueChanged() {
 		var totalValue = this.totalItemsValue + this.freightValue - this.discountValue;
 		this.totalValueBox.html(Brewer.currencyFormat(totalValue));
+		
+		this.totalValueBoxContainer.toggleClass('negative', totalValue < 0);
 	}
 	
 	return Sale;
