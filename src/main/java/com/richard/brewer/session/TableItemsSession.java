@@ -1,5 +1,6 @@
 package com.richard.brewer.session;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,11 +42,17 @@ public class TableItemsSession {
 		return searchTableByUuid(uuid).getItems();
 	}
 	
+	public BigDecimal getTotalValue(String uuid) {
+		return searchTableByUuid(uuid).getTotalValue();
+	}
+	
 	private TableSalesItems searchTableByUuid(String uuid) {
 		TableSalesItems table = tables.stream()
 				.filter(t -> t.getUuid().equals(uuid))
 				.findAny().orElse(new TableSalesItems(uuid));
 		return table;
 	}
+
+	
 
 }

@@ -4,6 +4,9 @@ Brewer.TableItems = (function() {
 		this.autoComplete = autoComplete;
 		this.tableBeersContainer = $('.js-table-beers-container');
 		this.uuid = $('#uuid').val();
+		
+		this.emitter = $({});
+		this.on = this.emitter.on.bind(this.emitter);
 	}
 	
 	TableItems.prototype.init = function() {
@@ -26,14 +29,27 @@ Brewer.TableItems = (function() {
 	
 	function onUpdatededOnTheServer(html) {
 		this.tableBeersContainer.html(html);
-		$('.js-table-beer-quantity-item').on('change', onQuantityChangedItem.bind(this));
-		$('.js-table-item').on('dblclick', onDoubleClick);
+		
+		var inputQuantityItem = $('.js-table-beer-quantity-item');
+		inputQuantityItem.on('change', onQuantityChangedItem.bind(this));
+		inputQuantityItem.maskMoney({precision: 0, thousands: ''});
+		
+		var tableItem = $('.js-table-item');
+		tableItem.on('dblclick', onDoubleClick);
 		$('.js-exclusion-item-btn').on('click', onExclusionItemClick.bind(this));
+		
+		this.emitter.trigger('table-items-updated', tableItem.data('total-value'));
 	}
 	
 	function onQuantityChangedItem(event) {
 		var input = $(event.target);
 		var quantity = input.val();
+		
+		if(quantity <= 0) {
+			input.val(1);
+			quantity = 1;
+		}
+		
 		var codeBeer = input.data('code-beer');
 		
 		var response = $.ajax({
@@ -68,12 +84,3 @@ Brewer.TableItems = (function() {
 	
 }());
 
-$(function() {
-	
-	var autoComplete = new Brewer.Autocomplete();
-	autoComplete.init();
-	
-	var tableItems = new Brewer.TableItems(autoComplete);
-	tableItems.init();
-	
-});

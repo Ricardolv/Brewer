@@ -21,7 +21,7 @@ import com.richard.brewer.model.SalesItem;
 		this.uuid = uuid;
 	}
 
-	public BigDecimal getValueTotal() {
+	public BigDecimal getTotalValue() {
 		return items.stream()
 				.map(SalesItem::getValueTotal)
 				.reduce(BigDecimal::add)
