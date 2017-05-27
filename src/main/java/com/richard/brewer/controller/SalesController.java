@@ -1,5 +1,7 @@
 package com.richard.brewer.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.repository.Beers;
-import com.richard.brewer.session.TableSalesItems;
+import com.richard.brewer.session.TableItemsSession;
 
 @Controller
 @RequestMapping("/sales")
@@ -23,37 +25,38 @@ public class SalesController {
 	private Beers beers;
 	
 	@Autowired
-	private TableSalesItems tableSalesItems;
+	private TableItemsSession tableSalesItems;
 	
 	@GetMapping("/new")
 	public ModelAndView newSale() {
 		ModelAndView mv = new ModelAndView("sale/register-sales");
+		mv.addObject("uuid", UUID.randomUUID().toString());
 		return mv;
 	}
 	
 	@PostMapping("/item")
-	public @ResponseBody ModelAndView addItem(Long codeBeer) {
+	public @ResponseBody ModelAndView addItem(Long codeBeer, String uuid) {
 		
 		Beer beer = beers.findOne(codeBeer);
-		tableSalesItems.addItem(beer, 1);
-		return mvTableSaleItems();
+		tableSalesItems.addItem(uuid, beer, 1);
+		return mvTableSaleItems(uuid);
 	}
 	
 	@PutMapping("/item/{codeBeer}")
-	public ModelAndView alterAmountItem(@PathVariable("codeBeer") Beer beer, Integer quantity) {
-		tableSalesItems.alterAmountItems(beer, quantity);
-		return mvTableSaleItems();
+	public ModelAndView alterAmountItem(@PathVariable("codeBeer") Beer beer, Integer quantity, String uuid) {
+		tableSalesItems.alterAmountItems(uuid, beer, quantity);
+		return mvTableSaleItems(uuid);
 	}
 	
-	@DeleteMapping("/item/{codeBeer}")
-	public ModelAndView deleteItem(@PathVariable("codeBeer") Beer beer) {
-		tableSalesItems.deleteItem(beer);
-		return mvTableSaleItems();
+	@DeleteMapping("/item/{uuid}/{codeBeer}")
+	public ModelAndView deleteItem(@PathVariable("uuid") String uuid, @PathVariable("codeBeer") Beer beer) {
+		tableSalesItems.deleteItem(uuid, beer);
+		return mvTableSaleItems(uuid);
 	}
 
-	private ModelAndView mvTableSaleItems() {
+	private ModelAndView mvTableSaleItems(String uuid) {
 		ModelAndView mv = new ModelAndView("sale/table-sale-items");
-		mv.addObject("items", tableSalesItems.getItems());
+		mv.addObject("items", tableSalesItems.getItems(uuid));
 		return mv;
 	}
 	

@@ -3,6 +3,7 @@ Brewer.TableItems = (function() {
 	function TableItems(autoComplete) {
 		this.autoComplete = autoComplete;
 		this.tableBeersContainer = $('.js-table-beers-container');
+		this.uuid = $('#uuid').val();
 	}
 	
 	TableItems.prototype.init = function() {
@@ -14,7 +15,8 @@ Brewer.TableItems = (function() {
 			url: 'item',
 			method: 'POST',
 			data: {
-				codeBeer: item.code
+				codeBeer: item.code,
+				uuid: this.uuid
 			}
 			
 		});
@@ -38,7 +40,8 @@ Brewer.TableItems = (function() {
 			url: 'item/' + codeBeer, 
 			method: 'PUT',
 			data: {
-				quantity: quantity
+				quantity: quantity,
+				uuid: this.uuid
 			}
 			
 		});
@@ -53,7 +56,7 @@ Brewer.TableItems = (function() {
 	function onExclusionItemClick(event) {
 		var codeBeer = $(event.target).data("code-beer");
 		var response = $.ajax({
-			url: 'item/' + codeBeer, 
+			url: 'item/' + this.uuid + '/' + codeBeer, 
 			method: 'DELETE',
 			
 		});

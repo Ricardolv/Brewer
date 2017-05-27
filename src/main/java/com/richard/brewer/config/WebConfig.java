@@ -42,13 +42,13 @@ import com.richard.brewer.controller.converter.CityConverter;
 import com.richard.brewer.controller.converter.GroupConverter;
 import com.richard.brewer.controller.converter.StateConverter;
 import com.richard.brewer.controller.converter.StyleConverter;
-import com.richard.brewer.session.TableSalesItems;
+import com.richard.brewer.session.TableItemsSession;
 import com.richard.brewer.thymeleaf.BrewerDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
-@ComponentScan(basePackageClasses = { BeersController.class, TableSalesItems.class})
+@ComponentScan(basePackageClasses = { BeersController.class, TableItemsSession.class})
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableCaching
