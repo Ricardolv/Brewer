@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.controller.validator.SaleValidator;
+import com.richard.brewer.mail.Mailer;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.PersonType;
 import com.richard.brewer.model.Sale;
@@ -54,6 +55,9 @@ public class SalesController {
 	
 	@Autowired
 	private Sales sales;
+	
+	@Autowired
+	private Mailer mailer;
 	
 	@InitBinder("sale")
 	public void initializeValidator(WebDataBinder binder) {
@@ -114,6 +118,9 @@ public class SalesController {
 		sale.setUser(userSystem.getUser());
 		
 		salesService.save(sale);
+		mailer.send();
+		System.out.println("logo depois da chamada enviae email enviado.....");
+		
 		attributes.addFlashAttribute("message", "Venda salva e e-mail enviado!");
 		return new ModelAndView("redirect:/sales/new");
 	}
