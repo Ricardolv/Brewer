@@ -6,7 +6,7 @@ CREATE TABLE sale (
     total_value DECIMAL(10,2) NOT NULL,
     status VARCHAR(30) NOT NULL,
     note VARCHAR(200),
-    delivery_date DATETIME,
+    delivery_hour_date DATETIME,
     code_client BIGINT(20) NOT NULL,
     code_user BIGINT(20) NOT NULL,
     FOREIGN KEY (code_client) REFERENCES client(code),

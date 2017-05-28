@@ -1,9 +1,12 @@
 package com.richard.brewer.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sale")
@@ -30,16 +34,16 @@ public class Sale {
 	@Column(name = "freight_value")
 	private BigDecimal freightValue;
 	
-	@Column(name = "dicount_value")
-	private BigDecimal dicountValue;
+	@Column(name = "discount_value")
+	private BigDecimal discountValue;
 	
 	@Column(name = "total_value")
 	private BigDecimal totalValue;
 	
 	private String note;
 	
-	@Column(name = "delivery_date")
-	private LocalDateTime deliveryDate;
+	@Column(name = "delivery_hour_date")
+	private LocalDateTime deliveryHourDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "code_client")
@@ -50,10 +54,19 @@ public class Sale {
 	private User user;
 	
 	@Enumerated(EnumType.STRING)
-	private SaleStatus status;
+	private SaleStatus status = SaleStatus.BUDGET;
 
-	@OneToMany(mappedBy = "sale")
-	private List<SaleItem> items;
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+	private List<SalesItem> items;
+	
+	@Transient
+	private String uuid;
+	
+	@Transient
+	private LocalDate deliveryDate;
+	
+	@Transient
+	private LocalTime deliveryHour;
 
 	public Long getCode() {
 		return code;
@@ -79,12 +92,12 @@ public class Sale {
 		this.freightValue = freightValue;
 	}
 
-	public BigDecimal getDicountValue() {
-		return dicountValue;
+	public BigDecimal getDiscountValue() {
+		return discountValue;
 	}
 
-	public void setDicountValue(BigDecimal dicountValue) {
-		this.dicountValue = dicountValue;
+	public void setDiscountValue(BigDecimal discountValue) {
+		this.discountValue = discountValue;
 	}
 
 	public BigDecimal getTotalValue() {
@@ -103,12 +116,12 @@ public class Sale {
 		this.note = note;
 	}
 
-	public LocalDateTime getDeliveryDate() {
-		return deliveryDate;
+	public LocalDateTime getDeliveryHourDate() {
+		return deliveryHourDate;
 	}
 
-	public void setDeliveryDate(LocalDateTime deliveryDate) {
-		this.deliveryDate = deliveryDate;
+	public void setDeliveryHourDate(LocalDateTime deliveryHourDate) {
+		this.deliveryHourDate = deliveryHourDate;
 	}
 
 	public Client getClient() {
@@ -135,12 +148,48 @@ public class Sale {
 		this.status = status;
 	}
 
-	public List<SaleItem> getItems() {
+	public List<SalesItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<SaleItem> items) {
+	public void setItems(List<SalesItem> items) {
 		this.items = items;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	
+	public LocalDate getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(LocalDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public LocalTime getDeliveryHour() {
+		return deliveryHour;
+	}
+
+	public void setDeliveryHour(LocalTime deliveryHour) {
+		this.deliveryHour = deliveryHour;
+	}
+	
+	/** 
+	 * Business 
+	 */
+	public boolean isNew() {
+		return this.code == null;
+	}
+	
+	public void addItems(List<SalesItem> items) {
+		this.items = items;
+		this.items.forEach(i -> i.setSale(this));
 	}
 
 	@Override
@@ -167,6 +216,8 @@ public class Sale {
 			return false;
 		return true;
 	}
+
+	
 
 	
 }

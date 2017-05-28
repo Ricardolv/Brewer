@@ -17,11 +17,11 @@
 		<div class="bw-table-item__column  bw-table-item__column--values">
 			<div class="bw-table-beer-value-little">
 				<input type="text" maxlength="3" 
-				class="bw-table-beer-field-amount js-table-beer-quantity-item" 
-				th:value="${item.amount}" data:code-beer="${item.beer.code}"/>
-				<span>x R$[[${{item.valueUnitary}}]]</span>
+				class="bw-table-beer-field-quantity js-table-beer-quantity-item" 
+				th:value="${item.quantity}" data:code-beer="${item.beer.code}"/>
+				<span>x R$[[${{item.unitaryValue}}]]</span>
 			</div>
-			<div class="bw-table-beer-value-big">R$[[${{item.valueTotal}}]]</div>
+			<div class="bw-table-beer-value-big">R$[[${{item.totalValue}}]]</div>
 		</div>
 		
 		<div class="bw-table-item__painel-exclusion">

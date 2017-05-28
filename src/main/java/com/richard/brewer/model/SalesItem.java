@@ -3,49 +3,85 @@ package com.richard.brewer.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "sale_item")
 public class SalesItem implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long code;
-	private Integer amount;
-	private BigDecimal valueUnitary;
+
+	private Integer quantity;
+
+	@Column(name = "unitary_value")
+	private BigDecimal unitaryValue;
+
+	@ManyToOne
+	@JoinColumn(name = "code_beer")
 	private Beer beer;
-	
-	
+
+	@ManyToOne
+	@JoinColumn(name = "code_sale")
+	private Sale sale;
+
 	public Long getCode() {
 		return code;
 	}
+
 	public void setCode(Long code) {
 		this.code = code;
 	}
-	public Integer getAmount() {
-		return amount;
+
+	public Integer getQuantity() {
+		return quantity;
 	}
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
-	public BigDecimal getValueUnitary() {
-		return valueUnitary;
+
+	public BigDecimal getUnitaryValue() {
+		return unitaryValue;
 	}
-	public void setValueUnitary(BigDecimal valueUnitary) {
-		this.valueUnitary = valueUnitary;
+
+	public void setUnitaryValue(BigDecimal unitaryValue) {
+		this.unitaryValue = unitaryValue;
 	}
+
 	public Beer getBeer() {
 		return beer;
 	}
+
 	public void setBeer(Beer beer) {
 		this.beer = beer;
 	}
-	
-    /** 
-     * Business 
-     */
-	
-	public BigDecimal getValueTotal() {
-		return this.valueUnitary.multiply(new BigDecimal(this.amount));
+
+	public Sale getSale() {
+		return sale;
+	}
+
+	public void setSale(Sale sale) {
+		this.sale = sale;
 	}
 	
+	/** 
+     * Business 
+     */
+	public BigDecimal getTotalValue() {
+		return this.unitaryValue.multiply(new BigDecimal(this.quantity));
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -53,6 +89,7 @@ public class SalesItem implements Serializable {
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,5 +106,6 @@ public class SalesItem implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
 }

@@ -26,8 +26,11 @@
 		</div>
 		
 		<div class="container-fluid">
-			<form method="POST" th:action="@{/sales/new}">
-				<input type="hidden" id="uuid" th:value="${uuid}" />
+			<form method="POST" th:action="@{/sales/new}" th:object="${sale}">
+				<brewer:message/>
+
+				<input type="hidden" id="uuid" th:field="*{uuid}" />
+				
 				
 				<div class="row">
 					<div class="col-sm-4">
@@ -68,7 +71,7 @@
 						<label class="control-label" for="nameClient">Cliente</label>
 						<div class="input-group">
 					      <input id="nameClient" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o cliente"/>
-					      <input id="codeClient" type="hidden"/>
+					      <input id="codeClient" type="hidden" th:field="*{client}"/>
 					      <span class="input-group-btn">
 					        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
 					        		data-toggle="modal" data-target="#searchSpeedClients">
@@ -83,7 +86,7 @@
 						<label class="control-label" for="freightValue">valor do frete</label>
 						<div class="input-group">
 		      				<div class="input-group-addon">R$</div> 
-							<input type="text" maxlength="14" class="form-control  js-decimal" id="freightValue"/>
+							<input type="text" maxlength="14" class="form-control  js-decimal" id="freightValue" th:field="*{freightValue}"/>
 						</div>
 					</div>
 					
@@ -91,7 +94,7 @@
 						<label class="control-label" for="discountValue">valor do desconto</label>
 						<div class="input-group">
 		      				<div class="input-group-addon">R$</div> 
-							<input type="text" maxlength="14" class="form-control  js-decimal" id="discountValue"/>
+							<input type="text" maxlength="14" class="form-control  js-decimal" id="discountValue" th:field="*{discountValue}"/>
 						</div>
 					</div>
 				</div>
@@ -132,19 +135,19 @@
 						<div class="row">
 							<div class="form-group  col-sm-3">
 								<label class="control-label" for="deliveryDate">Data da entrega</label>
-								<input type="text" class="form-control" id="deliveryDate"/>
+								<input type="text" class="form-control" id="deliveryDate" th:field="*{deliveryDate}"/>
 							</div>
 							
 							<div class="form-group  col-sm-3">
 								<label class="control-label" for="deliveryHour">Horário de entrega</label>
-								<input type="text" class="form-control" id="deliveryHour"/>
+								<input type="text" class="form-control" id="deliveryHour" th:field="*{deliveryHour}"/>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="form-group  col-sm-12">
 								<textarea class="form-control" id="deliveryDate" rows="5" 
-									placeholder="Alguma observação para o entregador desse pedido?"></textarea>
+									placeholder="Alguma observação para o entregador desse pedido?" th:field="*{note}"></textarea>
 							</div>
 						</div>
 					</div>

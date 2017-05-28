@@ -3,6 +3,7 @@ package com.richard.brewer.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.model.Beer;
+import com.richard.brewer.model.Sale;
 import com.richard.brewer.repository.Beers;
+import com.richard.brewer.security.UserSystem;
+import com.richard.brewer.service.SalesService;
 import com.richard.brewer.session.TableItemsSession;
 
 @Controller
@@ -27,11 +32,24 @@ public class SalesController {
 	@Autowired
 	private TableItemsSession tableSalesItems;
 	
+	@Autowired
+	private SalesService salesService;
+	
 	@GetMapping("/new")
-	public ModelAndView newSale() {
+	public ModelAndView newSale(Sale sale) {
 		ModelAndView mv = new ModelAndView("sale/register-sales");
-		mv.addObject("uuid", UUID.randomUUID().toString());
+		sale.setUuid(UUID.randomUUID().toString());
 		return mv;
+	}
+	
+	@PostMapping("/new")
+	public ModelAndView save(Sale sale, RedirectAttributes attributes, @AuthenticationPrincipal UserSystem userSystem) {
+		sale.setUser(userSystem.getUser());
+		sale.addItems(tableSalesItems.getItems(sale.getUuid()));
+		
+		salesService.save(sale);
+		attributes.addFlashAttribute("message", "Venda salva com sucesso!");
+		return new ModelAndView("redirect:/sales/new");
 	}
 	
 	@PostMapping("/item")

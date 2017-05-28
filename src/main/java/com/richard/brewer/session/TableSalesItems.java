@@ -23,34 +23,34 @@ import com.richard.brewer.model.SalesItem;
 
 	public BigDecimal getTotalValue() {
 		return items.stream()
-				.map(SalesItem::getValueTotal)
+				.map(SalesItem::getTotalValue)
 				.reduce(BigDecimal::add)
 				.orElse(BigDecimal.ZERO);
 	}
 	
-	public void addItem(Beer beer, Integer amount) {
+	public void addItem(Beer beer, Integer quantity) {
 
 		Optional<SalesItem> salesItemOptional = searchItemByBeer(beer);
 		
 		SalesItem salesItem = null;
 		if (salesItemOptional.isPresent()) {
 			salesItem = salesItemOptional.get();
-			salesItem.setAmount(salesItem.getAmount() + amount);
+			salesItem.setQuantity(salesItem.getQuantity() + quantity);
 			
 		} else {
 			
 			salesItem = new SalesItem();
 			salesItem.setBeer(beer);
-			salesItem.setValueUnitary(beer.getValue());
-			salesItem.setAmount(amount);
+			salesItem.setUnitaryValue(beer.getValue());
+			salesItem.setQuantity(quantity);
 			items.add(0, salesItem);
 		}
 
 	}
 	
-	public void alterAmountItems(Beer beer, Integer amount) {
+	public void alterAmountItems(Beer beer, Integer quantity) {
 		SalesItem item = searchItemByBeer(beer).get();
-		item.setAmount(amount);
+		item.setQuantity(quantity);
 	}
 	
 	public void deleteItem(Beer beer) {
