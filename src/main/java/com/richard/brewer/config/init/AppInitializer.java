@@ -8,6 +8,7 @@ import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.richard.brewer.config.JPAConfig;
+import com.richard.brewer.config.MailConfig;
 import com.richard.brewer.config.SecurityConfig;
 import com.richard.brewer.config.ServiceConfig;
 import com.richard.brewer.config.WebConfig;
@@ -21,7 +22,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { WebConfig.class };
+		return new Class<?>[] { WebConfig.class, MailConfig.class };
 	}
 
 	@Override
