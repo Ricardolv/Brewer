@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.richard.brewer.model.Sale;
+import com.richard.brewer.model.SaleStatus;
 import com.richard.brewer.repository.Sales;
 
 @Service
@@ -30,6 +31,12 @@ public class SalesService {
 		}
 		
 		sales.save(sale);
+	}
+	
+	@Transactional
+	public void issue(Sale sale) {
+		sale.setStatus(SaleStatus.ISSUED);
+		save(sale);
 	}
 
 }

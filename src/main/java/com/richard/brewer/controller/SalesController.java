@@ -64,12 +64,9 @@ public class SalesController {
 		return mv;
 	}
 	
-	@PostMapping("/new")
+	@PostMapping(value = "/new", params = "save")
 	public ModelAndView save(Sale sale, BindingResult result, RedirectAttributes attributes, @AuthenticationPrincipal UserSystem userSystem) {
-		sale.addItems(tableSalesItems.getItems(sale.getUuid()));
-		sale.calculateTotalValue();
-		
-		saleValidator.validate(sale, result);
+		validatorSale(sale, result);
 		if (result.hasErrors()) {
 			return newSale(sale);
 		}
@@ -78,6 +75,34 @@ public class SalesController {
 		
 		salesService.save(sale);
 		attributes.addFlashAttribute("message", "Venda salva com sucesso!");
+		return new ModelAndView("redirect:/sales/new");
+	}
+
+	@PostMapping(value = "/new", params = "issue")
+	public ModelAndView issue(Sale sale, BindingResult result, RedirectAttributes attributes, @AuthenticationPrincipal UserSystem userSystem) {
+		validatorSale(sale, result);
+		if (result.hasErrors()) {
+			return newSale(sale);
+		}
+		
+		sale.setUser(userSystem.getUser());
+		
+		salesService.issue(sale);
+		attributes.addFlashAttribute("message", "Venda emitida com sucesso!");
+		return new ModelAndView("redirect:/sales/new");
+	}
+	
+	@PostMapping(value = "/new", params = "sendEmail")
+	public ModelAndView sendEmail(Sale sale, BindingResult result, RedirectAttributes attributes, @AuthenticationPrincipal UserSystem userSystem) {
+		validatorSale(sale, result);
+		if (result.hasErrors()) {
+			return newSale(sale);
+		}
+		
+		sale.setUser(userSystem.getUser());
+		
+		salesService.save(sale);
+		attributes.addFlashAttribute("message", "Venda salva e e-mail enviado!");
 		return new ModelAndView("redirect:/sales/new");
 	}
 	
@@ -107,6 +132,15 @@ public class SalesController {
 		mv.addObject("totalValue", tableSalesItems.getTotalValue(uuid));
 		return mv;
 	}
+	
+	private void validatorSale(Sale sale, BindingResult result) {
+		sale.addItems(tableSalesItems.getItems(sale.getUuid()));
+		sale.calculateTotalValue();
+		
+		saleValidator.validate(sale, result);
+	}
+	
+	
 	
 
 }
