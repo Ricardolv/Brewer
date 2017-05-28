@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,7 +40,7 @@ public class Sale {
 	private BigDecimal discountValue;
 	
 	@Column(name = "total_value")
-	private BigDecimal totalValue;
+	private BigDecimal totalValue = BigDecimal.ZERO;
 	
 	private String note;
 	
@@ -57,7 +59,7 @@ public class Sale {
 	private SaleStatus status = SaleStatus.BUDGET;
 
 	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
-	private List<SalesItem> items;
+	private List<SalesItem> items = new ArrayList<>();
 	
 	@Transient
 	private String uuid;
@@ -190,6 +192,22 @@ public class Sale {
 	public void addItems(List<SalesItem> items) {
 		this.items = items;
 		this.items.forEach(i -> i.setSale(this));
+	}
+	
+	public void calculateTotalValue() {
+		BigDecimal totalValueItems = getItems().stream()
+				.map(SalesItem::getTotalValue)
+				.reduce(BigDecimal::add)
+				.orElse(BigDecimal.ZERO);
+		
+		this.totalValue = calculateTotalValue(totalValueItems, getFreightValue(), getDiscountValue());
+	}
+	
+	private BigDecimal calculateTotalValue(BigDecimal totalValueItems, BigDecimal freightValue, BigDecimal dicountValue) {
+		BigDecimal totalValue = totalValueItems
+				.add(Optional.ofNullable(freightValue).orElse(BigDecimal.ZERO))
+				.subtract(Optional.ofNullable(dicountValue).orElse(BigDecimal.ZERO));
+		return totalValue;
 	}
 
 	@Override

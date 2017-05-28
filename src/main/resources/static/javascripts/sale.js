@@ -8,9 +8,9 @@ Brewer.Sale = (function() {
 		this.discountValueInput = $('#discountValue');
 		this.totalValueBoxContainer = $('.js-total-value-box-container');
 		
-		this.freightValue = 0;
-		this.totalItemsValue = 0;
-		this.discountValue = 0;
+		this.totalItemsValue = this.tableItems.totalValue();
+		this.freightValue = this.freightValueInput.data('value');
+		this.discountValue = this.discountValueInput.data('value');
 	}
 	
 	Sale.prototype.init = function() {
@@ -18,9 +18,11 @@ Brewer.Sale = (function() {
 		this.freightValueInput.on('keyup', onFreightValueChanged.bind(this));
 		this.discountValueInput.on('keyup', onDiscountValueChanged.bind(this));
 		
-		this.tableItems.on('table-items-updated', onValueChanged.bind(this));
-		this.freightValueInput.on('keyup', onValueChanged.bind(this));
-		this.discountValueInput.on('keyup', onValueChanged.bind(this));
+		this.tableItems.on('table-items-updated', onValuesChanged.bind(this));
+		this.freightValueInput.on('keyup', onValuesChanged.bind(this));
+		this.discountValueInput.on('keyup', onValuesChanged.bind(this));
+		
+		onValuesChanged.call(this);
 	}
 	
 	function onTableItemsUpdated(event, tableItemsValue) {
@@ -35,8 +37,8 @@ Brewer.Sale = (function() {
 		this.discountValue = Brewer.recoverValue($(event.target).val());
 	}
 	
-	function onValueChanged() {
-		var totalValue = this.totalItemsValue + this.freightValue - this.discountValue;
+	function onValuesChanged() {
+		var totalValue = numeral(this.totalItemsValue) + numeral(this.freightValue) - numeral(this.discountValue);
 		this.totalValueBox.html(Brewer.currencyFormat(totalValue));
 		
 		this.totalValueBoxContainer.toggleClass('negative', totalValue < 0);
