@@ -6,14 +6,14 @@ public enum SaleStatus {
 	ISSUED("Emitida"), //Emitida
 	CANCELED("Cancelada"); //Cancelada
 
-	private String descriotion;
+	private String description;
 
-	SaleStatus(String descriotion) {
-		this.descriotion = descriotion;
+	SaleStatus(String description) {
+		this.description = description;
 	}
 
-	public String getDescriotion() {
-		return descriotion;
+	public String getDescription() {
+		return description;
 	}
 
 }

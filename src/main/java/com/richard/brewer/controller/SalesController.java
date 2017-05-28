@@ -2,7 +2,11 @@ package com.richard.brewer.controller;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -19,10 +23,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.controller.validator.SaleValidator;
 import com.richard.brewer.model.Beer;
+import com.richard.brewer.model.PersonType;
 import com.richard.brewer.model.Sale;
+import com.richard.brewer.model.SaleStatus;
 import com.richard.brewer.repository.Beers;
+import com.richard.brewer.repository.Sales;
+import com.richard.brewer.repository.filter.SaleFilter;
 import com.richard.brewer.security.UserSystem;
 import com.richard.brewer.service.SalesService;
 import com.richard.brewer.session.TableItemsSession;
@@ -43,7 +52,10 @@ public class SalesController {
 	@Autowired
 	private SaleValidator saleValidator;
 	
-	@InitBinder
+	@Autowired
+	private Sales sales;
+	
+	@InitBinder("sale")
 	public void initializeValidator(WebDataBinder binder) {
 		binder.setValidator(saleValidator);
 	}
@@ -124,6 +136,19 @@ public class SalesController {
 	public ModelAndView deleteItem(@PathVariable("uuid") String uuid, @PathVariable("codeBeer") Beer beer) {
 		tableSalesItems.deleteItem(uuid, beer);
 		return mvTableSaleItems(uuid);
+	}
+	
+	@GetMapping
+	public ModelAndView search(SaleFilter saleFilter,
+			@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("sale/search-sales");
+		mv.addObject("statusAll", SaleStatus.values());
+		mv.addObject("personTypes", PersonType.values());
+		
+		PageWrapper<Sale> paginaWrapper = new PageWrapper<>(sales.filter(saleFilter, pageable)
+				, httpServletRequest);
+		mv.addObject("page", paginaWrapper);
+		return mv;
 	}
 
 	private ModelAndView mvTableSaleItems(String uuid) {

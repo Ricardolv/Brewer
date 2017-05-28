@@ -31,7 +31,7 @@ public class Sale {
 	private Long code;
 	
 	@Column(name = "creation_date")
-	private LocalDateTime createionDate;
+	private LocalDateTime creationDate;
 	
 	@Column(name = "freight_value")
 	private BigDecimal freightValue;
@@ -78,12 +78,12 @@ public class Sale {
 		this.code = code;
 	}
 
-	public LocalDateTime getCreateionDate() {
-		return createionDate;
+	public LocalDateTime getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreateionDate(LocalDateTime createionDate) {
-		this.createionDate = createionDate;
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public BigDecimal getFreightValue() {

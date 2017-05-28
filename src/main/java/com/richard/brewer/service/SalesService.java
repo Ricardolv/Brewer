@@ -22,7 +22,7 @@ public class SalesService {
 	public void save(Sale sale) {
 		
 		if (sale.isNew()) {
-			sale.setCreateionDate(LocalDateTime.now());
+			sale.setCreationDate(LocalDateTime.now());
 		}
 		
 		if (null != sale.getDeliveryDate()) {
