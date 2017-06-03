@@ -24,10 +24,10 @@
 				<td style="vertical-align: top; padding-bottom: 10px; padding-top: 10px">
 					<div style="display: block; font-weight: bold; font-size: 16px" th:text="${item.beer.name}"></div>
 					<div style="color: #8e8e8e" th:text="${item.beer.origin.description}"></div>
-					<div style="color: #8e8e8e" th:text="|${item.quantity} R$${item.unitaryValue}|"></div>
+					<div style="color: #8e8e8e" th:text="|${item.quantity} R$${#numbers.formatDecimal(item.unitaryValue, 1, 2)}|"></div>
 				</td>
 				<td style="vertical-align: top; text-align: right; padding-bottom: 10px; padding-top: 10px">
-					<span style="display: block; font-weight: bold; font-size: 16px" th:text="|R$${item.totalValue}|"></span>
+					<span style="display: block; font-weight: bold; font-size: 16px" th:text="|R$${#numbers.formatDecimal(item.totalValue, 1, 2)}|"></span>
 				</td>
 			</tr>
 			
@@ -56,22 +56,22 @@
 	<table style="width: 100%;">
 		<tr>
 			<td style="text-align: right; font-weight: bold">Subtotal:</td>
-			<td style="width: 120px; text-align: right" th:text="|R$${sale.totalValueItems}|"></td>
+			<td style="width: 120px; text-align: right" th:text="|R$${#numbers.formatDecimal(sale.totalValueItems, 1, 2)}|"></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; font-weight: bold">Frete:</td>
-			<td style="width: 100px; text-align: right" th:text="|R$${sale.freightValue}|">
+			<td style="width: 100px; text-align: right" th:text="|R$${#objects.nullSafe(#numbers.formatDecimal(sale.freightValue, 1, 2), '0,00')}|">
 				<span>R$8,00</span>
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: right; font-weight: bold">Desconto:</td>
-			<td style="width: 100px; text-align: right" th:text="|(R$${sale.discountValue})|"><span></span></td>
+			<td style="width: 100px; text-align: right" th:text="|(R$${#objects.nullSafe(#numbers.formatDecimal(sale.discountValue, 1, 2), '0,00')})|"><span></span></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; font-weight: bold; font-size: 16px">Total final:</td>
 			<td style="width: 100px; text-align: right; font-weight: bold; font-size: 16px">
-				<span th:text="|R$${sale.totalValue}|"></span>
+				<span th:text="|R$${#numbers.formatDecimal(sale.totalValue, 1, 2)}|"></span>
 			</td>
 		</tr>
 	</table>

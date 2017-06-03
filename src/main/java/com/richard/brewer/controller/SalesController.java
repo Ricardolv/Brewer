@@ -117,10 +117,10 @@ public class SalesController {
 		
 		sale.setUser(userSystem.getUser());
 		
-		salesService.save(sale);
+		sale = salesService.save(sale);
 		mailer.send(sale);
 		
-		attributes.addFlashAttribute("message", "Venda salva e e-mail enviado!");
+		attributes.addFlashAttribute("message", String.format("Venda n° %d salva com sucesso e e-mail enviado!", sale.getCode()));
 		return new ModelAndView("redirect:/sales/new");
 	}
 	

@@ -19,7 +19,7 @@ public class SalesService {
 	private Sales sales;
 	
 	@Transactional
-	public void save(Sale sale) {
+	public Sale save(Sale sale) {
 		
 		if (sale.isNew()) {
 			sale.setCreationDate(LocalDateTime.now());
@@ -30,7 +30,7 @@ public class SalesService {
 					null != sale.getDeliveryHour() ? sale.getDeliveryHour() : LocalTime.NOON));
 		}
 		
-		sales.save(sale);
+		return sales.saveAndFlush(sale);
 	}
 	
 	@Transactional

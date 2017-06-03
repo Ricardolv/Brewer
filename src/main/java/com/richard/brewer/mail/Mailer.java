@@ -1,6 +1,7 @@
 package com.richard.brewer.mail;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -40,7 +41,7 @@ public class Mailer {
 	@Async
 	public void send(Sale sale) {
 		
-		Context context = new Context();
+		Context context = new Context(new Locale("pt", "BR"));
 		context.setVariable("sale", sale);
 		context.setVariable("logo", "logo");
 		
@@ -70,7 +71,7 @@ public class Mailer {
 			
 			helper.setFrom("richardluizv@gmail.com");
 			helper.addTo(sale.getClient().getEmail());
-			helper.setSubject("Brewer - venda realizada");
+			helper.setSubject(String.format("Brewer - Venda n° %d", sale.getCode()));
 			helper.setText(bodyEmail, true);
 			
 			helper.addInline("logo", new ClassPathResource("/static/images/logo-gray.png"));
