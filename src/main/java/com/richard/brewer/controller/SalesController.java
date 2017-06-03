@@ -89,8 +89,8 @@ public class SalesController {
 		
 		sale.setUser(userSystem.getUser());
 		
-		salesService.save(sale);
-		attributes.addFlashAttribute("message", "Venda salva com sucesso!");
+		sale = salesService.save(sale);
+		attributes.addFlashAttribute("message", String.format("Venda n° %d salva com sucesso!", sale.getCode()));
 		return new ModelAndView("redirect:/sales/new");
 	}
 
@@ -103,8 +103,8 @@ public class SalesController {
 		
 		sale.setUser(userSystem.getUser());
 		
-		salesService.issue(sale);
-		attributes.addFlashAttribute("message", "Venda emitida com sucesso!");
+		sale = salesService.issue(sale);
+		attributes.addFlashAttribute("message", String.format("Venda n° %d salva com sucesso!", sale.getCode()));
 		return new ModelAndView("redirect:/sales/new");
 	}
 	
@@ -155,7 +155,7 @@ public class SalesController {
 		mv.addObject("page", paginaWrapper);
 		return mv;
 	}
-
+	
 	private ModelAndView mvTableSaleItems(String uuid) {
 		ModelAndView mv = new ModelAndView("sale/table-sale-items");
 		mv.addObject("items", tableSalesItems.getItems(uuid));

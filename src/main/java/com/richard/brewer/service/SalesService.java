@@ -34,9 +34,9 @@ public class SalesService {
 	}
 	
 	@Transactional
-	public void issue(Sale sale) {
+	public Sale issue(Sale sale) {
 		sale.setStatus(SaleStatus.ISSUED);
-		save(sale);
+		return save(sale);
 	}
 
 }

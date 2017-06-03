@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +30,7 @@ import com.richard.brewer.model.Origin;
 import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.service.BeerService;
 import com.richard.brewer.service.StyleService;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
 
 @Controller
 @RequestMapping("/beers")
@@ -75,6 +79,19 @@ public class BeersController {
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE )
 	public @ResponseBody List<BeerDTO> search(String skuOrName) {
 		return beerService.bySkuOrName(skuOrName);
+	}
+	
+	@DeleteMapping("/{code}")
+	public @ResponseBody ResponseEntity<?> delete(@PathVariable("code") Beer beer) {
+		
+		try {
+			beerService.delete(beer);
+			
+		} catch (ImpossibleDeleteEntityException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
 	}
 
 }

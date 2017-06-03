@@ -2,6 +2,8 @@ package com.richard.brewer.service;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,8 @@ import com.richard.brewer.model.Beer;
 import com.richard.brewer.repository.Beers;
 import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.service.event.beer.BeerSaveEvent;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
+import com.richard.brewer.storage.PhotoStorage;
 
 @Service
 public class BeerService {
@@ -24,11 +28,27 @@ public class BeerService {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
+	@Autowired
+	private PhotoStorage photoStorage;
+	
 	@Transactional
 	public void save(Beer beer) {
 		beers.save(beer);
 		
 		publisher.publishEvent(new BeerSaveEvent(beer));
+	}
+	
+	@Transactional
+	public void delete(Beer beer) {
+		try {
+			String photo = beer.getPhoto();
+			beers.delete(beer.getCode());
+			beers.flush();
+			photoStorage.delete(photo);
+		} catch (PersistenceException e) {
+			throw new ImpossibleDeleteEntityException("Impossível apagar cerveja. Já foi usada em alguma venda.");
+		}
+		
 	}
 
 	public List<Beer> findAll() {
@@ -42,4 +62,6 @@ public class BeerService {
 	public List<BeerDTO> bySkuOrName(String skuOrName) {
 		return beers.bySkuOrName(skuOrName);
 	}
+
+	
 }

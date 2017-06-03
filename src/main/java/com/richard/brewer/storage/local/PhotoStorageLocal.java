@@ -20,6 +20,8 @@ public class PhotoStorageLocal implements PhotoStorage {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PhotoStorageLocal.class);
 	
+	private static final String THUMBNAIL_PREFIX = "thumbnail.";
+	
 	private Path local;
 	private Path localTemporary;
 	
@@ -88,7 +90,18 @@ public class PhotoStorageLocal implements PhotoStorage {
 	
 	@Override
 	public byte[] recoverThumbnail(String beerPhoto) {
-		return recover("thumbnail." + beerPhoto);
+		return recover(THUMBNAIL_PREFIX + beerPhoto);
+	}
+	
+	@Override
+	public void delete(String photo) {
+		try {
+			Files.deleteIfExists(this.local.resolve(photo));
+			Files.deleteIfExists(this.local.resolve(THUMBNAIL_PREFIX + photo));
+		} catch (IOException e) {
+			logger.warn(String.format("Erro apagando foto '%s'. Mensagem: %s", photo, e.getMessage()));
+		}
+		
 	}
 
 	private void createPast() {
@@ -117,5 +130,7 @@ public class PhotoStorageLocal implements PhotoStorage {
 		}
 		return newName;
 	}
+
+	
 
 }
