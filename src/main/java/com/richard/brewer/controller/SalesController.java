@@ -118,8 +118,7 @@ public class SalesController {
 		sale.setUser(userSystem.getUser());
 		
 		salesService.save(sale);
-		mailer.send();
-		System.out.println("logo depois da chamada enviae email enviado.....");
+		mailer.send(sale);
 		
 		attributes.addFlashAttribute("message", "Venda salva e e-mail enviado!");
 		return new ModelAndView("redirect:/sales/new");
@@ -152,8 +151,7 @@ public class SalesController {
 		mv.addObject("statusAll", SaleStatus.values());
 		mv.addObject("personTypes", PersonType.values());
 		
-		PageWrapper<Sale> paginaWrapper = new PageWrapper<>(sales.filter(saleFilter, pageable)
-				, httpServletRequest);
+		PageWrapper<Sale> paginaWrapper = new PageWrapper<>(sales.filter(saleFilter, pageable), httpServletRequest);
 		mv.addObject("page", paginaWrapper);
 		return mv;
 	}

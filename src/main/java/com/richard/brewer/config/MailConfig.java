@@ -15,8 +15,8 @@ import com.richard.brewer.mail.Mailer;
 
 @Configuration
 @ComponentScan(basePackageClasses = Mailer.class)
-@PropertySource({ "classpath:env/mail-${environment:local}.properties" })
-@PropertySource(value = { "file://${HOME}/.brewer-mail.properties" }, ignoreResourceNotFound = true)
+//@PropertySource({ "classpath:env/mail-${environment:local}.properties" })
+@PropertySource(value = { "file://${HOME}/brewer-mail.properties" }, ignoreResourceNotFound = true)
 public class MailConfig {
 	
 	@Autowired
@@ -25,7 +25,7 @@ public class MailConfig {
 	@Bean
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("smtp.sendgrid.net");
+		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
 		mailSender.setUsername(env.getProperty("username"));
 		mailSender.setPassword(env.getProperty("password"));
