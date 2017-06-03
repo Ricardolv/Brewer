@@ -85,6 +85,11 @@ public class PhotoStorageLocal implements PhotoStorage {
 		}
 		
 	}
+	
+	@Override
+	public byte[] recoverThumbnail(String beerPhoto) {
+		return recover("thumbnail." + beerPhoto);
+	}
 
 	private void createPast() {
 		try {

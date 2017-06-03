@@ -194,13 +194,15 @@ public class Sale {
 		this.items.forEach(i -> i.setSale(this));
 	}
 	
-	public void calculateTotalValue() {
-		BigDecimal totalValueItems = getItems().stream()
+	public BigDecimal getTotalValueItems() {
+		return getItems().stream()
 				.map(SalesItem::getTotalValue)
 				.reduce(BigDecimal::add)
 				.orElse(BigDecimal.ZERO);
-		
-		this.totalValue = calculateTotalValue(totalValueItems, getFreightValue(), getDiscountValue());
+	}
+	
+	public void calculateTotalValue() {
+		this.totalValue = calculateTotalValue(getTotalValueItems(), getFreightValue(), getDiscountValue());
 	}
 	
 	private BigDecimal calculateTotalValue(BigDecimal totalValueItems, BigDecimal freightValue, BigDecimal dicountValue) {

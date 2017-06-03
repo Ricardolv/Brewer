@@ -94,7 +94,10 @@ public class Beer implements Serializable {
 		return !StringUtils.isEmpty(this.photo) ? this.photo : "beer-mock.png";
 	}
 	
-
+	public boolean havePhoto() {
+		return !StringUtils.isEmpty(this.photo);
+	}
+	
 	public Long getCode() {
 		return code;
 	}

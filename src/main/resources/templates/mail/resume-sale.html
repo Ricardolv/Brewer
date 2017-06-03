@@ -5,28 +5,29 @@
 <body style="font-family: Arial; font-size: 14px;">
 	
 	<p style="text-align: right">
-		<img src="../../static/images/logo-gray.png"/>
+		<img th:src="|cid:${logo}|"/>
 	</p>
 
-	<h1 style="font-size: 22px">Olá Maria!</h1>
+	<h1 style="font-size: 22px" th:text="|Olá ${sale.client.name}|"></h1>
 	
 	<p>
 		Estamos enviando para você a relação de itens da sua compra em nossa loja de cervejas.
 	</p>
 	
 	<table style="width: 100%; border-collapse: collapse;  margin: 20px 0">
-		<th:block th:each="item : ${venda.itens}">
+		<th:block th:each="item : ${sale.items}">
 			<tr style="border-bottom: 1px solid #ccc; border-top: 1px solid #ccc">
 				<td style="width: 50px; padding-bottom: 10px; padding-top: 10px">
-					<img style="width: 40px" src="../../static/images/beer-mock.png" />
+					<img style="width: 40px" th:src="|cid:${beerMock}|" th:unless="${item.beer.havePhoto()}"/>
+					<img style="width: 40px" th:src="|cid:photo-${item.beer.code}|" th:if="${item.beer.havePhoto()}"/>
 				</td>
 				<td style="vertical-align: top; padding-bottom: 10px; padding-top: 10px">
-					<div style="display: block; font-weight: bold; font-size: 16px">Bhrama Lata 350 ml</div>
-					<div style="color: #8e8e8e">Nacional</div>
-					<div style="color: #8e8e8e">1 x R$1,90</div>
+					<div style="display: block; font-weight: bold; font-size: 16px" th:text="${item.beer.name}"></div>
+					<div style="color: #8e8e8e" th:text="${item.beer.origin.description}"></div>
+					<div style="color: #8e8e8e" th:text="|${item.quantity} R$${item.unitaryValue}|"></div>
 				</td>
 				<td style="vertical-align: top; text-align: right; padding-bottom: 10px; padding-top: 10px">
-					<span style="display: block; font-weight: bold; font-size: 16px">R$1,90</span>
+					<span style="display: block; font-weight: bold; font-size: 16px" th:text="|R$${item.totalValue}|"></span>
 				</td>
 			</tr>
 			
@@ -49,28 +50,28 @@
 	</table>
 	
 	<p style="font-size: 12px">
-		* O status da sua compra é: <strong style="color: red"><span>orçamento</span></strong>.
+		* O status da sua compra é: <strong style="color: red" th:text="${sale.status.description}"><span></span></strong>.
 	</p>
 	
 	<table style="width: 100%;">
 		<tr>
 			<td style="text-align: right; font-weight: bold">Subtotal:</td>
-			<td style="width: 120px; text-align: right">R$1.200,50</td>
+			<td style="width: 120px; text-align: right" th:text="|R$${sale.totalValueItems}|"></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; font-weight: bold">Frete:</td>
-			<td style="width: 100px; text-align: right">
+			<td style="width: 100px; text-align: right" th:text="|R$${sale.freightValue}|">
 				<span>R$8,00</span>
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: right; font-weight: bold">Desconto:</td>
-			<td style="width: 100px; text-align: right"><span>(R$5,00)</span></td>
+			<td style="width: 100px; text-align: right" th:text="|(R$${sale.discountValue})|"><span></span></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; font-weight: bold; font-size: 16px">Total final:</td>
 			<td style="width: 100px; text-align: right; font-weight: bold; font-size: 16px">
-				<span>R$1.200,50</span>
+				<span th:text="|R$${sale.totalValue}|"></span>
 			</td>
 		</tr>
 	</table>
