@@ -23,10 +23,11 @@
 						<div class="col-xs-2">
 							<div class="aw-page-header-controls">
 								<a class="btn  btn-default" th:href="@{/users/new}">
-									<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo usuário</span>
+									<i class="glyphicon  glyphicon-plus-sign "></i> <span class="hidden-xs  hidden-sm">Novo usuário</span>
 								</a>
 							</div>
 						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -112,7 +113,7 @@
 									</th:block>
 								</td>
 			                 	<td class="text-center">
-									<a class="btn  btn-link  btn-xs" title="Editar"> 
+									<a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/users/{code}(code=${user.code})}"> 
 										<i class="glyphicon glyphicon-pencil"></i>
 									</a>
 									<a class="btn  btn-link  btn-xs" title="Excluir">

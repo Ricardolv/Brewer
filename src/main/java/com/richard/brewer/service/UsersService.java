@@ -31,20 +31,37 @@ public class UsersService {
 		
 		Optional<User> userExist = users.findByEmail(user.getEmail());
 		
-		if (userExist.isPresent()) {
+		emailValid(user, userExist);
+		passwordValid(user, userExist);
+		statusSetting(user, userExist);
+		
+		user.setPasswordConfirm(user.getPassword());
+		
+		users.save(user);
+	}
+
+	private void emailValid(User user, Optional<User> userExist) {
+		if (userExist.isPresent() && !user.equals(userExist.get())) {
 			throw new UserEmailExistsException("E-mail já cadastrado");
 		}
-		
+	}
+
+	private void passwordValid(User user, Optional<User> userExist) {
 		if (user.isNew() && StringUtils.isEmpty(user.getPassword())) {
 			throw new UserPasswordRequiredException("Senha é obrigatório para novo usuário");
 		}
 		
-		if (user.isNew()) {
+		if (user.isNew() || !StringUtils.isEmpty(user.getPassword())) {
 			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-			user.setPasswordConfirm(user.getPassword());
+		} else if (StringUtils.isEmpty(user.getPassword())) {
+			user.setPassword(userExist.get().getPassword());
 		}
-		
-		users.save(user);
+	}
+
+	private void statusSetting(User user, Optional<User> userExist) {
+		if (user.isEdit() && null == user.getActive()) {
+			user.setActive(userExist.get().getActive());
+		}
 	}
 
 	public List<User> findAll() {
@@ -58,6 +75,10 @@ public class UsersService {
 
 	public Page<User> filter(UserFilter userFilter, Pageable pageable) {
 		return users.filter(userFilter, pageable);
+	}
+
+	public User findOfGroups(Long code) {
+		return users.findOfGroups(code);
 	}
 
 }

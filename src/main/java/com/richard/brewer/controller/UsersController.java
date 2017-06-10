@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,7 @@ public class UsersController {
 		return mv;
 	}
 	
-	@PostMapping("/new")
+	@PostMapping(value = { "/new", "{\\d+}" })
 	public ModelAndView save(@Valid User user, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
@@ -72,7 +73,6 @@ public class UsersController {
 	public ModelAndView search(UserFilter userFilter, 
 			@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("user/search-users");
-//		mv.addObject("users", usersService.filter(userFilter));
 		mv.addObject("groups", groupsServie.findAll());
 		
 		
@@ -88,5 +88,11 @@ public class UsersController {
 		usersService.statusAlter(codes, status);
 	}
 	
-
+	@GetMapping("/{code}")
+	public ModelAndView edit(@PathVariable Long code) {
+		User user = usersService.findOfGroups(code);
+		ModelAndView mv = newUser(user);
+		mv.addObject(user);
+		return mv;
+	}
 }

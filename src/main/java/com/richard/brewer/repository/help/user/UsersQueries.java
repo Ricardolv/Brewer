@@ -16,4 +16,6 @@ public interface UsersQueries {
 	public List<String> permissions(User user);
 	
 	public Page<User> filter(UserFilter userFilter, Pageable pageable);
+	
+	public User findOfGroups(Long code);
 }

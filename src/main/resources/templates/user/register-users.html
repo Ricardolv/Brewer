@@ -18,24 +18,30 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-xs-10">
-							<h1>Cadastro de Usuário</h1>
+							<h1 th:if="${user.new}">Cadastro de Usuário</h1>
+							<h1 th:unless="${user.new}">Edição de usuário - [[${user.name}]]</h1>
 						</div>
 						
 						<div class="col-xs-2">
 							<div class="aw-page-header-controls">
 								<a class="btn  btn-default" th:href="@{/users}">
-									<i class="glyphicon glyphicon-plus-sign "></i><span class="hidden-xs hidden-sm">Pesquisa</span>
+									<i class="glyphicon  glyphicon-plus-sign "></i> <span class="hidden-xs  hidden-sm">Pesquisa</span>
 								</a>
 							</div>
 						</div>
+						
 					</div>
 				</div>
 			</div>
 			
 			<div class="container-fluid">
 			
-				<form method="POST" th:action="@{/users/new}" th:object="${user}" class="form-vertical  js-form-loading">
+				<form method="POST"  th:object="${user}" class="form-vertical  js-form-loading"
+					  th:action="${user.new} ? @{/users/new} : @{/users/{code}(code=${user.code})}">
+					  
 					<brewer:message/>
+					
+					<input type="hidden" th:field="*{code}" />
 						
 					<div class="form-group bw-required" brewer:classforerror="name">
 						<label for="name" class="control-label">Nome</label>
@@ -43,16 +49,16 @@
 					</div>
 					
 					<div class="row">
-						<div class="form-group  col-sm-4 bw-required" brewer:classforerror="email">
+						<div class="form-group  col-sm-8 bw-required" brewer:classforerror="email">
 							<label for="email" class="control-label">E-mail</label>
 							<input id="email" type="text" class="form-control" th:field="*{email}"/>
 						</div>
-						<div class="form-group  col-sm-4">
+						<div class="form-group  col-sm-2">
 							<label for="birthDate">Data Nascimento</label>
 							<input id="birthDate" type="text" class="form-control  js-date" th:field="*{birthDate}" autocomplete="off"/>
 						</div>
 						
-						<div class="form-group  col-sm-4"></div>
+						<div class="form-group  col-sm-2"></div>
 					</div>	
 					
 					<div class="row">
@@ -65,7 +71,7 @@
 							<input id="passwordConfirm" type="password" class="form-control" th:field="*{passwordConfirm}" />
 						</div>
 						
-						<div class="form-group  col-sm-4">
+						<div class="form-group  col-sm-4" th:if="${#authentication.principal.user.code != user.code}">
 							<label for="active">Status</label>
 							<div>
 								<input type="checkbox" class="js-status" 
