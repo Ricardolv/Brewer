@@ -21,7 +21,11 @@ public class BeerSaveEvent {
 	}
 	
 	private boolean isNotHavePhoto() {
-		return StringUtils.isEmpty(beer.getPhoto());
+		return StringUtils.isEmpty(this.beer.getPhoto());
+	}
+	
+	private boolean isNewPhoto() {
+		return this.beer.isNewPhoto();
 	}
 
 }
