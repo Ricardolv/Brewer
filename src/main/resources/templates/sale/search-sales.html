@@ -110,7 +110,8 @@
 						<td th:text="${sale.user.name}"></td>
 						<td th:text="${sale.status.description}"></td>
 	                 	<td class="text-center">
-		   					<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" href="#">
+		   					<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" 
+		   					   th:href="@{/sales/{code}(code=${sale.code})}">
 		   						<i class="glyphicon glyphicon-pencil"></i>
 		   					</a>
 	                 	</td>

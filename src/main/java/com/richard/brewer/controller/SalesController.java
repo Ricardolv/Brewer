@@ -30,8 +30,8 @@ import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.PersonType;
 import com.richard.brewer.model.Sale;
 import com.richard.brewer.model.SaleStatus;
+import com.richard.brewer.model.SalesItem;
 import com.richard.brewer.repository.Beers;
-import com.richard.brewer.repository.Sales;
 import com.richard.brewer.repository.filter.SaleFilter;
 import com.richard.brewer.security.UserSystem;
 import com.richard.brewer.service.SalesService;
@@ -54,9 +54,6 @@ public class SalesController {
 	private SaleValidator saleValidator;
 	
 	@Autowired
-	private Sales sales;
-	
-	@Autowired
 	private Mailer mailer;
 	
 	@InitBinder("sale")
@@ -68,9 +65,7 @@ public class SalesController {
 	public ModelAndView newSale(Sale sale) {
 		ModelAndView mv = new ModelAndView("sale/register-sales");
 		
-		if (StringUtils.isEmpty(sale.getUuid())) {
-			sale.setUuid(UUID.randomUUID().toString());
-		}
+		setUuid(sale);
 		
 		mv.addObject("items", sale.getItems());
 		mv.addObject("freightValue", sale.getFreightValue());
@@ -146,13 +141,27 @@ public class SalesController {
 	
 	@GetMapping
 	public ModelAndView search(SaleFilter saleFilter,
-			@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest) {
+			@PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("sale/search-sales");
 		mv.addObject("statusAll", SaleStatus.values());
 		mv.addObject("personTypes", PersonType.values());
 		
-		PageWrapper<Sale> paginaWrapper = new PageWrapper<>(sales.filter(saleFilter, pageable), httpServletRequest);
+		PageWrapper<Sale> paginaWrapper = new PageWrapper<>(salesService.filter(saleFilter, pageable), httpServletRequest);
 		mv.addObject("page", paginaWrapper);
+		return mv;
+	}
+	
+	@GetMapping("/{code}")
+	public ModelAndView edit(@PathVariable("code") Long code) {
+		Sale sale = salesService.findOfItmes(code);
+		
+		setUuid(sale);
+		for (SalesItem item : sale.getItems()) {
+			tableSalesItems.addItem(sale.getUuid(), item.getBeer(), item.getQuantity());
+		}
+		
+		ModelAndView mv = newSale(sale);
+		mv.addObject(sale);
 		return mv;
 	}
 	
@@ -170,7 +179,10 @@ public class SalesController {
 		saleValidator.validate(sale, result);
 	}
 	
-	
-	
+	private void setUuid(Sale sale) {
+		if (StringUtils.isEmpty(sale.getUuid())) {
+			sale.setUuid(UUID.randomUUID().toString());
+		}
+	}
 
 }

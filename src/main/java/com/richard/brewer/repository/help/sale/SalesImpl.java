@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -42,6 +43,16 @@ public class SalesImpl implements SalesQueries {
 		return new PageImpl<>(criteria.list(), pageable, total(filter));
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public Sale findOfItmes(Long code) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Sale.class);
+		criteria.createAlias("items", "i", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("code", code));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (Sale) criteria.uniqueResult();
+	}
+	
 	private Long total(SaleFilter filter) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Sale.class);
 		addFilter(filter, criteria);

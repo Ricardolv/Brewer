@@ -20,7 +20,8 @@
 
 				<div class="row">
 					<div class="col-xs-10">
-						<h1>Cadastro de Venda</h1>
+						<h1 th:if="${sale.new}">Cadastro de Venda</h1>
+						<h1 th:unless="${sale.new}">Edição da venda - nº [[${sale.code}]]</h1>
 					</div>
 				
 					<div class="col-xs-2">
@@ -42,7 +43,7 @@
 				<brewer:message/>
 
 				<input type="hidden" id="uuid" th:field="*{uuid}" />
-				
+				<input type="hidden" th:field="*{code}" />
 				
 				<div class="row">
 					<div class="col-sm-4">
@@ -61,7 +62,7 @@
 								<i class="fa  fa-tag  fa-3x"></i>
 							</div>
 							<div class="aw-box__value">Orçamento</div>
-							<div class="aw-box__title">Status</div>
+							<div class="aw-box__title" th:text="*{status.description}"></div>
 						</div>
 					</div>
 					
@@ -71,7 +72,9 @@
 								<i class="fa  fa-calendar  fa-3x"></i>
 							</div>
 							<div class="aw-box__value">
-								<span class="js-tooltip">Hoje</span>
+								<span class="js-tooltip" th:if="${sale.daysCreative == 0}">Hoje</span>
+								<span class="js-tooltip" th:if="${sale.daysCreative == 1}">Há um dia</span>
+								<span class="js-tooltip" th:if="${sale.daysCreative > 1}">Há [[${sale.daysCreative}]] dias</span>
 							</div>
 							<div class="aw-box__title">Criação</div>
 						</div>

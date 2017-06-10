@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class Sale {
 	@Enumerated(EnumType.STRING)
 	private SaleStatus status = SaleStatus.BUDGET;
 
-	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SalesItem> items = new ArrayList<>();
 	
 	@Transient
@@ -182,9 +183,8 @@ public class Sale {
 		this.deliveryHour = deliveryHour;
 	}
 	
-	/** 
-	 * Business 
-	 */
+	/*********** Business *************/
+	
 	public boolean isNew() {
 		return this.code == null;
 	}
@@ -203,6 +203,11 @@ public class Sale {
 	
 	public void calculateTotalValue() {
 		this.totalValue = calculateTotalValue(getTotalValueItems(), getFreightValue(), getDiscountValue());
+	}
+	
+	public Long getDaysCreative() {
+		LocalDate start = null != this.creationDate ? this.creationDate.toLocalDate() :  LocalDate.now();
+		return ChronoUnit.DAYS.between(start, LocalDateTime.now());
 	}
 	
 	private BigDecimal calculateTotalValue(BigDecimal totalValueItems, BigDecimal freightValue, BigDecimal dicountValue) {

@@ -10,4 +10,5 @@ import com.richard.brewer.repository.filter.SaleFilter;
 public interface SalesQueries {
 	
 	public Page<Sale> filter(SaleFilter filtro, Pageable pageable);
+	public Sale findOfItmes(Long code);
 }
