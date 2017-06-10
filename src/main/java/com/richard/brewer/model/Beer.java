@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -84,19 +85,8 @@ public class Beer implements Serializable {
 	@Column(name = "content_type")
 	private String contentType;
 	
-	@PrePersist 
-	@PreUpdate
- 	private void prePersistUpdate() {
-		sku = sku.toUpperCase();
-	}
-	
-	public String getPhotoOrMock() {
-		return !StringUtils.isEmpty(this.photo) ? this.photo : "beer-mock.png";
-	}
-	
-	public boolean havePhoto() {
-		return !StringUtils.isEmpty(this.photo);
-	}
+	@Transient
+	private boolean newPhoto;
 	
 	public Long getCode() {
 		return code;
@@ -200,6 +190,34 @@ public class Beer implements Serializable {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+	
+	public boolean isNewPhoto() {
+		return newPhoto;
+	}
+
+	public void setNewPhoto(boolean newPhoto) {
+		this.newPhoto = newPhoto;
+	}
+	
+	/** BUSINESS */
+	
+	@PrePersist 
+	@PreUpdate
+ 	private void prePersistUpdate() {
+		sku = sku.toUpperCase();
+	}
+	
+	public String getPhotoOrMock() {
+		return !StringUtils.isEmpty(this.photo) ? this.photo : "beer-mock.png";
+	}
+	
+	public boolean havePhoto() {
+		return !StringUtils.isEmpty(this.photo);
+	}
+	
+	public boolean isNew() {
+		return null == this.code;
 	}
 
 	@Override

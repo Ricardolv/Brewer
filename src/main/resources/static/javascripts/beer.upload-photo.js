@@ -5,6 +5,7 @@ Brewer.UploadPhoto = (function() {
 	function UploadPhoto() {
 		this.inputPhotoName = $('input[name=photo]');
 		this.inputContentType = $('input[name=contentType]');
+		this.newPhoto = $('input[name=newPhoto]');
 		
 		this.htmlPhotoBeerTemplate = $('#photo-beer').html();
 		this.template = Handlebars.compile(this.htmlPhotoBeerTemplate);
@@ -12,6 +13,8 @@ Brewer.UploadPhoto = (function() {
 		this.containerPhotoBeer = $('.js-container-photo-beer');
 		
 		this.uploadDrop = $('#upload-drop');
+		
+		
 	}
 	
 	UploadPhoto.prototype.start = function() {
@@ -28,16 +31,28 @@ Brewer.UploadPhoto = (function() {
 		UIkit.uploadDrop(this.uploadDrop, settings);
 		
 		if(this.inputPhotoName.val()) {
-			onUploadComplete.call(this, { name: this.inputPhotoName.val(), contentType: this.inputContentType.val() });
+			toRenderPhoto.call(this, { name: this.inputPhotoName.val(), contentType: this.inputContentType.val() });
 		}
 	}
 	
 	function onUploadComplete(response) {
+		this.newPhoto.val('true');
+		toRenderPhoto.call(this, response)
+	}
+	
+	function toRenderPhoto(response) {
 		this.inputPhotoName.val(response.name);
 		this.inputContentType.val(response.contentType);
 		
 		this.uploadDrop.addClass('hidden');
-		var htmlPhotoBeer = this.template({ photoName: response.name });
+		
+		var photo = '';
+		if (this.newPhoto.val() == 'true') {
+			photo = 'temp/';
+		}
+		photo += response.name;
+		
+		var htmlPhotoBeer = this.template({ photo: photo });
 		this.containerPhotoBeer.append(htmlPhotoBeer);
 		
 		$('.js-remove-photo').on('click', onRemovePhoto.bind(this));
@@ -48,6 +63,7 @@ Brewer.UploadPhoto = (function() {
 		this.uploadDrop.removeClass('hidden');
 		this.inputPhotoName.val('');
 		this.inputContentType.val('');
+		this.newPhoto.val('false');
 	}
 	
 	function addCsrfToken(xhr) {

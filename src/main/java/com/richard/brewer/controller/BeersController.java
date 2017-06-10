@@ -51,7 +51,7 @@ public class BeersController {
 		return mv;
 	}
 	
-	@PostMapping("/new")
+	@PostMapping(value = { "/new", "{\\d+}" })
 	public ModelAndView save(@Valid Beer beer, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
@@ -92,6 +92,13 @@ public class BeersController {
 		}
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/{code}")
+	public ModelAndView edit(@PathVariable("code") Beer beer) {
+		ModelAndView mv = newBeer(beer);
+		mv.addObject(beer);
+		return mv;
 	}
 
 }
