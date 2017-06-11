@@ -18,16 +18,18 @@
 			<div class="bw-table-beer-value-little">
 				<input type="text" maxlength="3" 
 				class="bw-table-beer-field-quantity js-table-beer-quantity-item" 
-				th:value="${item.quantity}" data:code-beer="${item.beer.code}"/>
+				th:value="${item.quantity}" data:code-beer="${item.beer.code}"
+				th:disabled="${sale != null ? sale.notSaveAllowed : false}"/>
 				<span>x R$[[${{item.unitaryValue}}]]</span>
 			</div>
 			<div class="bw-table-beer-value-big">R$[[${{item.totalValue}}]]</div>
 		</div>
 		
-		<div class="bw-table-item__painel-exclusion">
+		<div class="bw-table-item__painel-exclusion" th:if="${sale != null ? sale.saveAllowed : false}">
 		
 			<span class="bw-table-item__title-exclusion"> Excluir este item da venda? </span>
-			<button type="button" class="btn btn-danger  js-exclusion-item-btn" data:code-beer="${item.beer.code}">Sim, excluir!</button>
+			<button type="button" class="btn btn-danger  js-exclusion-item-btn" 
+					data:code-beer="${item.beer.code}">Sim, excluir!</button>
 		</div>
 		
 	</div>

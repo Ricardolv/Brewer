@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.richard.brewer.model.Sale;
@@ -23,6 +24,10 @@ public class SalesService {
 	
 	@Transactional
 	public Sale save(Sale sale) {
+		
+		if (sale.isNotSaveAllowed()) {
+			throw new RuntimeException("Usuário tentando salvar uma venda proibida.");
+		}
 		
 		if (sale.isNew()) {
 			sale.setCreationDate(LocalDateTime.now());
@@ -44,6 +49,14 @@ public class SalesService {
 		sale.setStatus(SaleStatus.ISSUED);
 		return save(sale);
 	}
+	
+	@PreAuthorize("#sale.user == principal.user or hasRole('CANCEL_SALE')")
+	@Transactional
+	public void cancel(Sale sale) {
+		Sale saleExist = sales.findOne(sale.getCode());
+		saleExist.setStatus(SaleStatus.CANCELED);
+		sales.save(saleExist);
+	}
 
 	public Page<Sale> filter(SaleFilter saleFilter, Pageable pageable) {
 		return sales.filter(saleFilter, pageable);
@@ -52,5 +65,7 @@ public class SalesService {
 	public Sale findOfItmes(Long code) {
 		return sales.findOfItmes(code);
 	}
+
+	
 
 }
