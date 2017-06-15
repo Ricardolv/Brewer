@@ -1,7 +1,11 @@
 package com.richard.brewer.repository.help.sale;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.Year;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import com.richard.brewer.model.PersonType;
 import com.richard.brewer.model.Sale;
+import com.richard.brewer.model.SaleStatus;
 import com.richard.brewer.repository.filter.SaleFilter;
 import com.richard.brewer.repository.pagination.PaginationUtil;
 
@@ -51,6 +56,71 @@ public class SalesImpl implements SalesQueries {
 		criteria.add(Restrictions.eq("code", code));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (Sale) criteria.uniqueResult();
+	}
+	
+	@Override
+	public BigDecimal totalValueMonth() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(totalValue) from Sale where month(creationDate) = :month and status = :status", BigDecimal.class)
+				.setParameter("month", MonthDay.now().getMonthValue())
+				.setParameter("status", SaleStatus.ISSUED)
+				.getSingleResult());
+			
+			return optional.orElse(BigDecimal.ZERO);
+	}
+	
+	@Override
+	public BigDecimal totalValueYear() {
+	Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(totalValue) from Sale where year(creationDate) = :year and status = :status", BigDecimal.class)
+			.setParameter("year", Year.now().getValue())
+			.setParameter("status", SaleStatus.ISSUED)
+			.getSingleResult());
+		
+		return optional.orElse(BigDecimal.ZERO);
+	}
+	
+	@Override
+	public BigDecimal tickedValue() {
+		Optional<BigDecimal> optional = Optional.ofNullable(manager.createQuery("select sum(totalValue) /count(*) from Sale where year(creationDate) = :year and status = :status", BigDecimal.class)
+				.setParameter("year", Year.now().getValue())
+				.setParameter("status", SaleStatus.ISSUED)
+				.getSingleResult());
+			
+			return optional.orElse(BigDecimal.ZERO);
+	}
+	
+	@Override
+	public Long clientsQuantity() {
+		Optional<Long> optional = Optional.ofNullable(manager.createQuery("select count(Distinct client) from Sale where month(creationDate) = :month and status = :status", Long.class)
+				.setParameter("month", MonthDay.now().getMonthValue())
+				.setParameter("status", SaleStatus.ISSUED)
+				.getSingleResult());
+			
+			return optional.orElse(0l);
+	}
+	
+	@Override
+	public Long stockQuantity() {
+		Optional<Long> optional = Optional.ofNullable(manager.
+				 createQuery("select sum(quantity) "
+				 			+"from SalesItem "
+				 			+ "where sale in(select Distinct code from Sale where status <> :status)  ", Long.class)
+				.setParameter("status", SaleStatus.ISSUED)
+				.getSingleResult());
+			
+			return optional.orElse(0l);
+	}
+	
+	@Override
+	public BigDecimal stockTotalValue() {
+		Optional<BigDecimal> optional = 
+				Optional.ofNullable(manager.
+						 createQuery("select sum(unitaryValue) "
+						 			+"from SalesItem "
+						 			+ "where sale in(select Distinct code from Sale where status <> :status)  ", BigDecimal.class)
+						.setParameter("status", SaleStatus.ISSUED)
+						.getSingleResult());
+			
+			return optional.orElse(BigDecimal.ZERO);
 	}
 	
 	private Long total(SaleFilter filter) {
@@ -99,5 +169,6 @@ public class SalesImpl implements SalesQueries {
 			}
 		}
 	}
+
 
 }

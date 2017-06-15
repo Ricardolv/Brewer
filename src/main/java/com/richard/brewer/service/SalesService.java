@@ -1,5 +1,6 @@
 package com.richard.brewer.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -66,6 +67,29 @@ public class SalesService {
 		return sales.findOfItmes(code);
 	}
 
+	public BigDecimal totalValueYear() {
+		return sales.totalValueYear();
+	}
+
+	public BigDecimal totalValueMonth() {
+		return sales.totalValueMonth();
+	}
+
+	public BigDecimal tickedValue() {
+		return sales.tickedValue();
+	}
+
+	public Long clientsQuantity() {
+		return sales.clientsQuantity();
+	}
+
+	public Long stockQuantity() {
+		return sales.stockQuantity();
+	}
+
+	public BigDecimal stockTotalValue() {
+		return sales.stockTotalValue();
+	}
 	
 
 }

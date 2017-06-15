@@ -1,6 +1,8 @@
 package com.richard.brewer.repository.help.sale;
 
 
+import java.math.BigDecimal;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,4 +13,13 @@ public interface SalesQueries {
 	
 	public Page<Sale> filter(SaleFilter filtro, Pageable pageable);
 	public Sale findOfItmes(Long code);
+	
+	public BigDecimal totalValueYear();
+	public BigDecimal totalValueMonth();
+	public BigDecimal tickedValue();
+	
+	public Long clientsQuantity();
+	public Long stockQuantity();
+	public BigDecimal stockTotalValue();
+	
 }
