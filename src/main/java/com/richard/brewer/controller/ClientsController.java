@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +31,7 @@ import com.richard.brewer.repository.filter.ClientFilter;
 import com.richard.brewer.service.ClientsService;
 import com.richard.brewer.service.StateService;
 import com.richard.brewer.service.exception.ClientCpfCnpjExistsException;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
 
 @Controller
 @RequestMapping("/clients")
@@ -49,7 +52,7 @@ public class ClientsController {
 		return mv;
 	}
 	
-	@PostMapping("/new")
+	@PostMapping(value = { "/new", "{\\d+}" })
 	public ModelAndView save(@Valid Client client, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
@@ -82,6 +85,26 @@ public class ClientsController {
 	public @ResponseBody List<Client> search(String name) {
 		validateNameLength(name);
 		return clientsService.findByNameStartingWithIgnoreCase(name);
+	}
+	
+	@DeleteMapping("/{code}")
+	public @ResponseBody ResponseEntity<?> delete(@PathVariable Long code) {
+		Client client = clientsService.findOne(code);
+		try {
+			clientsService.delete(client);
+			
+		} catch (ImpossibleDeleteEntityException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/{code}")
+	public ModelAndView edit(@PathVariable("code") Client client) {
+		ModelAndView mv = newClient(client);
+		mv.addObject(client);
+		return mv;
 	}
 
 	private void validateNameLength(String name) {

@@ -3,7 +3,9 @@ package com.richard.brewer.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +29,7 @@ public class Style implements Serializable {
 	@NotBlank(message = "Nome é obrigatório")
 	private String name;
 	
-	@OneToMany(mappedBy = "style")
+	@OneToMany(mappedBy = "style", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private List<Beer> beers;
 	
 	public Long getCode() {
@@ -45,7 +47,13 @@ public class Style implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/** BUSINESS */
 
+	public boolean isNew() {
+		return null == this.code;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

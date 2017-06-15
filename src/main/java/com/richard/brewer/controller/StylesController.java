@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.model.Style;
 import com.richard.brewer.repository.filter.StyleFilter;
 import com.richard.brewer.service.StyleService;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
 import com.richard.brewer.service.exception.NameExistsException;
 
 @Controller
@@ -38,7 +41,7 @@ public class StylesController {
 		return mv;
 	}
 	
-	@PostMapping("/new")
+	@PostMapping(value = { "/new", "{\\d+}" })
 	public ModelAndView save(@Valid Style style, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors())
@@ -74,6 +77,27 @@ public class StylesController {
 		PageWrapper<Style> pageWrapper = new PageWrapper<>(styleService.filter(styleFilter, pageable), httpServletRequest);
 		mv.addObject("page", pageWrapper);
 		
+		return mv;
+	}
+	
+	@DeleteMapping("/{code}")
+	public @ResponseBody ResponseEntity<?> delete(@PathVariable Long code) {
+		Style style = styleService.findOne(code);
+		try {
+			styleService.delete(style);
+			
+		} catch (ImpossibleDeleteEntityException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/{code}")
+	public ModelAndView edit(@PathVariable Long code) {
+		Style style = styleService.findOne(code);
+		ModelAndView mv = newStyle(style);
+		mv.addObject(style);
 		return mv;
 	}
 

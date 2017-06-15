@@ -9,5 +9,6 @@ import com.richard.brewer.repository.filter.CityFilter;
 public interface CitysQueries {
 	
 	public Page<City> filter(CityFilter filter, Pageable pageable);
+	public City findOfState(Long code);
 
 }

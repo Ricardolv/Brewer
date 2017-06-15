@@ -3,6 +3,8 @@ package com.richard.brewer.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.richard.brewer.model.City;
 import com.richard.brewer.repository.Citys;
 import com.richard.brewer.repository.filter.CityFilter;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
 import com.richard.brewer.service.exception.NameExistsException;
 
 @Service
@@ -35,10 +38,28 @@ public class CitysService {
 		
 		citys.save(city);
 	}
+	
+	@Transactional
+	public void delete(City city) {
+		try {
+			citys.delete(city.getCode());
+			citys.flush();
+		} catch (PersistenceException e) {
+			throw new ImpossibleDeleteEntityException("Impossível apagar cidade.");
+		}
+		
+	}
 
 	public  Page<City> filter(CityFilter filter, Pageable pageable) {
 		return citys.filter(filter, pageable);
 	}
-	
+
+	public City findOne(Long code) {
+		return citys.findOne(code);
+	}
+
+	public City findOfState(Long code) {
+		return citys.findOfState(code);
+	}
 
 }

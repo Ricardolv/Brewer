@@ -3,6 +3,8 @@ package com.richard.brewer.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,7 @@ import org.springframework.util.StringUtils;
 import com.richard.brewer.model.User;
 import com.richard.brewer.repository.Users;
 import com.richard.brewer.repository.filter.UserFilter;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
 import com.richard.brewer.service.exception.UserEmailExistsException;
 import com.richard.brewer.service.exception.UserPasswordRequiredException;
 
@@ -71,6 +74,17 @@ public class UsersService {
 	@Transactional
 	public void statusAlter(Long[] codes, StatusUser status) {
 		status.execute(codes, users);
+	}
+	
+	@Transactional
+	public void delete(User user) {
+		try {
+			users.delete(user.getCode());
+			users.flush();
+		} catch (PersistenceException e) {
+			throw new ImpossibleDeleteEntityException("Impossível apagar usuário.");
+		}
+		
 	}
 
 	public Page<User> filter(UserFilter userFilter, Pageable pageable) {

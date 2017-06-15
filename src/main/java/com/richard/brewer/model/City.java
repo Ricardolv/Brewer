@@ -55,6 +55,12 @@ public class City implements Serializable {
 		this.state = state;
 	}
 	
+	/** BUSINESS */
+
+	public boolean isNew() {
+		return null == this.code;
+	}
+	
 	public boolean haveState() {
 		return null != this.state; 
 	}

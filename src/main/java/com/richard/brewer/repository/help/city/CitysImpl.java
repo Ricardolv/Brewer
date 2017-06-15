@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,7 +20,7 @@ import com.richard.brewer.model.City;
 import com.richard.brewer.repository.filter.CityFilter;
 import com.richard.brewer.repository.pagination.PaginationUtil;
 
-
+@SuppressWarnings({"deprecation", "unchecked"})
 public class CitysImpl implements CitysQueries {
 	
 	@PersistenceContext
@@ -28,7 +29,6 @@ public class CitysImpl implements CitysQueries {
 	@Autowired
 	private PaginationUtil paginationUtil;
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Transactional(readOnly = true)
 	@Override
 	public Page<City> filter(CityFilter filter, Pageable pageable) {
@@ -41,8 +41,17 @@ public class CitysImpl implements CitysQueries {
 				
 		return new PageImpl<>(criteria.list(), pageable, total(filter));
 	}
-
-	@SuppressWarnings("deprecation")
+	
+	@Transactional(readOnly = true)
+	@Override
+	public City findOfState(Long code) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(City.class);
+		criteria.createAlias("state", "s", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("code", code));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (City) criteria.uniqueResult();
+	}
+	
 	private Long total(CityFilter filter) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(City.class);
 		addFilter(filter, criteria);
@@ -63,5 +72,7 @@ public class CitysImpl implements CitysQueries {
 			}
 		}
 	}
+
+	
 
 }

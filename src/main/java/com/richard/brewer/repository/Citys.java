@@ -14,7 +14,6 @@ import com.richard.brewer.repository.help.city.CitysQueries;
 public interface Citys extends JpaRepository<City, Long>, CitysQueries {
 	
 	public List<City> findByStateCode(Long codeState);
-
 	public Optional<City> findByStateAndName(State state, String name);
 
 }

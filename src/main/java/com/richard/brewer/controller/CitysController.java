@@ -11,10 +11,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +30,7 @@ import com.richard.brewer.model.City;
 import com.richard.brewer.repository.filter.CityFilter;
 import com.richard.brewer.service.CitysService;
 import com.richard.brewer.service.StateService;
+import com.richard.brewer.service.exception.ImpossibleDeleteEntityException;
 import com.richard.brewer.service.exception.NameExistsException;
 
 @Controller
@@ -59,7 +63,7 @@ public class CitysController {
 	}
 	
 	@CacheEvict(value = "citys", key = "#city.state.code", condition = "#city.haveState()")
-	@PostMapping("/new")
+	@PostMapping(value = { "/new", "{\\d+}" })
 	public ModelAndView save(@Valid City city, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
@@ -89,5 +93,25 @@ public class CitysController {
 		mv.addObject("page", paginaWrapper);
 		return mv;
 	}
+	
+	@DeleteMapping("/{code}")
+	public @ResponseBody ResponseEntity<?> delete(@PathVariable Long code) {
+		City city = citysService.findOfState(code);
+		try {
+			citysService.delete(city);
+			
+		} catch (ImpossibleDeleteEntityException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
+	}
 
+	@GetMapping("/{code}")
+	public ModelAndView edit(@PathVariable Long code) {
+		City city = citysService.findOfState(code);
+		ModelAndView mv = newCity(city);
+		mv.addObject(city);
+		return mv;
+	}
 }

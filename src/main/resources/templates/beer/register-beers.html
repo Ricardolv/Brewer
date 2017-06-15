@@ -41,7 +41,6 @@
 					  th:action="${beer.new} ? @{/beers/new} : @{/beers/{code}(code=${beer.code})}" >
 					
 					<brewer:message/>
-					
 					<input type="hidden" th:field="*{code}" />
 					
 					<div class="row">

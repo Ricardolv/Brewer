@@ -127,6 +127,12 @@ public class Client implements Serializable {
 		this.anddress = anddress;
 	}
 	
+	/** BUSINESS */
+	
+	public boolean isNew() {
+		return null == this.code;
+	}
+	
 	public String getCpfCnpjWithoutFormatting() {
 		return PersonType.removeFormatting(this.cpfCnpj);
 	}

@@ -34,9 +34,11 @@
 			
 			<div class="container-fluid">
 			
-				<form method="POST" th:action="@{/clients/new}" th:object="${client}">
+				<form method="POST" th:object="${client}" 
+					  th:action="${client.new} ? @{/clients/new} : @{/clients/{code}(code=${client.code})}">
 					
 					<brewer:message/>
+					<input type="hidden" th:field="*{code}" />
 						
 					<div class="form-group  bw-required" brewer:classforerror="name">
 						<label for="name" class="control-label">Nome</label>
