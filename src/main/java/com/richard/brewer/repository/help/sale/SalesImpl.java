@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.Year;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,6 +143,8 @@ public class SalesImpl implements SalesQueries {
 			
 			toDay = toDay.minusMonths(1);
 		}
+		
+		Collections.sort(saleByMonths, (SaleByMonth s1, SaleByMonth s2) -> s2.getMonth().compareTo(s1.getMonth()));
 		
 		return saleByMonths;
 	}
