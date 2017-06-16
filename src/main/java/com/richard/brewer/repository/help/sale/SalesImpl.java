@@ -93,41 +93,6 @@ public class SalesImpl implements SalesQueries {
 	}
 	
 	@Override
-	public Long clientsQuantity() {
-		Optional<Long> optional = Optional.ofNullable(manager.createQuery("select count(Distinct client) from Sale where month(creationDate) = :month and status = :status", Long.class)
-				.setParameter("month", MonthDay.now().getMonthValue())
-				.setParameter("status", SaleStatus.ISSUED)
-				.getSingleResult());
-			
-			return optional.orElse(0l);
-	}
-	
-	@Override
-	public Long stockQuantity() {
-		Optional<Long> optional = Optional.ofNullable(manager.
-				 createQuery("select sum(quantity) "
-				 			+"from SalesItem "
-				 			+ "where sale in(select Distinct code from Sale where status <> :status)  ", Long.class)
-				.setParameter("status", SaleStatus.ISSUED)
-				.getSingleResult());
-			
-			return optional.orElse(0l);
-	}
-	
-	@Override
-	public BigDecimal stockTotalValue() {
-		Optional<BigDecimal> optional = 
-				Optional.ofNullable(manager.
-						 createQuery("select sum(unitaryValue) "
-						 			+"from SalesItem "
-						 			+ "where sale in(select Distinct code from Sale where status <> :status)  ", BigDecimal.class)
-						.setParameter("status", SaleStatus.ISSUED)
-						.getSingleResult());
-			
-			return optional.orElse(BigDecimal.ZERO);
-	}
-	
-	@Override
 	public List<SaleByMonth> totalByMonth() {
 		List<SaleByMonth> saleByMonths = manager.createNamedQuery("Sales.totalByMonth").getResultList();
 		

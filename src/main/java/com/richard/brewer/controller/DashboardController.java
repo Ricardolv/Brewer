@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.richard.brewer.repository.Beers;
+import com.richard.brewer.repository.Clients;
 import com.richard.brewer.repository.Sales;
 
 @Controller
@@ -13,6 +15,11 @@ public class DashboardController {
 	@Autowired
 	private Sales sales;
 	
+	@Autowired
+	private Beers beers;
+	
+	@Autowired
+	private Clients clients;
 	
 	@GetMapping("/")
 	public ModelAndView dashboard() {
@@ -22,9 +29,8 @@ public class DashboardController {
 		mv.addObject("salesTotalValueMonth", sales.totalValueMonth());
 		mv.addObject("tickedValue", sales.tickedValue());
 		
-		mv.addObject("clientsQuantity", sales.clientsQuantity());
-		mv.addObject("stockQuantity", sales.stockQuantity());
-		mv.addObject("stockTotalValue", sales.stockTotalValue());
+		mv.addObject("stockValueItems", beers.valueItemsStock());
+		mv.addObject("totalClients", clients.count());
 		
 		return mv;
 	}

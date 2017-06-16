@@ -20,10 +20,6 @@ public interface SalesQueries {
 	public BigDecimal totalValueMonth();
 	public BigDecimal tickedValue();
 	
-	public Long clientsQuantity();
-	public Long stockQuantity();
-	public BigDecimal stockTotalValue();
-	
 	public List<SaleByMonth> totalByMonth();
 	
 }

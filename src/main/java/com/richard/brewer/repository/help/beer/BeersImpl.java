@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.richard.brewer.dto.BeerDTO;
+import com.richard.brewer.dto.StockValueItems;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.repository.filter.BeerFilter;
 import com.richard.brewer.repository.pagination.PaginationUtil;
@@ -40,6 +41,13 @@ public class BeersImpl implements BeersQueries {
 		addFilter(beerFilter, criteria);
 
 		return new PageImpl<>(criteria.list(), pageable, total(beerFilter));
+	}
+	
+	@Override
+	public StockValueItems valueItemsStock() {
+		String query = "select new com.richard.brewer.dto.StockValueItems(sum(value * quantityStock), sum(quantityStock)) from Beer";
+		return manager.createQuery(query, StockValueItems.class).getSingleResult();
+		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -92,7 +100,7 @@ public class BeersImpl implements BeersQueries {
 	public List<BeerDTO> bySkuOrName(String skuOrName) {
 
 		String jpql = "select new com.richard.brewer.dto.BeerDTO(code, sku, name, origin, value, photo) "
-				+ "from Beer where lower(sku) like lower(:skuOrName) or lower(name) like lower(:skuOrName)";
+				+ "from Beer where lower(sku) like lower(:skuOrName) or lower(name) like lower(:skuOrName) and quantityStock > 0 ";
 		List<BeerDTO> beersFiltered= manager.createQuery(jpql, BeerDTO.class)
 					.setParameter("skuOrName", skuOrName + "%")
 					.getResultList();

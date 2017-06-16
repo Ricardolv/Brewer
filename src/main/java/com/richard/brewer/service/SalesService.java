@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,12 +16,16 @@ import com.richard.brewer.model.Sale;
 import com.richard.brewer.model.SaleStatus;
 import com.richard.brewer.repository.Sales;
 import com.richard.brewer.repository.filter.SaleFilter;
+import com.richard.brewer.service.event.sale.SaleEvent;
 
 @Service
 public class SalesService {
 
 	@Autowired
 	private Sales sales;
+	
+	@Autowired
+	private ApplicationEventPublisher publisher;
 	
 	@Transactional
 	public Sale save(Sale sale) {
@@ -47,7 +52,11 @@ public class SalesService {
 	@Transactional
 	public Sale issue(Sale sale) {
 		sale.setStatus(SaleStatus.ISSUED);
-		return save(sale);
+		sale = save(sale);
+		
+		publisher.publishEvent(new SaleEvent(sale));
+		
+		return sale;
 	}
 	
 	@PreAuthorize("#sale.user == principal.user or hasRole('CANCEL_SALE')")
