@@ -5,26 +5,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.richard.brewer.service.SalesService;
+import com.richard.brewer.repository.Sales;
 
 @Controller
 public class DashboardController {
 	
 	@Autowired
-	private SalesService salesService;
+	private Sales sales;
 	
 	
 	@GetMapping("/")
 	public ModelAndView dashboard() {
 		ModelAndView mv = new ModelAndView("dashboard");
 		
-		mv.addObject("salesTotalValueYear", salesService.totalValueYear());
-		mv.addObject("salesTotalValueMonth", salesService.totalValueMonth());
-		mv.addObject("tickedValue", salesService.tickedValue());
+		mv.addObject("salesTotalValueYear", sales.totalValueYear());
+		mv.addObject("salesTotalValueMonth", sales.totalValueMonth());
+		mv.addObject("tickedValue", sales.tickedValue());
 		
-		mv.addObject("clientsQuantity", salesService.clientsQuantity());
-		mv.addObject("stockQuantity", salesService.stockQuantity());
-		mv.addObject("stockTotalValue", salesService.stockTotalValue());
+		mv.addObject("clientsQuantity", sales.clientsQuantity());
+		mv.addObject("stockQuantity", sales.stockQuantity());
+		mv.addObject("stockTotalValue", sales.stockTotalValue());
 		
 		return mv;
 	}

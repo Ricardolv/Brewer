@@ -8,5 +8,8 @@ import com.richard.brewer.repository.help.sale.SalesQueries;
 
 @Repository
 public interface Sales extends JpaRepository<Sale, Long>, SalesQueries {
+	
+//	@Query(value = SaleByMonth.QUERY)
+//	public List<SaleByMonth> totalByMonth();
 
 }

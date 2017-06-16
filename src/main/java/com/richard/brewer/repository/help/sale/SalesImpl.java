@@ -1,10 +1,13 @@
 package com.richard.brewer.repository.help.sale;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.Year;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.richard.brewer.dto.SaleByMonth;
 import com.richard.brewer.model.PersonType;
 import com.richard.brewer.model.Sale;
 import com.richard.brewer.model.SaleStatus;
@@ -123,6 +127,26 @@ public class SalesImpl implements SalesQueries {
 			return optional.orElse(BigDecimal.ZERO);
 	}
 	
+	@Override
+	public List<SaleByMonth> totalByMonth() {
+		List<SaleByMonth> saleByMonths = manager.createNamedQuery("Sales.totalByMonth").getResultList();
+		
+		LocalDate toDay = LocalDate.now();
+		
+		for (int i = 0; i < 6; i++) {
+			String idealMonth = String.format("%d/%02d", toDay.getYear(), toDay.getMonthValue());
+			
+			boolean haveMonth = saleByMonths.stream().filter(s -> s.getMonth().equals(idealMonth)).findAny().isPresent();
+			if (!haveMonth) {
+				saleByMonths.add(i - 1, new SaleByMonth(idealMonth, 0));
+			}
+			
+			toDay = toDay.minusMonths(1);
+		}
+		
+		return saleByMonths;
+	}
+	
 	private Long total(SaleFilter filter) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Sale.class);
 		addFilter(filter, criteria);
@@ -169,6 +193,5 @@ public class SalesImpl implements SalesQueries {
 			}
 		}
 	}
-
 
 }

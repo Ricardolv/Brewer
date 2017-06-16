@@ -1,5 +1,6 @@
 package com.richard.brewer.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.controller.validator.SaleValidator;
+import com.richard.brewer.dto.SaleByMonth;
 import com.richard.brewer.mail.Mailer;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.PersonType;
@@ -33,6 +35,7 @@ import com.richard.brewer.model.Sale;
 import com.richard.brewer.model.SaleStatus;
 import com.richard.brewer.model.SalesItem;
 import com.richard.brewer.repository.Beers;
+import com.richard.brewer.repository.Sales;
 import com.richard.brewer.repository.filter.SaleFilter;
 import com.richard.brewer.security.UserSystem;
 import com.richard.brewer.service.SalesService;
@@ -50,6 +53,9 @@ public class SalesController {
 	
 	@Autowired
 	private SalesService salesService;
+	
+	@Autowired
+	private Sales sales;
 	
 	@Autowired
 	private SaleValidator saleValidator;
@@ -177,6 +183,11 @@ public class SalesController {
 		ModelAndView mv = newSale(sale);
 		mv.addObject(sale);
 		return mv;
+	}
+	
+	@GetMapping("/totalByMonth")
+	public @ResponseBody List<SaleByMonth> listTotalByMonth() {
+		return sales.totalByMonth();
 	}
 	
 	private ModelAndView mvTableSaleItems(String uuid) {

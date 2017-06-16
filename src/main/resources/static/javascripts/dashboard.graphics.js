@@ -7,23 +7,38 @@ Brewer.GraphicSaleByMonths = (function() {
 	}
 	
 	GraphicSaleByMonths.prototype.init = function() {
+		$.ajax({
+			url:'sales/totalByMonth',
+			method: 'GET',
+			success: onDataReceived.bind(this)
+		});
+		
+		
+	}
+	
+	function onDataReceived(salesMonth) {
+		var month = [];
+		var values = [];
+		
+		salesMonth.forEach(function(obj) {
+			month.unshift(obj.month);
+			values.unshift(obj.total);
+		});
 		
 		var graphicSaleByMonths = new Chart(this.ctx, {
 		    type: 'line',
 		    data: {
-		    	labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+		    	labels: month,
 		    	datasets: [{
 		    		label: 'Vendas por mês',
 		    		backgroundColor: "rgba(26,179,148,0.5)",
 	                pointBorderColor: "rgba(26,179,148,1)",
 	                pointBackgroundColor: "#fff",
-	                data: [10, 5, 7, 2, 9]
+	                data: values
 		    	}]
 		    },
 		});
-		
 	}
-	
 	
 	return GraphicSaleByMonths;
 	

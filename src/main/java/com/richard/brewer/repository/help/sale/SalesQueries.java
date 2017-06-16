@@ -2,10 +2,12 @@ package com.richard.brewer.repository.help.sale;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.richard.brewer.dto.SaleByMonth;
 import com.richard.brewer.model.Sale;
 import com.richard.brewer.repository.filter.SaleFilter;
 
@@ -21,5 +23,7 @@ public interface SalesQueries {
 	public Long clientsQuantity();
 	public Long stockQuantity();
 	public BigDecimal stockTotalValue();
+	
+	public List<SaleByMonth> totalByMonth();
 	
 }
