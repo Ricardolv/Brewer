@@ -20,12 +20,14 @@ public class BeerSaveEvent {
 		return !isNotHavePhoto();
 	}
 	
+	public boolean isNewPhoto() {
+		return this.beer.isNewPhoto();
+	}
+	
 	private boolean isNotHavePhoto() {
 		return StringUtils.isEmpty(this.beer.getPhoto());
 	}
 	
-	private boolean isNewPhoto() {
-		return this.beer.isNewPhoto();
-	}
+	
 
 }

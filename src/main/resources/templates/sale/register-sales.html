@@ -7,7 +7,7 @@
 	xmlns:brewer="http://brewer.project.com">
 
 	<head>
-		<title>Cadastro de Venda</title>
+		<title th:text="#{sale.title.register}"></title>
 		
 		<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}" />
 		<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}" />
@@ -20,8 +20,8 @@
 
 				<div class="row">
 					<div class="col-xs-10">
-						<h1 th:if="${sale.new}">Cadastro de Venda</h1>
-						<h1 th:unless="${sale.new}">Edição da venda - nº [[${sale.code}]]</h1>
+						<h1 th:if="${sale.new}" th:text="#{sale.title.register}"></h1>
+						<h1 th:unless="${sale.new}" th:text="#{sale.title.edit(${sale.code})}">Edição da venda - nº [[]]</h1>
 					</div>
 				
 					<div class="col-xs-2">

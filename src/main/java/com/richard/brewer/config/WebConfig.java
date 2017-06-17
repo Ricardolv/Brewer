@@ -38,6 +38,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 import com.google.common.cache.CacheBuilder;
+import com.richard.brewer.config.format.BigDecimalFormatter;
 import com.richard.brewer.controller.BeersController;
 import com.richard.brewer.controller.converter.CityConverter;
 import com.richard.brewer.controller.converter.GroupConverter;
@@ -104,10 +105,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		conversionService.addConverter(new CityConverter());
 		conversionService.addConverter(new GroupConverter());
 		
-		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
+//		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
+		BigDecimalFormatter bigDecimalFormatter = new BigDecimalFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
 		
-		NumberStyleFormatter integerFormatter = new NumberStyleFormatter("#,##0");
+//		NumberStyleFormatter integerFormatter = new NumberStyleFormatter("#,##0");
+		BigDecimalFormatter integerFormatter = new BigDecimalFormatter("#,##0");
 		conversionService.addFormatterForFieldType(Integer.class, integerFormatter);
 		
 		DateTimeFormatterRegistrar dateTimeFormatter = new DateTimeFormatterRegistrar();
@@ -119,10 +122,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return conversionService;
 	}
 	
-	@Bean
-	public LocaleResolver localeResolver() {
-		return new FixedLocaleResolver(new Locale("pt", "BR"));
-	}
+//	@Bean
+//	public LocaleResolver localeResolver() {
+//		return new FixedLocaleResolver(new Locale("pt", "BR"));
+//	}
 	
 	@Bean
 	public CacheManager cacheManager() {
