@@ -44,9 +44,60 @@ Brewer.GraphicSaleByMonths = (function() {
 	
 }());
 
+
+Brewer.GraphicSaleByOrigin = (function() {
+	
+	function GraphicSaleByOrigin() {
+		this.ctx = $('#graphicSaleByOrigin')[0].getContext('2d');
+	}
+	
+	GraphicSaleByOrigin.prototype.init = function() {
+		$.ajax({
+			url: 'sales/byOrigin',
+			method: 'GET', 
+			success: onDataReceived.bind(this)
+		});
+	}
+	
+	function onDataReceived(saleOrigin) {
+		var month = [];
+		var salesNational = [];
+		var salesInternational = [];
+		
+		saleOrigin.forEach(function(obj) {
+			month.unshift(obj.month);
+			salesNational.unshift(obj.totalNational);
+			salesInternational.unshift(obj.totalInternational)
+		});
+		
+		var graphicSaleByOrigin = new Chart(this.ctx, {
+		    type: 'bar',
+		    data: {
+		    	labels: month,
+		    	datasets: [{
+		    		label: 'Nacional',
+		    		backgroundColor: "rgba(220,220,220,0.5)",
+	                data: salesNational
+		    	},
+		    	{
+		    		label: 'Internacional',
+		    		backgroundColor: "rgba(26,179,148,0.5)",
+	                data: salesInternational
+		    	}]
+		    },
+		});
+	}
+	
+	return GraphicSaleByOrigin;
+	
+}());
+
 $(function() {
 	
 	var graphicSaleByMonths = new Brewer.GraphicSaleByMonths();
 	graphicSaleByMonths.init();
+	
+	var graphicSaleByOrigin = new Brewer.GraphicSaleByOrigin();
+	graphicSaleByOrigin.init();
 	
 });

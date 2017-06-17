@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.richard.brewer.dto.SaleByMonth;
+import com.richard.brewer.dto.SaleOrigin;
 import com.richard.brewer.model.Sale;
 import com.richard.brewer.repository.filter.SaleFilter;
 
@@ -21,5 +22,6 @@ public interface SalesQueries {
 	public BigDecimal tickedValue();
 	
 	public List<SaleByMonth> totalByMonth();
+	public List<SaleOrigin> totalByOrigin();
 	
 }

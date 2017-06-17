@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.richard.brewer.controller.page.PageWrapper;
 import com.richard.brewer.controller.validator.SaleValidator;
 import com.richard.brewer.dto.SaleByMonth;
+import com.richard.brewer.dto.SaleOrigin;
 import com.richard.brewer.mail.Mailer;
 import com.richard.brewer.model.Beer;
 import com.richard.brewer.model.PersonType;
@@ -187,7 +188,12 @@ public class SalesController {
 	
 	@GetMapping("/totalByMonth")
 	public @ResponseBody List<SaleByMonth> listTotalByMonth() {
-		return sales.totalByMonth();
+		return this.sales.totalByMonth();
+	}
+	
+	@GetMapping("/byOrigin")
+	public @ResponseBody List<SaleOrigin> salesByNationality() {
+		return this.sales.totalByOrigin();
 	}
 	
 	private ModelAndView mvTableSaleItems(String uuid) {
