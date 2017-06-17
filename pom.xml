@@ -73,6 +73,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<!-- Java Mail -->
 		<javax.mail.version>1.5.6</javax.mail.version>
 		
+		<!-- JasperReports -->
+		<jasperreports.version>6.4.0</jasperreports.version>
+		
+		<!-- JasperReports Fonts -->
+		<jasperreports-fonts.version>6.0.0</jasperreports-fonts.version>
+		
 	</properties>
 	
 	<build>
@@ -301,7 +307,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <artifactId>javax.mail</artifactId>
             <version>${javax.mail.version}</version>
             <scope>compile</scope>
-        </dependency>    
+        </dependency> 
+        
+       <!-- JasperReports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-fonts</artifactId>
+		    <version>${jasperreports-fonts.version}</version>
+		    <scope>compile</scope>
+		</dependency>   
 		
 	</dependencies>
   

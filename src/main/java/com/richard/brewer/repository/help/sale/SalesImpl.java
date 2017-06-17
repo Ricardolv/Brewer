@@ -97,20 +97,22 @@ public class SalesImpl implements SalesQueries {
 	public List<SaleByMonth> totalByMonth() {
 		List<SaleByMonth> saleByMonths = manager.createNamedQuery("Sales.totalByMonth").getResultList();
 		
-		LocalDate now = LocalDate.now();
-		
-		for (int i = 0; i < 6; i++) {
-			String idealMonth = String.format("%d/%02d", now.getYear(), now.getMonthValue());
+		if (!saleByMonths.isEmpty()) {
+			LocalDate now = LocalDate.now();
 			
-			boolean haveMonth = saleByMonths.stream().filter(s -> s.getMonth().equals(idealMonth)).findAny().isPresent();
-			if (!haveMonth) {
-				saleByMonths.add(i - 1, new SaleByMonth(idealMonth, 0));
+			for (int i = 0; i < 6; i++) {
+				String idealMonth = String.format("%d/%02d", now.getYear(), now.getMonthValue());
+				
+				boolean haveMonth = saleByMonths.stream().filter(s -> s.getMonth().equals(idealMonth)).findAny().isPresent();
+				if (!haveMonth) {
+					saleByMonths.add(i - 1, new SaleByMonth(idealMonth, 0));
+				}
+				
+				now = now.minusMonths(1);
 			}
-			
-			now = now.minusMonths(1);
+			Collections.sort(saleByMonths, (SaleByMonth s1, SaleByMonth s2) -> s2.getMonth().compareTo(s1.getMonth()));
 		}
 		
-		Collections.sort(saleByMonths, (SaleByMonth s1, SaleByMonth s2) -> s2.getMonth().compareTo(s1.getMonth()));
 		return saleByMonths;
 	}
 	
@@ -118,20 +120,22 @@ public class SalesImpl implements SalesQueries {
 	public List<SaleOrigin> totalByOrigin() {
 		List<SaleOrigin> salesByNationality = manager.createNamedQuery("Sales.byOrigin", SaleOrigin.class).getResultList();
 
-		LocalDate now = LocalDate.now();
-		
-		for (int i = 1; i <= 6; i++) {
-			String idealMonth = String.format("%d/%02d", now.getYear(), now.getMonth().getValue());
+		if (!salesByNationality.isEmpty()) {
+			LocalDate now = LocalDate.now();
+			
+			for (int i = 1; i <= 6; i++) {
+				String idealMonth = String.format("%d/%02d", now.getYear(), now.getMonth().getValue());
 
-			boolean haveMonth = salesByNationality.stream().filter(v -> v.getMonth().equals(idealMonth)).findAny().isPresent();
-			if (!haveMonth) {
-				salesByNationality.add(i - 1, new SaleOrigin(idealMonth, 0, 0));
+				boolean haveMonth = salesByNationality.stream().filter(v -> v.getMonth().equals(idealMonth)).findAny().isPresent();
+				if (!haveMonth) {
+					salesByNationality.add(i - 1, new SaleOrigin(idealMonth, 0, 0));
+				}
+
+				now = now.minusMonths(1);
 			}
-
-			now = now.minusMonths(1);
+			Collections.sort(salesByNationality, (SaleOrigin s1, SaleOrigin s2) -> s2.getMonth().compareTo(s1.getMonth()));
 		}
-
-		Collections.sort(salesByNationality, (SaleOrigin s1, SaleOrigin s2) -> s2.getMonth().compareTo(s1.getMonth()));
+		
 		return salesByNationality;
 	}
 	

@@ -4,6 +4,7 @@ Brewer.GraphicSaleByMonths = (function() {
 	
 	function GraphicSaleByMonths() {
 		this.ctx = $('#graphicSaleByMonths')[0].getContext('2d');
+		this.lineEmpty = $('#lineEmpty');
 	}
 	
 	GraphicSaleByMonths.prototype.init = function() {
@@ -24,6 +25,10 @@ Brewer.GraphicSaleByMonths = (function() {
 			month.unshift(obj.month);
 			values.unshift(obj.total);
 		});
+		
+		if (month != '' && values != '') {
+			this.lineEmpty.empty();
+		}
 		
 		var graphicSaleByMonths = new Chart(this.ctx, {
 		    type: 'line',
@@ -49,6 +54,7 @@ Brewer.GraphicSaleByOrigin = (function() {
 	
 	function GraphicSaleByOrigin() {
 		this.ctx = $('#graphicSaleByOrigin')[0].getContext('2d');
+		this.barEmpty = $('#barEmpty');
 	}
 	
 	GraphicSaleByOrigin.prototype.init = function() {
@@ -69,6 +75,10 @@ Brewer.GraphicSaleByOrigin = (function() {
 			salesNational.unshift(obj.totalNational);
 			salesInternational.unshift(obj.totalInternational)
 		});
+		
+		if (salesNational != '' && salesInternational != '') {
+			this.barEmpty.empty();
+		}
 		
 		var graphicSaleByOrigin = new Chart(this.ctx, {
 		    type: 'bar',
