@@ -2,7 +2,6 @@ package com.richard.brewer.config;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +17,15 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.data.repository.support.DomainClassConverter;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
-import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -150,6 +148,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public DomainClassConverter<FormattingConversionService> dommainClassConverter() {
 		return new DomainClassConverter<FormattingConversionService>(mvcConversionService());
+	}
+	
+	@Bean
+	public LocalValidatorFactoryBean validator() {
+	    LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
+	    validatorFactoryBean.setValidationMessageSource(messageSource());
+	    return validatorFactoryBean;
+	}
+
+	@Override
+	public Validator getValidator() {
+		return validator();
 	}
 
 }

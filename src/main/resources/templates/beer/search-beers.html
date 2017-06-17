@@ -126,7 +126,7 @@
 								<td th:text="${beer.name}"></td>
 								<td th:text="${beer.style.name}"></td>
 								<td th:text="${beer.origin.description}"></td>
-								<td class="text-right" th:text="|R$ ${beer.value}|"></td>
+								<td class="text-right" th:text="|R$ ${{beer.value}}|"></td>
 								<td class="text-center">
 									<a class="btn  btn-link  btn-xs js-tooltip" title="Editar" 
 									 		 	th:href="@{/beers/{code}(code=${beer.code})}"> 
