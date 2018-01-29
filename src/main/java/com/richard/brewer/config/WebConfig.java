@@ -3,10 +3,12 @@ package com.richard.brewer.config;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 
+import javax.cache.Caching;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -125,8 +127,10 @@ public class WebConfig implements WebMvcConfigurer {
 //	}
 	
 	@Bean
-	public CacheManager cacheManager() {
-		return new ConcurrentMapCacheManager();
+	public CacheManager cacheManager() throws Exception {
+		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager(
+				getClass().getResource("/cache/ehcache.xml").toURI(),
+				getClass().getClassLoader()));
 	}
 	
 	@Bean
