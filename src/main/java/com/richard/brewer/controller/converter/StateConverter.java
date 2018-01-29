@@ -1,10 +1,12 @@
 package com.richard.brewer.controller.converter;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.richard.brewer.model.State;
 
+@Component
 public class StateConverter implements Converter<String, State> {
 
 	@Override
