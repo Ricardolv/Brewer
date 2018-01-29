@@ -143,7 +143,7 @@ public class SalesController {
 	@PostMapping("/item")
 	public @ResponseBody ModelAndView addItem(Long codeBeer, String uuid) {
 		
-		Beer beer = beers.findOne(codeBeer);
+		Beer beer = beers.getOne(codeBeer);
 		tableSalesItems.addItem(uuid, beer, 1);
 		return mvTableSaleItems(uuid);
 	}
