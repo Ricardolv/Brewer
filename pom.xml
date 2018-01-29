@@ -17,7 +17,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 		<java.version>1.8</java.version>
 		<maven-compiler-pluging.version>3.3</maven-compiler-pluging.version>
-		<flyway-maven-plugin.version>5.0.2</flyway-maven-plugin.version>
+		<flyway-maven-plugin.version>4.2.0</flyway-maven-plugin.version>
 		<mysql-connector-java.version>5.1.41</mysql-connector-java.version>
 		
 		<!-- Spring MVC -->
