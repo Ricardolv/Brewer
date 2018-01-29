@@ -70,5 +70,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	public static void main(String[] args) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		String tmp = passwordEncoder.encode("123");
+		System.out.println("encode: " + tmp);
+		if (tmp.equalsIgnoreCase("$2a$10$ANHMsxlsAxuEkWAer7VtUOlQMYbc7yHIaxj5mbC2cHagYulPJz4KW")) {
+			System.out.println("OPA");
+		}
+		
+	}
 
 }

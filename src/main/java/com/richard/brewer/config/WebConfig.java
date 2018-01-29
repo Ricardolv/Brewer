@@ -2,14 +2,11 @@ package com.richard.brewer.config;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +25,6 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsViewResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -39,7 +34,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
-import com.google.common.cache.CacheBuilder;
 import com.richard.brewer.config.format.BigDecimalFormatter;
 import com.richard.brewer.controller.BeersController;
 import com.richard.brewer.controller.converter.CityConverter;
@@ -63,17 +57,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private ApplicationContext applicationContext;
 
 	
-	@Bean
-	public ViewResolver jasperReportsViewwResolver(DataSource dataSource) {
-		JasperReportsViewResolver resolver = new JasperReportsViewResolver();
-		resolver.setPrefix("classpath:/reports/");
-		resolver.setSuffix(".jasper");
-		resolver.setViewNames("report_*");
-		resolver.setViewClass(JasperReportsMultiFormatView.class);
-		resolver.setJdbcDataSource(dataSource);
-		resolver.setOrder(0);
-		return resolver;
-	}
+//	@Bean
+//	public ViewResolver jasperReportsViewwResolver(DataSource dataSource) {
+//		JasperReportsViewResolver resolver = new JasperReportsViewResolver();
+//		resolver.setPrefix("classpath:/reports/");
+//		resolver.setSuffix(".jasper");
+//		resolver.setViewNames("report_*");
+//		resolver.setViewClass(JasperReportsMultiFormatView.class);
+//		resolver.setJdbcDataSource(dataSource);
+//		resolver.setOrder(0);
+//		return resolver;
+//	}
 	
 	@Bean
 	public ViewResolver viewResolver() {
@@ -145,14 +139,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean
 	public CacheManager cacheManager() {
-		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
-				.maximumSize(3)
-				.expireAfterAccess(20, TimeUnit.SECONDS);
-		
-		GuavaCacheManager cacheManager = new GuavaCacheManager();
-		cacheManager.setCacheBuilder(cacheBuilder);
-		
-		return cacheManager;
+		return new ConcurrentMapCacheManager();
 	}
 	
 	@Bean
