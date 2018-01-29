@@ -1,12 +1,9 @@
 package com.richard.brewer.controller;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.richard.brewer.dto.ReportingPeriod;
+import com.richard.brewer.service.ReportService;
 
 @Controller
 @RequestMapping("/reports")
 public class ReportsController {
+	
+	@Autowired
+	private ReportService reportService;
 	
 	@GetMapping("/salesIssued")
 	public ModelAndView relatorioVendasEmitidas() {
@@ -27,20 +28,11 @@ public class ReportsController {
 	}
 	
 	@PostMapping("/salesIssued")
-	public ModelAndView gerarRelatorioVendasEmitidas(ReportingPeriod reportingPeriod) {
-		Map<String, Object> parameters = new HashMap<>();
-		
-		Date startDate = Date.from(LocalDateTime.of(reportingPeriod.getStartDate(), LocalTime.of(0, 0, 0))
-				.atZone(ZoneId.systemDefault()).toInstant());
-		
-		Date endDate = Date.from(LocalDateTime.of(reportingPeriod.getEndDate(), LocalTime.of(23, 59, 59))
-				.atZone(ZoneId.systemDefault()).toInstant());
-		
-		parameters.put("format", "pdf");
-		parameters.put("start_date", startDate);
-		parameters.put("end_date", endDate);
-		
-		return new ModelAndView("report_sales_issued", parameters);
+	public ResponseEntity<byte[]> gerarRelatorioVendasEmitidas(ReportingPeriod reportingPeriod) throws Exception {
+		byte[] report = reportService.gerarRelatorioVendasEmitidas(reportingPeriod);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
+				.body(report);
 	}
 
 }

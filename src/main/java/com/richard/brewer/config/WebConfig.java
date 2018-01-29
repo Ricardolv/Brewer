@@ -55,19 +55,6 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private ApplicationContext applicationContext;
-
-	
-//	@Bean
-//	public ViewResolver jasperReportsViewwResolver(DataSource dataSource) {
-//		JasperReportsViewResolver resolver = new JasperReportsViewResolver();
-//		resolver.setPrefix("classpath:/reports/");
-//		resolver.setSuffix(".jasper");
-//		resolver.setViewNames("report_*");
-//		resolver.setViewClass(JasperReportsMultiFormatView.class);
-//		resolver.setJdbcDataSource(dataSource);
-//		resolver.setOrder(0);
-//		return resolver;
-//	}
 	
 	@Bean
 	public ViewResolver viewResolver() {
