@@ -86,7 +86,8 @@ Brewer.TableItems = (function() {
 	function bindQuantity() {
 		var inputQuantityItem = $('.js-table-beer-quantity-item');
 		inputQuantityItem.on('change', onQuantityChangedItem.bind(this));
-		inputQuantityItem.maskMoney({precision: 0, thousands: ''});
+		//inputQuantityItem.maskMoney({precision: 0, thousands: ''});
+		inputQuantityItem.maskNumber({ integer: true, thousands: '' });
 	}
 	
 	function bindTableItem() {
