@@ -35,6 +35,7 @@ public class BeersImpl implements BeersQueries {
 	@Transactional(readOnly = true)
 	@Override
 	public Page<Beer> filter(BeerFilter beerFilter, Pageable pageable) {
+		
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Beer.class);
 		
 		paginationUtil.prepare(criteria, pageable);

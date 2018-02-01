@@ -42,7 +42,7 @@ public class BeerService {
 	public void delete(Beer beer) {
 		try {
 			String photo = beer.getPhoto();
-			beers.delete(beer.getCode());
+			beers.delete(beer);
 			beers.flush();
 			photoStorage.delete(photo);
 		} catch (PersistenceException e) {

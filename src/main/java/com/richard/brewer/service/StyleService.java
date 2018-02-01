@@ -42,7 +42,7 @@ public class StyleService {
 	@Transactional
 	public void delete(Style style) {
 		try {
-			styles.delete(style.getCode());
+			styles.delete(style);
 			styles.flush();
 		} catch (PersistenceException e) {
 			throw new ImpossibleDeleteEntityException("Impossível apagar estilo. Já foi usada em alguma cerveja.");
@@ -55,7 +55,7 @@ public class StyleService {
 	}
 
 	public Style findOne(Long code) {
-		return styles.findOne(code);
+		return styles.getOne(code);
 	}
 
 

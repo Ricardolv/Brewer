@@ -1,18 +1,12 @@
 package com.richard.brewer.repository.help.sale;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.MonthDay;
-import java.time.Year;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.richard.brewer.dto.SaleByMonth;
+import com.richard.brewer.dto.SaleOrigin;
+import com.richard.brewer.model.PersonType;
+import com.richard.brewer.model.Sale;
+import com.richard.brewer.model.SaleStatus;
+import com.richard.brewer.repository.filter.SaleFilter;
+import com.richard.brewer.repository.pagination.PaginationUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -26,13 +20,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.richard.brewer.dto.SaleByMonth;
-import com.richard.brewer.dto.SaleOrigin;
-import com.richard.brewer.model.PersonType;
-import com.richard.brewer.model.Sale;
-import com.richard.brewer.model.SaleStatus;
-import com.richard.brewer.repository.filter.SaleFilter;
-import com.richard.brewer.repository.pagination.PaginationUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public class SalesImpl implements SalesQueries {
@@ -148,38 +142,38 @@ public class SalesImpl implements SalesQueries {
 
 	private void addFilter(SaleFilter filter, Criteria criteria) {
 		criteria.createAlias("client", "c");
-		
+
 		if (filter != null) {
 			if (!StringUtils.isEmpty(filter.getCode())) {
 				criteria.add(Restrictions.eq("code", filter.getCode()));
 			}
-			
+
 			if (filter.getStatus() != null) {
 				criteria.add(Restrictions.eq("status", filter.getStatus()));
 			}
-			
+
 			if (filter.getSince() != null) {
 				LocalDateTime since = LocalDateTime.of(filter.getSince(), LocalTime.of(0, 0));
 				criteria.add(Restrictions.ge("creationDate", since));
 			}
-			
+
 			if (filter.getUpUntil() != null) {
 				LocalDateTime upUntil = LocalDateTime.of(filter.getUpUntil(), LocalTime.of(23, 59));
 				criteria.add(Restrictions.le("creationDate", upUntil));
 			}
-			
+
 			if (filter.getMinimumValue() != null) {
 				criteria.add(Restrictions.ge("totalValue", filter.getMinimumValue()));
 			}
-			
+
 			if (filter.getMaximumValue() != null) {
 				criteria.add(Restrictions.le("totalValue", filter.getMaximumValue()));
 			}
-			
+
 			if (!StringUtils.isEmpty(filter.getClientName())) {
 				criteria.add(Restrictions.ilike("c.name", filter.getClientName(), MatchMode.ANYWHERE));
 			}
-			
+
 			if (!StringUtils.isEmpty(filter.getClientCpfCnpj())) {
 				criteria.add(Restrictions.eq("c.cpfCnpj", PersonType.removeFormatting(filter.getClientCpfCnpj())));
 			}

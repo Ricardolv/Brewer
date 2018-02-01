@@ -38,7 +38,7 @@ public class ClientsService {
 	@Transactional
 	public void delete(Client client) {
 		try {
-			clients.delete(client.getCode());
+			clients.delete(client);
 			clients.flush();
 		} catch (PersistenceException e) {
 			throw new ImpossibleDeleteEntityException("Impossível apagar cliente.");
@@ -55,7 +55,7 @@ public class ClientsService {
 	}
 	
 	public Client findOne(Long code) {
-		return clients.findOne(code);
+		return clients.getOne(code);
 	}
 
 

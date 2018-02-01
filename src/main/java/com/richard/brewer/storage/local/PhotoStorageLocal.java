@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.richard.brewer.storage.PhotoStorage;
@@ -16,6 +18,8 @@ import com.richard.brewer.storage.PhotoStorage;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
+@Profile("!prod")
+@Component
 public class PhotoStorageLocal implements PhotoStorage {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PhotoStorageLocal.class);

@@ -1,14 +1,13 @@
 package com.richard.brewer.repository.help.client;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.richard.brewer.model.Client;
+import com.richard.brewer.repository.filter.ClientFilter;
+import com.richard.brewer.repository.pagination.PaginationUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,9 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.richard.brewer.model.Client;
-import com.richard.brewer.repository.filter.ClientFilter;
-import com.richard.brewer.repository.pagination.PaginationUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.hibernate.sql.JoinType;
 
 public class ClientsImpl implements ClientsQueries {
 	

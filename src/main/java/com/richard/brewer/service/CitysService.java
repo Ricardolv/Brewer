@@ -42,7 +42,7 @@ public class CitysService {
 	@Transactional
 	public void delete(City city) {
 		try {
-			citys.delete(city.getCode());
+			citys.delete(city);
 			citys.flush();
 		} catch (PersistenceException e) {
 			throw new ImpossibleDeleteEntityException("Impossível apagar cidade.");
@@ -55,7 +55,7 @@ public class CitysService {
 	}
 
 	public City findOne(Long code) {
-		return citys.findOne(code);
+		return citys.getOne(code);
 	}
 
 	public City findOfState(Long code) {

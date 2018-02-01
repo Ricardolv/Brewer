@@ -1,14 +1,13 @@
 package com.richard.brewer.repository.help.city;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.richard.brewer.model.City;
+import com.richard.brewer.repository.filter.CityFilter;
+import com.richard.brewer.repository.pagination.PaginationUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,9 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.richard.brewer.model.City;
-import com.richard.brewer.repository.filter.CityFilter;
-import com.richard.brewer.repository.pagination.PaginationUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.hibernate.sql.JoinType;
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public class CitysImpl implements CitysQueries {
@@ -46,7 +45,7 @@ public class CitysImpl implements CitysQueries {
 	@Override
 	public City findOfState(Long code) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(City.class);
-		criteria.createAlias("state", "s", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("state", "s", JoinType.LEFT_OUTER_JOIN );
 		criteria.add(Restrictions.eq("code", code));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (City) criteria.uniqueResult();

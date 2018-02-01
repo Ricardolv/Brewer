@@ -37,6 +37,7 @@ public class StylesImpl implements StylesQueries {
 		addFilter(styleFilter, criteria);
 
 		return new PageImpl<>(criteria.list(), pageable, total(styleFilter));
+		
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -45,6 +46,7 @@ public class StylesImpl implements StylesQueries {
 		addFilter(styleFilter, criteria);
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();
+		
 	}
 	
 	private void addFilter(StyleFilter styleFilter, Criteria criteria) {

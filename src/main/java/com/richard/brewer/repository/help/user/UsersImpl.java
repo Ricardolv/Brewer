@@ -1,21 +1,14 @@
 package com.richard.brewer.repository.help.user;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.richard.brewer.model.Group;
+import com.richard.brewer.model.User;
+import com.richard.brewer.model.UserGroup;
+import com.richard.brewer.repository.filter.UserFilter;
+import com.richard.brewer.repository.pagination.PaginationUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,11 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.richard.brewer.model.Group;
-import com.richard.brewer.model.User;
-import com.richard.brewer.model.UserGroup;
-import com.richard.brewer.repository.filter.UserFilter;
-import com.richard.brewer.repository.pagination.PaginationUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class UsersImpl implements UsersQueries {
 	
@@ -67,6 +60,7 @@ public class UsersImpl implements UsersQueries {
 		listFilter.forEach(u -> Hibernate.initialize(u.getGroups()));
 		
 		return new PageImpl<>(listFilter, pageable, total(filter));
+		
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -79,6 +73,7 @@ public class UsersImpl implements UsersQueries {
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		return (User) criteria.uniqueResult();
+		
 	}
 	
 	@SuppressWarnings("deprecation")

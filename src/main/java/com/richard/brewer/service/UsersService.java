@@ -79,7 +79,7 @@ public class UsersService {
 	@Transactional
 	public void delete(User user) {
 		try {
-			users.delete(user.getCode());
+			users.delete(user);
 			users.flush();
 		} catch (PersistenceException e) {
 			throw new ImpossibleDeleteEntityException("Impossível apagar usuário.");
