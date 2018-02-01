@@ -16,7 +16,7 @@ public class PaginationUtil {
 		criteria.setMaxResults(pageable.getPageSize());
 		
 		Sort sort = pageable.getSort();
-		if (null != sort) {
+		if (null != sort && sort.isSorted()) {
 			Sort.Order order = sort.iterator().next();
 			String property = order.getProperty();
 			criteria.addOrder(order.isAscending() ? Order.asc(property) : Order.desc(property));
