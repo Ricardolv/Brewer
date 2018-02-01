@@ -64,11 +64,6 @@ public class SalesController {
 	@Autowired
 	private Mailer mailer;
 	
-	@InitBinder("sale")
-	public void initializeValidator(WebDataBinder binder) {
-		binder.setValidator(saleValidator);
-	}
-	
 	@GetMapping("/new")
 	public ModelAndView newSale(Sale sale) {
 		ModelAndView mv = new ModelAndView("sale/register-sales");
