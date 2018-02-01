@@ -126,7 +126,9 @@ public class SalesController {
 		try {
 			salesService.cancel(sale);
 		} catch (AccessDeniedException e) {
-			return new ModelAndView("/403");
+			ModelAndView mv = new ModelAndView("error");
+			mv.addObject("status", 403);
+			return mv;
 		}
 		
 		attributes.addFlashAttribute("message", String.format("Venda n° %d cancelada com sucesso!", sale.getCode()));
