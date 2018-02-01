@@ -35,17 +35,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<jasperreports.version>6.3.0</jasperreports.version>
 		<jasperreports-fonts.version>6.0.0</jasperreports-fonts.version>
 
-        <hibernate.version>5.2.9.Final</hibernate.version>
 	</properties>
 
 	<dependencies>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-java8</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -69,6 +61,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <scope>compile</scope>
         </dependency>
         
         <dependency>
