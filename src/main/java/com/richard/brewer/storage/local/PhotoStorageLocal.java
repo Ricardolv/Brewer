@@ -7,8 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +29,9 @@ public class PhotoStorageLocal implements PhotoStorage {
 	
 	private static final String THUMBNAIL_PREFIX = "thumbnail.";
 	
+	@Value("${brewer.foto-storage-local.local}")
 	private Path local;
+	
 	private Path localTemporary;
 	
 
@@ -108,6 +113,7 @@ public class PhotoStorageLocal implements PhotoStorage {
 		
 	}
 
+	@PostConstruct
 	private void createPast() {
 		try {
 			Files.createDirectories(this.local);
